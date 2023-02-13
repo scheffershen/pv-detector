@@ -1,0 +1,116 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ 'client.revues'|trans }}{% endblock %}
+
+{% block body %}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ 'client.revues'|trans }}
+                        &nbsp;&nbsp;
+                        <a href="/docs/fr/site/clients/revues/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank"><i class="fas fa-lg fa-question-circle text-purple"></i></a>
+                        </h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title -->  
+
+            <div class="btn-group mb-2">
+                <a href="{{ path('admin_client_show', {'id': client.id}) }}" class="btn btn-light"><i class="fas fa-cog"></i>&nbsp;{{ 'client.detail'|trans }}</a>
+                <a href="#" class="btn btn-primary">{{ 'client.revues'|trans }}</a>
+                <a href="{{ path('admin_client_dcis', {'id': client.id}) }}" class="btn btn-light"><i class="fas fa-cog"></i>&nbsp;{{ 'client.dcis'|trans }}</a>
+            </div>
+
+            {{ form_start(form) }} 
+
+            {% if oldRevues|length > 0 %} 
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th><input type="checkbox" id="selected_dci" checked /></th>
+                                    <th>{{ 'client.revues'|trans }}</th>                           
+                                </tr>
+                            </thead>        
+                                <tbody>  
+                                {% for revue in oldRevues %}
+                                    {% if revue.isValid %}
+                                        <tr>
+                                            <td><input type="checkbox" checked id="client_revue_revues_{{ revue.id }}" name="client_revue[revues][]" class="selected_revue" value="{{ revue.id }}" /></td> 
+                                            <td>
+                                                {{ revue.title }}     
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}                   
+                                </tbody>
+                        </table>                 
+                    </div>
+                </div>  
+            {% endif %}
+                
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box border-bottom">
+                        <h4 class="page-title">{{ 'revues'|trans }}</h4>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <table class="table table-bordered table-striped" id="tablefiltre">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th><input type="checkbox" id="selecting_revue"></th>
+                                <th>{{ 'revues'|trans }}</th>                           
+                            </tr>
+                        </thead>
+                        <thead id="filtreForm">                            
+                            <tr>
+                                <th></th>
+                                <th>{{ 'revues'|trans }}</th>                           
+                            </tr>                            
+                        </thead>
+                        <tbody> <!-- Corps du tableau -->
+                            {% for revue in revues %}
+                                {% if revue.isValid %}
+                                    {% set oldRevue = false %}
+                                    {% for old in client.revues %}{% if old.id == revue.id %}{% set oldRevue = true %}{% endif %}{% endfor %} 
+                                    {% if oldRevue == false %}
+                                        <tr>
+                                            <td><input type="checkbox" id="client_revue_revues_{{ revue.id }}" name="client_revue[revues][]" class="selecting_revue" value="{{ revue.id }}" /></td>
+                                            <td>{{ revue.title }}</td>                              
+                                        </tr>
+                                    {% endif %}  
+                                {% endif %}  
+                            {% endfor %}
+                        </tbody>
+                    </table>                         
+                </div>
+            </div>
+            
+            <div class="col text-center mt-3 mb-3">
+                <button type="submit" class="btn waves-effect waves-light btn-dark">{{ button_label|default('Sauvegarder') }}</button>
+            </div>
+
+            <div class="d-none" id="clientRevueFormBloc">
+                {{ form_row(form.revues) }}
+            </div>
+            {{ form_end(form) }}
+
+        </div> 
+    </div>
+</div>
+  
+{% endblock %}
+
+{% block javascripts %} 
+    {{ parent() }}  
+    {{ encore_entry_script_tags('js/client-revue') }}
+{% endblock %}

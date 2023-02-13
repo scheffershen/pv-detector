@@ -1,0 +1,54 @@
+dcis: Keywords
+dci:
+  menu: Keywords Management
+  label: Keyword
+  title: Keyword
+  categorie: Category
+  clients: Customers  
+  description: Description  
+  show: Detail  
+  back: Back to the keywords list
+  enabled_list: Enabled keyword list
+  disabled_list: Disabled keyword list
+  results: Results
+  mysqlFullTextSearch: Recherche en full-text MySQL 
+  add: Add a keyword
+  edit: Edit a keyword
+  not_indexed: "Ce mot-clé n'est pas pris en compte"
+  download: Donwload all keywords in a csv file  
+  flash:
+    created: "A keyword has been created."
+    updated: "The keyword has been updated."
+    enable: "The keyword has been activated."
+    disable: "The keyword has been disabled."
+
+search:
+  no_position: Without background image
+  avec_position: With background image 
+  origin_pdfORImages: Original pdf ou images 
+  no_position_alt: Display the texts of the number without the background image
+  avec_position_alt: Display the texts of the number with the background image
+  origin_pdfORImages_alt: S'afficher le pdf original ou les images originales du numéro
+  no_stop_word: Remove stop words
+  all_pages: All pages   
+  all_documents: All documents
+  original_pdf: Original pdf   
+
+indexation:
+  label: Customer keywords
+  results: Result of indexation 
+  results_dci: Results of searching 
+  nb_page: Number of pages
+  no_page: Page number
+  nb_dci: Number of keywords found 
+  page: Page
+  dci_occurrence: Occurrence  
+  indexed: Number of keywords found 
+  cloud: "Customer's keywords cloud"
+  numero_cloud: Numero cloud   
+  clients_de_la_revue: Customers indexations
+  touts_les_indexations: All indexations
+  clients_de_la_revue_alt: Show only the customers subscribing this review
+  touts_les_indexations_alt: Show all found keywords  
+  download_alt: Download all found keywords in a excel file
+  soulignement_alt: keyword underline

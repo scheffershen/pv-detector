@@ -1,0 +1,54 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'lovs'|trans }}
+{% endblock %}
+
+{% block body %}
+    {% set allowCreate = true %}
+    {% set allowEdit = true %}
+    {% set allowDelete = true %}
+    {% if entity == '_Obligation' %}
+        {% set allowEdit = true %}
+        {% set allowCreate = true %}
+        {% set allowDelete = true %}
+    {% endif %}
+
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'lovs'|trans }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-md-9">
+                        <h6 class="page-title">
+                            {{ entity }}
+                        </h6>
+                        {% include 'LovManagement/_list_lite.html.twig' %}
+                    </div>
+                    <div class="col-md-3">
+                        {% include 'LovManagement/menu.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if allowCreate %}
+        <a href="{{ path('admin_lov_add', { entity: entity }) }}"
+            class="btn waves-effect waves-light btn-primary float"  data-toggle="tooltip" data-placement="top" title="{{ 'lov.add'|trans }}">
+            <i class="fas fa-plus float-icon"></i>
+        </a>
+    {% endif %}    
+{% endblock %}

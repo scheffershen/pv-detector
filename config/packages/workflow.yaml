@@ -1,0 +1,32 @@
+framework:
+    workflows:
+        numero:
+            type: state_machine
+            audit_trail:
+                enabled: "%kernel.debug%"
+            marking_store:
+                type: 'method'
+                property: 'state'
+            supports:
+                - App\Entity\RevueManagement\Numero
+            initial_marking: submitted
+            places:
+                - submitted
+                - treatment
+                - rejected
+                - published
+                - controlled
+            transitions:
+                submit:
+                    from: submitted
+                    to:   treatment                
+                treatment:
+                    from: treatment
+                    to:   published
+                controller:
+                    from: published
+                    to:   controlled                    
+                reject:
+                    from: treatment
+                    to:   rejected                   
+

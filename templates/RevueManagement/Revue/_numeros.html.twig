@@ -1,0 +1,162 @@
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+<div class="page-title-box">
+    <h4 class="page-title text-center">
+        {# 'numeros'|trans #} 
+        <select id="revueSelect">
+            {% for r in revues %}
+                <option value="{{ r.id }}" {% if revue.id == r.id %}selected{% endif %}>{{ r.title }} ({{ r.nombreNumeroValid }} {{ 'revue.nb_numeros'|trans }})</option>
+            {% endfor %}  
+        </select>   
+        &nbsp;&nbsp;
+        <a href="/docs/fr/site/numeros/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+            <i class="fas fa-lg fa-question-circle text-purple"></i>
+        </a>  
+    </h4>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" id="tablefiltre">
+        <thead class="thead-dark">
+            <tr>
+                <th>{{ 'numero.numero'|trans }}</th>
+                <th>{{ 'numero.reference'|trans }}</th>
+                <th>{{ 'numero.states'|trans }}</th>
+                <th>{{ 'numero.result'|trans }}</th>
+                {% if is_granted('ROLE_GESTION_NUMEROS') %}
+                    <th>{{ 'numero.report'|trans }}</th>
+                    <th>{{ 'rapport.updated_date'|trans }}</th>   
+                {%  endif %}   
+                {% if is_granted('ROLE_CONTROLE_QUALITE_RAPPORT_VEILLE') %}
+                    <th>{{ 'controle_qualite.label'|trans }}</th>
+                    <th>{{ 'controle_qualite.updated_date'|trans }}</th>
+                    <th>{{ 'controle_qualite.description'|trans }}</th>                         
+                {%  endif %} 
+                {% if is_granted('ROLE_GESTION_NUMEROS') %}                
+                    <th>{{ 'table.action'|trans }}</th> 
+                    <th>{{ 'numero.description'|trans }}</th>
+                {%  endif %}                  
+            </tr>
+        </thead>
+        <thead id="filtreForm">
+            <tr>  
+                <th>{{ 'numero.numero'|trans }}</th>
+                <th>{{ 'numero.reference'|trans }}</th>
+                <th>{{ 'numero.states'|trans }}</th>
+                <th>{{ 'numero.result'|trans }}</th>
+                {% if is_granted('ROLE_GESTION_NUMEROS') %}
+                    <th>{{ 'numero.report'|trans }}</th>
+                    <th>{{ 'rapport.updated_date'|trans }}</th>                         
+                {%  endif %} 
+                {% if is_granted('ROLE_CONTROLE_QUALITE_RAPPORT_VEILLE') %} 
+                    <th>{{ 'controle_qualite.label'|trans }}</th>
+                    <th>{{ 'controle_qualite.updated_date'|trans }}</th>
+                    <th>{{ 'controle_qualite.description'|trans }}</th>                   
+                {%  endif %} 
+                {% if is_granted('ROLE_GESTION_NUMEROS') %}                
+                    <th>{{ 'table.action'|trans }}</th>
+                    <th>{{ 'numero.description'|trans }}</th> 
+                {%  endif %}                      
+            </tr>
+        </thead>        
+        <tbody>  
+        {% for numero in revue.numeros %}
+            <tr>
+                <td>
+                    <span data-toggle="tooltip" data-placement="top" title="{{ numero.title }}">{% if numero.isValid == false %}<del>{% endif %}{{ numero.title|u.truncate(80, '...') }}{% if numero.isValid == false %}</del>{% endif %}</span>             
+                </td>
+                <td>
+                    <span data-toggle="tooltip" data-placement="top" title="{{ numero.numero }}">
+                        {% if numero.isValid == false %}<del>{% endif %}{{ numero.numero|u.truncate(20, '...') }}{% if numero.isValid == false %}</del>{% endif %}
+                    </span>
+                </td>
+                <td>{{ utils.numero_state(numero) }}</td>
+                <td>{{ utils.numero_result(numero) }}</td>
+                    
+                {% if is_granted('ROLE_GESTION_NUMEROS') %}
+                    <td>{{ utils.numero_rapport(numero) }}</td>
+                    <td>{{ utils.numero_rapport_date(numero) }}</td>
+                {%  endif %}  
+
+                {% if is_granted('ROLE_CONTROLE_QUALITE_RAPPORT_VEILLE') %} 
+                    <td>{{ utils.numero_rapport_qualite(numero) }}</td>
+                    <td>{{ utils.numero_rapport_qualite_date(numero) }}</td>
+                    <td>{{ utils.numero_rapport_qualite_resume(numero) }}</td>                    
+                {%  endif %} 
+
+                {% if is_granted('ROLE_GESTION_NUMEROS') %}
+                    <td>{{ utils.numero_action(numero) }}</td>
+                    <td>{{ utils.numero_resume(numero) }}</td>
+                {%  endif %}                                
+            </tr>
+        {% endfor %}                   
+        </tbody>
+    </table>
+</div>
+
+<div class="row mt-5">
+    <div class="col-lg-6 col-md-12">
+        <div class="card">
+            <div class="card-header">{{ 'legend'|trans }}</div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li>
+                            <span class="icon text-secondary"><i class="fas fa-code-branch"></i></span>: {{ 'action.audit' | trans }}
+                        </li>
+                        <li class="mt-2">
+                            <button type="button" class="btn btn-sm btn-primary"><i class="fas fa-pencil-alt"></i> {{ 'action.edit'|trans }}</button>: {{ 'revue.edit' | trans }}
+                        </li>
+                        <li class="mt-2">
+                            <span class="icon text-secondary"><i class="fas fa-lg fa-question-circle text-purple"></i></span>: {{ 'label.user_help'|trans }}
+                        </li>
+                        <li class="mt-2">
+                            <span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.submitted_help'|trans }}">{{ 'numero.state.submitted'|trans }}</span>: {{ 'numero.state.submitted_help'|trans }}
+                        </li>
+                        <li class="mt-2">
+                            <span class="badge badge-primary" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.treatment_help'|trans }}">{{ 'numero.state.treatment'|trans }}</span>: {{ 'numero.state.treatment_help'|trans }}
+                        </li>
+                        <li class="mt-2">
+                            <span class="badge badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.published_help'|trans }}">{{ 'numero.state.published'|trans }}</span>: {{ 'numero.state.published_help'|trans }}
+                        </li>
+                        <li class="mt-2">
+                            <span class="badge badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.controlled_help'|trans }}">{{ 'numero.state.controlled'|trans }}</span>: {{ 'numero.state.controlled_help'|trans }}
+                        </li>
+                        <li class="mt-2">    
+                            <span class="badge badge-danger" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.rejected_help'|trans }}">{{ 'numero.state.rejected'|trans }}</span>: {{ 'numero.state.rejected_help'|trans }}                
+                        </li>
+                        <li>
+                            <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.nb_dci'|trans }}">37</span>: {{ 'indexation.nb_dci'|trans }}
+                        </li>
+                        <li class="mt-2">
+                            <span class="text-danger"><i class="fas fa-plus"></i></span>: {{ 'rapport.add'|trans }}
+                        </li>
+                        <li class="mt-2">
+                            <span class="icon text-secondary"><i class="fas fa-eye"></i></span>: {{ 'numero.show' | trans }}
+                        </li>
+                        <li class="mt-2">
+                            <span class="icon text-secondary"><i class="fas fa-pencil-alt"></i></span>: {{ 'numero.edit'|trans }}
+                        </li>
+                        <li>
+                            <span class="icon text-success"><i class="fas fa-toggle-on"></i></span>: {{ 'numero.disable'|trans }}
+                        </li>
+                        <li class="mt-2">
+                            <span class="icon text-secondary"><i class="fas fa-toggle-off"></i></span>: {{ 'numero.enable'|trans }}
+                        </li>
+                        <li class="mt-2">
+                            <a class="ed_numero editable editable-pre-wrapped editable-click">Empty</a>: {{ 'numero.add_resume'|trans }}
+                        </li>
+                        <li class="mt-2">
+                            <button class="btn btn-primary" style="border-radius: 50px;box-shadow: 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%), 0 3px 5px -1px rgb(0 0 0 / 20%);height: 30px;width: 30px;z-index: 1;"><i class="fas fa-plus"></i></button>: {{ 'numero.add'|trans }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> 
+    </div> 
+</div>
+
+{% if is_granted('ROLE_GESTION_NUMEROS') %}
+    <a href="{{ path('admin_revue_new_numero', {'id': revue.id }) }}" class="btn waves-effect waves-light btn-primary float" data-toggle="tooltip" data-placement="top" title="{{ 'numero.add'|trans }}">
+        <i class="fas fa-plus float-icon"></i>
+    </a>   
+{% endif %}    

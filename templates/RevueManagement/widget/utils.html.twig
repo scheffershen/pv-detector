@@ -1,0 +1,275 @@
+{% macro format_date(data) %}	
+    {% if app.request.get('_locale') == "fr" %}
+        <p style="display:none;">{{ data|date('Y-M-d')}}</p>{{ data|date('d/M/Y')}}
+    {% else %}
+        {{ data|date('Y-M-d')}}
+    {% endif %}
+{% endmacro %}
+
+{% macro numero_images(numero) %} 
+    {% if numero.state != "submitted" %}
+        {% if numero.isPdf %}
+            {% if numero.images|length > 0 %}
+                {% if numero.isValid %}
+                    <a class="icon text-secondary" href="{{ path('admin_numero_pdf2images', {'id': numero.id}) }}" alt="{{ 'pages'|trans }}" title="{{ 'pages'|trans }}" target="_blank">
+                        <span class="badge badge-info"> {{ numero.images|length }} {{ 'numero.pdf2image'|trans }} </span> 
+                    </a>
+                {% else %}    
+                    <span class="badge badge-info"> {{ numero.images|length }} {{ 'numero.pdf2image'|trans }} </span>
+                {% endif %}   
+            {% endif %}
+        {% else %}
+            {% if numero.isValid %}
+                <a class="icon text-secondary" href="{{ path('admin_numero_pages', {'id': numero.id}) }}" alt="{{ 'pages'|trans }}" title="{{ 'pages'|trans }}" target="_blank">
+                    <span class="badge badge-info"> {{ numero.images|length }} {{ 'numero.image2text'|trans }} </span> 
+                </a>
+            {% else %}
+                <span class="badge badge-info"> {{ numero.images|length }} {{ 'numero.image2text'|trans }} </span>  
+            {% endif %}
+        {% endif %}
+    {% endif %}    
+{% endmacro %}
+
+{% macro numero_state(numero) %} 
+    {% if numero.state == "submitted" %}
+        {% if is_granted('ROLE_GESTION_NUMEROS') %}  
+            <a href="{{ path('admin_numero_show', {'id': numero.id}) }}" target="_blank">
+                <span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.submitted_help'|trans }}">{{ 'numero.state.submitted'|trans }}</span> 
+            </a>
+        {% else %}
+            <span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.submitted_help'|trans }}">{{ 'numero.state.submitted'|trans }}</span>
+        {%  endif %}
+    {% elseif numero.state == "treatment" %}   
+        {% if is_granted('ROLE_GESTION_NUMEROS') %}      
+            <a href="{{ path('admin_numero_pages', {'id': numero.id}) }}" target="_blank">
+                <span class="badge badge-primary" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.treatment_help'|trans }}">{{ 'numero.state.treatment'|trans }}</span>
+            </a>
+            {% if numero.isIndexed == false %}<span class="badge badge-warning">non indexé</span>{% endif %}
+        {% else %}
+            <span class="badge badge-primary" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.treatment_help'|trans }}">{{ 'numero.state.treatment'|trans }}</span>
+            {% if numero.isIndexed == false %}<span class="badge badge-warning">non indexé</span>{% endif %}
+        {% endif %}            
+    {% elseif numero.state == "published" %}
+        {% if is_granted('ROLE_GESTION_NUMEROS') %} 
+            <a href="{{ path('admin_numero_pages', {'id': numero.id}) }}" target="_blank">
+                <span class="badge badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.published_help'|trans }}">{{ 'numero.state.published'|trans }}</span> 
+            </a> 
+        {% else %}
+            <span class="badge badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.published_help'|trans }}">{{ 'numero.state.published'|trans }}</span>
+        {% endif %}                 
+    {% elseif numero.state == "controlled" %}
+        {% if is_granted('ROLE_GESTION_NUMEROS') %} 
+            <a href="{{ path('admin_numero_pages', {'id': numero.id}) }}" target="_blank">
+                <span class="badge badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.controlled_help'|trans }}">{{ 'numero.state.controlled'|trans }}</span>
+            </a>    
+        {% else %}
+            <span class="badge badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.controlled_help'|trans }}">{{ 'numero.state.controlled'|trans }}</span>
+        {% endif %}                         
+    {% elseif numero.state == "rejected" %}   
+        {% if is_granted('ROLE_GESTION_NUMEROS') %} 
+            <a href="{{ path('admin_numero_show', {'id': numero.id}) }}" target="_blank">       
+                <span class="badge badge-danger" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.rejected_help'|trans }}">{{ 'numero.state.rejected'|trans }}</span>
+            </a> 
+        {% else %}
+            <span class="badge badge-danger" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.rejected_help'|trans }}">{{ 'numero.state.rejected'|trans }}</span>
+        {% endif %}                               
+    {% endif  %}  
+{% endmacro %}
+
+{% macro numero_statut_activation(numero) %} 
+    {% if app.request.get('_locale') == "fr" %}
+        {% if numero.isValid %}Oui{% else %}Non{% endif %}
+    {% else %}
+        {% if numero.isValid %}Yes{% else %}No{% endif %}
+    {% endif %}  
+{% endmacro %}
+
+{% macro numero_result(numero) %} 
+    {% if numero.isIndexed and numero.id|nbNumeroIndexation > 0 %}
+        {% if numero.isValid %}
+            {% if is_granted('ROLE_REPRESENTATION_RESULTATS') %} 
+                <a class="icon text-secondary" href="{{ path('admin_indexation_numero', {'numero': numero.id}) }}" target="_blank" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.indexed'|trans }}">
+                    <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.indexed'|trans }}">{{ numero.id|nbNumeroIndexation }}</span>
+                </a>
+            {% else %} 
+                <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.indexed'|trans }}">{{ numero.id|nbNumeroIndexation }}</span>  
+            {% endif %}
+        {% else %}
+            <del>{{ numero.id|nbNumeroIndexation }}</del>
+        {% endif %}    
+    {% else %}
+        {% if numero.isValid %}0{% else %}<del>0</del>{% endif %}
+    {% endif %} 
+{% endmacro %}
+
+{% macro numero_rapport(numero) %} 
+    {% if numero.state != "submitted" and numero.isValid %}
+        {% if numero.rapport %}
+            <a class="icon text-secondary" href="{{ path("admin_rapport_download", {'id': numero.rapport.id, 'format': 'pdf'}) }}" data-toggle="tooltip" data-placement="top" title="Pdf {{ 'action.download'|trans }}">
+                <i class="fas fa-file-pdf"></i>
+            </a>
+            <a class="icon text-secondary" href="{{ path("admin_rapport_download", {'id': numero.rapport.id, 'format': 'word'}) }}" data-toggle="tooltip" data-placement="top" title="Word {{ 'action.download'|trans }}">
+                <i class="fas fa-file-word"></i>
+            </a>
+            <a class="icon text-secondary" href="{{ path('admin_rapport_show', {'id': numero.rapport.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'rapport.show'|trans }}" target="_blank">
+                <i class="fas fa-eye"></i>
+            </a>
+            {% if is_granted('ROLE_RAPPORT_VEILLE_CRUD') %}
+                <a class="icon text-secondary" href="{{ path('admin_rapport_edit', {'id': numero.rapport.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'rapport.edit'|trans }}">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+            {% endif %}
+        {% else %}
+            {% if is_granted('ROLE_RAPPORT_VEILLE_CRUD') %}                     
+                <a class="icon text-danger" href="{{ path('admin_rapport_new', {'id': numero.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'rapport.add'|trans }}">
+                    <i class="fas fa-plus"></i>
+                </a>
+            {% endif %}    
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro numero_rapport_date(numero) %} 
+    {% if numero.state != "submitted" and numero.isValid %}
+        {% if numero.rapport %}
+            {{ numero.rapport.updateUser }}, {{ _self.format_date(numero.rapport.updateDate) }}
+        {% else %}
+            -   
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro numero_rapport_qualite(numero) %} 
+    {% if numero.state != "submitted" and numero.isValid %}
+        {% if numero.rapport %}
+            {%  if numero.rapport.controleQualite %}
+                <a class="icon text-secondary" href="{{ path("admin_controle_qualite_download", {'id': numero.rapport.controleQualite.id, 'format': 'pdf'}) }}" data-toggle="tooltip" data-placement="top" title="Pdf {{ 'action.preview'|trans }}">
+                    <i class="fas fa-file-pdf"></i>
+                </a>
+                <a class="icon text-secondary" href="{{ path("admin_controle_qualite_download", {'id': numero.rapport.controleQualite.id, 'format': 'word'}) }}" data-toggle="tooltip" data-placement="top" title="Word {{ 'action.preview'|trans }}">
+                    <i class="fas fa-file-word"></i>
+                </a>
+                <a class="icon text-secondary" href="{{ path('admin_controle_qualite_show', {'id': numero.rapport.controleQualite.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'action.show'|trans }}" target="_blank">
+                    <i class="fas fa-eye"></i>
+                </a>
+                <a href="{{ path('admin_controle_qualite_edit', {'id': numero.rapport.controleQualite.id})}}" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'controle_qualite.edit'|trans }}">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+            {% else %}
+                <a href="{{ path('admin_controle_qualite_new', {'id': numero.rapport.id})}}" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'controle_qualite.add'|trans }}">
+                    <i class="fas fa-plus"></i>
+                </a>
+            {% endif %}    
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro numero_rapport_qualite_date(numero) %} 
+    {% if numero.state != "submitted" and numero.isValid %}
+        {% if numero.rapport %}
+            {%  if numero.rapport.controleQualite %}
+                {{ numero.rapport.controleQualite.updateUser }}, {{ _self.format_date(numero.rapport.controleQualite.updateDate) }}
+            {% else %}
+            -   
+            {% endif %}    
+        {% else %}
+            -   
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro numero_rapport_qualite_resume(numero) %} 
+    {% if numero.state != "submitted" and numero.isValid %}
+        {% if numero.rapport %}
+            {%  if numero.rapport.controleQualite %}
+                <a href="#" class="ed_controle_qualite" name="description"  data-type="textarea" data-pk="{{ numero.rapport.controleQualite.id }}"  data-url="{{ path('admin_controle_qualite_edit_flash', {'id': numero.rapport.controleQualite.id})}}" data-title="{{ 'numero.description'|trans }}"><span>{{ numero.rapport.controleQualite.description|default("Empty") }}</span></a>
+            {% else %}
+            -   
+            {% endif %}    
+        {% else %}
+            -   
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro numero_action(numero) %} 
+    <a class="icon text-secondary" href="{{ path('admin_numero_show', {'id': numero.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'numero.show'|trans }}" target="_blank"><i class="fas fa-eye"></i></a>
+    <a class="icon text-secondary" href="{{ path('admin_numero_edit', {'id': numero.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'action.edit'|trans }}"><i class="fas fa-pencil-alt"></i></a>   
+    {% if numero.isValid %}
+        <a class="icon text-success"  href="{{ path('admin_numero_show', {'id': numero.id, 'action': 'disable'}) }}"  data-toggle="tooltip" data-placement="top" title="{{ 'action.disable'|trans }}" ><i class="fas fa-toggle-on"></i></a>  
+    {% else %}
+        <a class="icon text-secondary" href="{{ path('admin_numero_show', {'id': numero.id, 'action': 'enable'}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'action.enable'|trans }}"><i class="fas fa-toggle-off"></i></a>   
+    {% endif %}
+    <a href="{{ path('admin_audit_show_entity_history', {'entity': 'App-Entity-RevueManagement-Numero', id: numero.id}) }}" class="icon text-secondary" data-toggle="tooltip" data-original-title="{{ 'action.audit' | trans }}" target="_blank"><i class="fas fa-code-branch"></i></a>
+{% endmacro %}
+
+{% macro numero_resume(numero) %} 
+    {% if numero.state != "submitted" and numero.isValid %}
+        <a href="#" class="ed_numero" name="description"  data-type="textarea" data-pk="{{ numero.id }}"  data-url="{{ path('admin_numero_edit_flash', {'id': numero.id})}}" data-title="{{ 'numero.description'|trans }}"><span>{{ numero.description|default("Empty") }}</span></a>
+    {% endif %}
+{% endmacro %}
+
+{% macro numero_pages(numero, action=null) %} 
+    <!-- table pages-->
+    <div class="row mt-3">
+        <div class="col-12"> 
+            <div class="card">
+                <div class="card-header">
+                    {{ 'numero.pages'|trans }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if action is not null and action == "clients" %} 
+        {% set clients = numero.revue.clients %}
+    {% else %}
+        {% set clients = null %}
+    {% endif %}
+
+    {% set numeroPage = 0 %}
+    {% for image in numero.images %}
+        {% if image.isDeleted == false %}
+            {% set numeroPage =  numeroPage + 1 %}
+            <div class="row mt-3">
+                <div class="col-12"> 
+                    <div class="card">
+                        <div class="card-header">Page {{ numeroPage }}
+                            <a href="{{ path('admin_numero_pages', {'id': numero.id}) }}#{{ 'page-'~numeroPage }}" class="icon text-secondary float-right" data-toggle="tooltip" data-original-title="{{ 'action.show' | trans }}"  target="_blank"><i class="fas fa-eye"></i></a>
+                        </div>
+                        <div class="card-body page images">  
+                            {% set page_existed = false %}
+                            {% for page in image.pages %}
+                                {% if page.isDeleted == false and  page_existed == false %}
+                                     {% set page_existed = true %}
+                                     {% for _block in page.blocks %}
+                                        <div class="row col-12">
+                                         {# _block.text|nl2br #}
+                                         {{ dcisHightlight(_block.text, clients)|raw }}
+                                        </div>                                                   
+                                     {% endfor %}
+                                {% endif %} 
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div> 
+            </div>   
+        {% endif %}    
+    {% endfor %} 
+{% endmacro %}
+
+{% macro revue_isCFC(revue) %} 
+    {% if app.request.get('_locale') == "fr" %}
+        {% if revue.isCFC %}Oui{% else %}Non{% endif %}
+    {% else %}
+        {% if revue.isCFC %}Yes{% else %}No{% endif %}
+    {% endif %}  
+{% endmacro %}
+
+{% macro rapport_CQT(rapport) %} 
+    {% if app.request.get('_locale') == "fr" %}
+        {% if rapport.controleQualite %}Oui{% else %}Non{% endif %}
+    {% else %}
+        {% if rapport.controleQualite %}Yes{% else %}No{% endif %}
+    {% endif %}  
+{% endmacro %}

@@ -1,0 +1,32 @@
+rapports: Reports
+rapport:
+  label: Report
+  commentaire: Comments  
+  last_author: Last edited by 
+  updated_date: Date of last edition
+  cqt: CQT  
+  show: Detail of the report
+  add_controller: Add the quality control
+  add: Add a report  
+  edit: Edit the report  
+  edit_controller: Edit the contôle qualité 
+  flash:
+    created: "A repport has been created."
+    updated: "The repport has been updated"
+  error:
+      rapport_empty: "There is no report" 
+
+controle_qualites:
+controle_qualite:
+  label: Quality control
+  last_author: Last edited by 
+  updated_date: Date of last edition  
+  description: Quality control summary   
+  show: Detail of quality control
+  add:  Add a quality control
+  edit: Edit the quality control 
+  flash:
+    created: "The quality control has been created."
+    updated: "The quality control has been updated."
+  error:
+      controle_qualite_empty: "There is no quality control"         

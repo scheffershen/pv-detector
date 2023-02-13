@@ -1,0 +1,246 @@
+{% extends 'admin_base.html.twig' %}
+
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+{% block title %}
+    {{ 'dashboards'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'dashboards'|trans }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3 hide">
+                    <div class="col-12">
+                        <div class="card-body">
+                            {{ form_start(form) }}
+                            <div class="row">
+                                <div class="col-10">
+                                    {{ form_widget(form.dci) }}
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit"
+                                        class="btn btn waves-effect waves-light btn-dark">
+                                        {{ 'search'|trans }}
+                                    </button>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- end page title -->
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <div class="card-body">
+                            {#<a href="{{ path('admin_numero_new') }}" class="btn btn-success waves-effect waves-light  float-right" style="padding-top: 0px;">
+							<i class="fas fa-plus float-icon"></i>
+						</a>#}
+                            <h4 class="header-title">
+                                {{ 'numero.last'|trans }}
+                            </h4>
+                            {% for numero in numeros %}
+                                <div class="media mb-3">
+                                    <div class="media-body">
+                                        <h6 class="mt-0">
+                                            {{ numero.revue.title }} - {{
+                                                numero.title
+                                            }} -{% if numero.isIndexed %}
+
+                                            {% else %}
+                                                <span class="badge badge-warning">
+                                                    non indexé
+                                                </span>
+                                            {% endif %}&nbsp;{% if
+                                                numero.isIndexed
+                                                    and (numero.id|nbNumeroIndexation)
+                                                        > 0 %}
+                                                <a class="icon text-secondary"
+                                                    href="{{
+                                                    path(
+                                                        'admin_indexation_numero',
+                                                        {
+                                                            numero: numero.id
+                                                        }
+                                                    )
+                                                    }}"
+                                                    target="_blank">
+                                                    <span class="badge badge-pill badge-success"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="{{ 'indexation.indexed'|trans }}">
+                                                        {{
+                                                            numero.id|nbNumeroIndexation
+                                                        }}
+                                                    </span>
+                                                </a>
+                                            {% endif %}
+                                            {# <a class="h6" href="{{ path('admin_numero_edit', {'id': numero.id}) }}"><i class="fas fa-pencil-alt"></i></a> #}
+                                        </h6>
+                                        {% if
+                                            app.request.get('_locale')
+                                                == 'fr' %}
+                                            {{
+                                                numero.receiptDate|date('d-M-Y')
+                                            }}
+                                        {% else %}
+                                            {{
+                                                numero.receiptDate|date('d-M-Y')
+                                            }}
+                                        {% endif %}- ({{
+                                            numero.revue.clients|length
+                                        }} {{ 'clients'|trans }}) - {{ utils.numero_images(numero) }}
+                                        {% if numero.isIndexed and (numero.id|nbNumeroIndexation) > 0 %}
+                                            {#<a href="{{ path('admin_numero_phrases', {'id': numero.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'numero.phrases'|trans }}" target="_blank">
+                                            <span class="badge badge-secondary">{{ 'phrases'|trans }}</span> 
+                                        </a>
+                                        <a href="{{ path('admin_numero_collocation', {'id': numero.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'numero.collocations'|trans }}" target="_blank">
+                                            <span class="badge badge-secondary"> {{ 'collocations'|trans }}</span> 
+                                        </a>
+                                        <a href="{{ path('admin_numero_yake', {'id': numero.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'numero.keywords'|trans }}" target="_blank">
+                                            <span class="badge badge-secondary">{{ 'keywords'|trans }}</span> 
+                                        </a>#}
+                                        {% endif %}
+                                        {# if (numero.revue.clients|length > 0 ) %}
+									  <a href="{{ path('admin_search3_numero3', {'id': numero.id}) }}"><span class="badge badge-info">{{ 'numero.result' | trans }}</span></a>
+                                    {% else %}
+                                        <a href="{{ path('admin_search3_numero3', {'id': numero.id}) }}"><span class="badge badge-warning">{{ 'search' | trans }}</span></a>
+                                    {% endif #}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <a href="{{ path('admin_numero_index') }}"
+                                class="icon text-secondary float-right">
+                                more
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="card-body">
+                            {#<a href="{{ path('admin_client_new') }}" class="btn btn-success waves-effect waves-light  float-right" style="padding-top: 0px;">
+							<i class="fas fa-plus float-icon"></i>
+						</a>#}
+                            <h4 class="header-title">
+                                {{ 'client.last_client'|trans }}
+                            </h4>
+                            {% for client in clients %}
+                                <div class="media mb-3">
+                                    {# maybe late, when she wake up
+                                {% if client.logoUri|isImage == true %}
+                                    <img class="mr-3 rounded-circle avatar-sm bx-shadow-lg" src="{{ path('admin_private_upload', {'upload': client.logoUri}) }}" alt="{{ client.name }}" height="80">
+                                {% else %}
+                                    <img class="mr-3 rounded-circle bx-shadow-lg" src="/images/users/avatar-4.jpg" alt="Generic placeholder image" height="80">
+                                {% endif %}
+                                #}
+                                    <div class="media-body">
+                                        <h5 class="mt-0">
+                                            {{ client.name }}
+                                            &nbsp;
+                                            <a class="icon text-secondary"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="{{ 'indexation.results'|trans }}"
+                                                href="{{
+                                                path(
+                                                    'admin_indexation_client',
+                                                    {
+                                                        client: client.id
+                                                    }
+                                                )
+                                                }}"
+                                                target="_blank">
+                                                <i class="fas fa-tachometer-alt">
+
+                                                </i>
+                                            </a>
+                                            {# <a class="h6" href="{{ path('admin_client_edit', {'id': client.id}) }}"><i class="fas fa-pencil-alt"></i></a> #}
+                                        </h5>
+                                        <b>{{ 'dcis'|trans }} :</b>
+                                        {% for dci in client.dcis %}
+                                            {% if loop.index > 1 %}, {% endif %}
+                                            {# <a href="{{ path('admin_dci_edit', {'id': dci.id}) }}"> #}
+                                            {% if
+                                                dci.isIndexed
+                                                    and (dci.id|nbDciIndexation)
+                                                        > 0 %}
+                                                <a class="icon text-secondary"
+                                                    href="{{
+                                                    path(
+                                                        '_admin_indexation_dci',
+                                                        {
+                                                            dci: dci.id
+                                                        }
+                                                    )
+                                                    }}"
+                                                    target="_blank">
+                                                    {{ dci.title }}
+                                                </a><span class="badge badge-pill badge-success"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="{{ 'indexation.indexed'|trans }}">
+                                                    {{ dci.id|nbDciIndexation }}
+                                                </span>
+                                            {% elseif dci.isIndexed == true %}
+                                                {{ dci.title }}<span class="badge badge-pill badge-warning" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.indexed'|trans }}">0</span>
+                                            {% elseif dci.isIndexed == false %}
+                                                {{ dci.title }}
+                                            {% endif %}
+                                        {% endfor %}
+                                        <br />
+                                        <b>{{ 'revues'|trans }} :</b>
+                                        {% for revue in client.revues %}
+                                            {% if loop.index > 1 %}, {% endif %}
+                                            {# <a href="{{ path('admin_revue_edit', {'id': revue.id}) }}"> #}
+                                            <a class="icon text-secondary"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="{{ 'indexation.results'|trans }}"
+                                                href="{{
+                                                path(
+                                                    'admin_indexation_revue',
+                                                    {
+                                                        revue: revue.id
+                                                    }
+                                                )
+                                                }}"
+                                                target="_blank">
+                                                {{ revue.title }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <a href="{{ path('admin_client_index') }}"
+                                class="icon text-secondary float-right">
+                                more
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- container-fluid -->
+        </div> <!-- content -->
+    </div>
+    {#
+<a href="{{ path('admin_numero_new') }}" class="btn waves-effect waves-light btn-primary float">
+    <i class="fas fa-plus float-icon"></i>
+</a>    
+#}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/validator') }}
+{% endblock %}

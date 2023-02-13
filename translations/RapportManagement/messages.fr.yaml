@@ -1,0 +1,32 @@
+rapports: Rapports
+rapport:
+  label: Rapport
+  commentaire: Commentaire
+  last_author: Dernière modification par
+  updated_date: Date de dernière édition
+  cqt: CQT
+  show: "Détail d'un rapport" 
+  add_controller:  Ajouter un contôle qualité
+  add: Ajouter un rapport  
+  edit: Editer le rapport    
+  edit_controller:  Editer le contôle qualité  
+  flash:
+    created: "Un rapport a été créé"
+    updated: "Le rapport a été mise à jour"
+  error:
+      rapport_empty: "il n'y a pas de rapport" 
+
+controle_qualites:
+controle_qualite:
+  label: Contrôle qualité
+  last_author: Dernière modification par
+  updated_date: Date de dernière édition  
+  description: Contrôle qualité resumé 
+  show: "Détail d'un contrôle qualité"
+  add:  Ajouter un contôle qualité
+  edit:  Editer le contôle qualité  
+  flash:
+    created: "Un contôle qualité a été créé"
+    updated: "Le contôle qualité a été mise à jour"  
+  error:
+      controle_qualite_empty: "il n'y a pas de contrôle qualité"     

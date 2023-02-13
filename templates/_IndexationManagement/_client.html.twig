@@ -1,0 +1,121 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'indexation.results'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'indexation.results'|trans }}: {{
+                                    client.name|u.truncate(140, '...')
+                                }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped"
+                                    id="tablefiltre">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>
+                                                {{ 'numero.revue'|trans }}
+                                            </th>
+                                            <th>
+                                                {{ 'numero.title'|trans }}
+                                            </th>
+                                            <th>
+                                                {{ 'numero.receiptDate'|trans }}
+                                            </th>
+                                            <th>
+                                                {{ 'dcis'|trans }}
+                                            </th>
+                                            <th>
+                                                {{ 'indexation.nb_page'|trans }}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <thead id="filtreForm">
+                                        <tr>
+                                            <th>
+                                                {{ 'numero.revue'|trans }}
+                                            </th>
+                                            <th>
+                                                {{ 'numero.title'|trans }}
+                                            </th>
+                                            <th>
+                                                {{ 'numero.receiptDate'|trans }}
+                                            </th>
+                                            <th>
+                                                {{ 'dcis'|trans }}
+                                            </th>
+                                            <th>
+                                                {{ 'indexation.nb_page'|trans }}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for indexation in indexations %}
+                                            <tr>
+                                                <td>
+                                                    {{ indexation['revue'] }}
+                                                </td>
+                                                <td>
+                                                    {{ indexation['numero'] }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        indexation['receiptDate']|date(
+                                                            'd-M-Y'
+                                                        )
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{ indexation['dci'] }}
+                                                </td>
+                                                <td>
+                                                    <a href="{{
+                                                        path(
+                                                            'admin_search3_numero_dci',
+                                                            {
+                                                                numero: indexation['numero_id'],
+                                                                dci: indexation['dci']|url_encode
+                                                            }
+                                                        )
+                                                        }}"
+                                                        target="_blank">
+                                                        {{
+                                                            indexation['count_numero']
+                                                        }}
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/datatables') }}
+{% endblock %}

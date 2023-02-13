@@ -1,0 +1,155 @@
+{% extends 'admin_base.html.twig' %}
+
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+{% block title %}
+    {{ 'dashboards'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'dashboards'|trans }}
+                                &nbsp;&nbsp;
+                                <a href="/docs/fr/site/dashboard/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+                                    <i class="fas fa-lg fa-question-circle text-purple"></i>
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-9 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">{{ 'dashboard.numeros_sans_rapport'|trans }}</div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped" id="tablefiltre">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>{{ 'numero.numero'|trans }}</th>
+                                                <th>{{ 'numero.reference'|trans }}</th>
+                                                <th>{{ 'numero.numero'|trans }}</th>
+                                                <th>{{ 'numero.receiptDate'|trans }}</th>
+                                                <th>{{ 'numero.states'|trans }}</th>
+                                                <th>{{ 'numero.result'|trans }}</th>
+                                                <th>{{ 'numero.report'|trans }}</th>    
+                                            </tr>
+                                        </thead>       
+                                        <tbody>  
+                                        {% for numero in numeros_sans_rapport %}
+                                            <tr>
+                                                <td>
+                                                    <span data-toggle="tooltip" data-placement="top" title="{{ numero.revue.title }}">{% if numero.isValid == false %}<del>{% endif %}{{ numero.revue.title|u.truncate(80, '...') }}{% if numero.isValid == false %}</del>{% endif %}</span>             
+                                                </td>
+                                                <td>
+                                                    <span data-toggle="tooltip" data-placement="top" title="{{ numero.title }}">{% if numero.isValid == false %}<del>{% endif %}{{ numero.title|u.truncate(80, '...') }}{% if numero.isValid == false %}</del>{% endif %}</span>             
+                                                </td>
+                                                <td>
+                                                    <span data-toggle="tooltip" data-placement="top" title="{{ numero.numero }}">
+                                                        {% if numero.isValid == false %}<del>{% endif %}{{ numero.numero|u.truncate(20, '...') }}{% if numero.isValid == false %}</del>{% endif %}
+                                                    </span>
+                                                </td>
+                                                <td>{{ utils.format_date(numero.receiptDate) }}</td>
+                                                <td>{{ utils.numero_state(numero) }}</td>
+                                                <td>{{ utils.numero_result(numero) }}</td>
+                                                <td>{{ utils.numero_rapport(numero) }}</td> 
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="7">{{ 'table.no_records_found'|trans}}</td>
+                                            </tr>                                        
+                                        {% endfor %}                   
+                                        </tbody>
+                                    </table>
+                                </div>    
+                            </div>
+                        </div>
+
+                        <div class="row mt-5"> 
+                            <div class="col-lg-6 col-md-12">
+                                <div class="card">
+                                    <div class="card-header">{{ 'legend'|trans }}</div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled">
+                                            <li class="mt-2">
+                                                <span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.submitted_help'|trans }}">{{ 'numero.state.submitted'|trans }}</span>: {{ 'numero.state.submitted_help'|trans }}
+                                            </li>
+                                            <li class="mt-2">
+                                                <span class="badge badge-primary" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.treatment_help'|trans }}">{{ 'numero.state.treatment'|trans }}</span>: {{ 'numero.state.treatment_help'|trans }}
+                                            </li>
+                                            <li class="mt-2">
+                                                <span class="badge badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.published_help'|trans }}">{{ 'numero.state.published'|trans }}</span>: {{ 'numero.state.published_help'|trans }}
+                                            </li>
+                                            <li class="mt-2">
+                                                <span class="badge badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.controlled_help'|trans }}">{{ 'numero.state.controlled'|trans }}</span>: {{ 'numero.state.controlled_help'|trans }}
+                                            </li>
+                                            <li class="mt-2">    
+                                                <span class="badge badge-danger" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.rejected_help'|trans }}">{{ 'numero.state.rejected'|trans }}</span>: {{ 'numero.state.rejected_help'|trans }}                
+                                            </li>
+                                            <li class="mt-2">
+                                                <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.nb_dci'|trans }}">37</span>: {{ 'indexation.nb_dci'|trans }}
+                                            </li>
+                                            <li class="mt-2">
+                                                <span class="text-danger"><i class="fas fa-plus"></i></span>: {{ 'rapport.add'|trans }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div> 
+                            </div> 
+                        </div>
+                           
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">{{ 'dashboard.mes_rapports_clients'|trans }}</div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>{{ 'client.name'|trans }}</th>
+                                                <th>{{ 'lov.jour'|trans }}</th>
+                                            </tr>
+                                        </thead>                         
+                                        <tbody>
+                                        {% for client in mes_rapports_clients %}
+                                            <tr>
+                                                <td>
+                                                    <span class="ml-2">
+                                                        {% if client.isValid == false %}<del>{% endif %}{{ client.name }}{% if client.isValid == false %}</del>{% endif %}
+                                                    </span>
+                                                </td>
+                                                <td>{{ client.jourBilanHebdomadaire|default('') }}</td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="2">{{ 'table.no_records_found'|trans}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table> 
+                                </div>                               
+                            </div>
+                        </div>    
+                    </div>                    
+                </div>
+
+            </div> <!-- container-fluid -->
+        </div> <!-- content -->
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/datatables') }}
+{% endblock %}

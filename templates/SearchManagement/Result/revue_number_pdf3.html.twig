@@ -1,0 +1,69 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ 'dci.results'|trans }}{% endblock %}
+
+{% block body %}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ 'dci.results'|trans }}: {{ numero.revue.title }} - {{ numero.title }} - "{{ dci }}"
+                            {% if mysqlFullTextSearch == false %}
+                                <a class="icon text-secondary" href="{{ path('admin_search3_pdf_dci', {'numero': numero.id, 'dci': dci, 'page': page }) }}" alt="{{ 'pages'|trans }}" title="{{ 'pages'|trans }}" target="_blank">
+                                    <span class="badge badge-info"> {{ 'dci.mysqlFullTextSearch'|trans }} </span> 
+                                </a>
+                            {% endif %}
+                            {% if mysqlFullTextSearch == true and no_position == false %}
+                                <a class="icon text-secondary" href="{{ path('admin_search3_pdf_dci', {'numero': numero.id, 'dci': dci, 'page': page}) }}?no_position=1" alt="{{ 'search.no_position'|trans }}" title="{{ 'search.no_position'|trans }}" target="_blank">
+                                    <span class="badge badge-info">{{ 'search.no_position'|trans }}</span>
+                                </a>
+                                <a class="icon text-secondary" href="{{ path('admin_private_upload', {'upload': numero.fileUri, 'format': 'revues'}) }}#search={{dci}}&page={{ page }} " alt="{{ 'search.no_position'|trans }}" title="{{ 'search.no_position'|trans }}" target="_blank">
+                                    <span class="badge badge-info">{{ 'search.original_pdf'|trans }} (page {{ page }})</span>
+                                </a>
+                            {% endif %} 
+                        </h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title -->      
+
+            <div class="row">		
+                {% if no_position == false %}				          	
+                    <div class="col-12 images" id="image{{ image.id }}" style="position:relative;width:{{ image.width }}px; height:{{ image.height }}px;">
+                        <img style="position:absolute;left:0px;top:0px;opacity:0.2;" src="{{ path('admin_private_upload', {'dir': image.fileDir, 'upload': image.fileName, 'format': 'revues'}) }}">
+                {% else %}   
+                    <div class="col-12 images">    
+                {% endif %}   
+                {% if no_position == false %}                   
+                        {% for _block in blocks %}
+                                <div style="position:absolute;border:1px solid #ced4da;left:{{ _block.left}}px;top:{{ _block.top}}px;width:{{ _block.width}}px;height:{{ _block.height}}px">
+                                        {{ _block.text|raw|nl2br}}
+                                </div> 
+                        {% endfor %}
+                {% else %}
+                    {% for _block in blocks %}
+                        <div class="col-12" style="border: 1px solid">
+                         {{ _block.text|raw|nl2br}}
+                        </div>
+                    {% endfor %}
+                {% endif %}                    
+                </div>		
+            </div>
+			
+        </div> 
+    </div>
+</div>
+
+<input type="hidden" name="dci" id="dci" value="{{ dci }}">
+{% endblock %}
+
+{% block javascripts %} 
+    {{ parent() }}  
+    {{ encore_entry_script_tags('js/highlighter') }}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'user.create'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'user.create'|trans }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        {{ include('UserManagement/User/_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<input type="hidden" id="admin_user_new_url" value="{{ path("admin_user_new") }}">
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/user') }}
+{% endblock %}

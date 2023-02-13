@@ -1,0 +1,46 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ numero.title }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'numeros'|trans }}: {{ numero.revue.title }}, {{
+                                    numero.title
+                                }}, {{ numero.receiptDate|date('d-M-Y') }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            {% for page in pages %}
+                                <div class="col-12">
+                                    <div class="card mb-2">
+                                        <h4 class="card-title">
+                                            Page {{ loop.index }}
+                                        </h4>
+                                        <div class="card-body">
+                                            {{ page|nl2br }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

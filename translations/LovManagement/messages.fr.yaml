@@ -1,0 +1,22 @@
+lovs: Collections
+lov:
+  code: Code
+  access: Accessibilité 
+  categorie: Categorie 
+  jour: Jour du bilan hebdomadaire 
+  typeLien: Type de lien   
+  obligation: Obligation    
+  sort: Ordre
+  description: Description
+  keywords: Mots clefs
+  add: Ajouter une valeurs à la liste
+  edit: Editer une valeurs à la liste
+  title: Titre
+  create: Creation
+  update: Modification
+  revision: Révision
+  flash:
+    created: Une LOV a été créée
+    updated: La LOV a été mise à jour
+    enable: LOV a été activéee
+    disable: LOV a été désactivée

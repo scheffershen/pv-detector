@@ -1,0 +1,47 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'numero.add'|trans }}
+{% endblock %}
+
+{% block body %}
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fas fa-spinner fa-spin"></i></div>
+</div>
+    
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                               {{ 'revues'|trans }} / {{ 'numeros'|trans }} / {{ 'numero.add'|trans }}
+                               &nbsp;&nbsp;
+                                <a href="/docs/fr/site/numeros/add/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+                                    <i class="fas fa-lg fa-question-circle text-purple"></i>
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+                <div class="row">
+                    <div class="col-12">
+                        {{ include('RevueManagement/Numero/_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="_locale" value="{{ app.request.get('_locale') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/numero') }}
+{% endblock %}

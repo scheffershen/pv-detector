@@ -1,0 +1,116 @@
+{{ include('partials/_flash_messages.html.twig') }}
+
+{{ form_start(form) }}
+{{ form_errors(form) }}
+
+	{{ form_row(form.revue) }}
+	{{ form_row(form.title) }}
+	{{ form_row(form.numero) }}
+	{{ form_row(form.receiptDate) }}
+
+	{% if numero is defined and numero is not null and numero.fileUri is not null %}
+		<div class="form-group pdf-file" id="pdf-preview">
+			<embed src="{{ path('admin_private_upload', {'upload': numero.fileUri, 'format': 'revues'}) }}" width="100%" height="800px" type='application/pdf'/>
+		</div>
+	{% else %}	
+		<div class="form-group pdf-file" id="pdf-preview">
+		</div>
+    {% endif %}
+
+	<div class="rm-group pdf-file" {% if numero.isImage == true %}style="display:none"{% else %}{% endif %}>
+		{{ form_label(form.file, 'numero.file'|trans , {'label_attr': {'class': 'required'}}) }}
+        {{ form_errors(form.file) }}
+        {{ form_widget(form.file, { 'attr': {'class': '', 'id': 'file'} }) }}
+        {{ form_help(form.file) }}
+	</div>
+
+	<div class="" {% if numero.id %}style="display:none"{% endif %}> 
+    	{{ form_row(form.isImage) }}
+    </div>
+
+    {% if numero.id and numero.isImage == true %}
+    	<div class="form-group" id="image-preview">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <select id="imageFilter" class="chosen form-control">
+                        {% for image in numero.images %}
+                            <option value="{{ image.id }}">Page {{ loop.index }}</option>
+                        {% endfor %} 
+                    </select>
+                </h4>
+            </div>                                                                         
+	        {% for image in numero.images %}
+	        	<div class="col-12 images" id="image{{ image.id }}" style="{% if loop.index > 1 %}display:none;{% endif %}">
+	            	<img class="img-fluid" src="{{ asset('images/loading.gif') }}" data-src="{{ path('admin_private_upload', {'dir': image.fileDir, 'upload': image.fileName, 'format': 'revues'}) }}">        
+	            </div>
+	        {% endfor %}
+	    </div>                 	
+    {% endif %}
+
+    <div class="image-files" {% if numero.isPdf == true %}style="display:none"{% endif %}>
+	    <nav>
+		  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+		    <a class="nav-item nav-link active" id="nav-zip-tab" data-toggle="tab" href="#nav-zip" role="tab" aria-controls="nav-zip" aria-selected="true">{{ 'numero.zip'|trans }}</a>
+		    {#<a class="nav-item nav-link" id="nav-images-tab" data-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="false">{{ 'numero.images'|trans }}</a>
+		  </div>#}
+		</nav>
+
+		<div class="tab-content" id="nav-tabContent">
+		  <div class="tab-pane fade show active" id="nav-zip" role="tabpanel" aria-labelledby="nav-zip-tab">
+		    <div class="col-12 form-group">
+	        	{{ form_label(form.imagesZip, 'numero.images_zip'|trans) }}
+	        	<div id="attachement" class="text-primary">[empty]</div>
+	        	{{ form_errors(form.imagesZip) }}
+	        	{{ form_widget(form.imagesZip, { 'attr': {'class': 'form-control', 'accept':'.zip'} }) }}
+	        	{{ form_help(form.imagesZip) }}
+	        </div>
+	          
+		  </div>
+		  <div class="tab-pane fade" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
+		    <div id="image-fields-list"
+		        data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
+		        data-widget-tags="{{ '<div class="card-body border border-secondary mb-3"></div>'|e }}"
+		        data-widget-counter="{{ form.images|length }}">
+		        {% set i = 1 %}
+			    {% for image in form.images %}
+			        <div class="card-body border border-secondary mb-3">
+			        	    {% if image.vars.data.fileUri|isImage == true %}
+		                        <div class="form-group">
+		                        	{% if numero.isPdf == true %}
+		                            	<img class="img-fluid" src="{{ path('admin_private_upload', {'dir': image.vars.data.fileDir, 'upload': image.vars.data.fileName, 'format': 'revues'}) }}" id="img-preview{{ i }}" >
+		                            {% else %}	
+		        				    	{#<img class="img-fluid" src="{{ path('admin_private_upload', {'upload': image.vars.data.fileUri, 'format': 'revues'}) }}" id="img-preview{{ i }}" >#}
+		        				    	<img class="img-fluid" src="{{ path('admin_private_upload', {'dir': image.vars.data.fileDir, 'upload': image.vars.data.fileName, 'format': 'revues'}) }}" id="img-preview{{ i }}" >
+		        				    {% endif %}	
+		        			    </div>
+			                {% endif %}   	        	
+			            	{{ form_label(image.upload, 'numero.image'|trans , {'label_attr': {'class': 'required'}}) }}
+			            	{{ form_widget(image.upload, {'attr': {'data-id': i }}) }}
+			        		<button type="button" class="icon text-danger js-remove-image float-right">
+				                <i class="fas fa-trash"></i>
+				            </button>  
+			        </div> 
+			        {% set i = i + 1 %}  
+			    {% endfor %}
+		    </div>	
+			<div class="card-body"> 
+				<div class="d-flex">
+			    	<button type="button"
+				        class="icon text-primary add-another-collection-widget"
+				        data-list-selector="#image-fields-list">
+				        <i class="fas fa-plus"></i> {{ 'numero.addImage'|trans }}
+			    	</button>
+				</div>
+			</div>		  	
+		  </div>
+		</div>  
+	</div>    	
+    {# fin #}
+	
+<div class="col text-center">
+    <button type="submit" class="btn waves-effect waves-light btn-dark">{{ button_label|default('Sauvegarder') }}</button>
+</div>
+
+{{ form_end(form) }}
+
+<p><span class="text-danger">*</span>: {{ 'label.obligatoire'|trans }}</p>

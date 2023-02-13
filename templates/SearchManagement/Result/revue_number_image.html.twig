@@ -1,0 +1,79 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'dci.results'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'dci.results'|trans }}: {{
+                                    numero.revue.title
+                                }} - {{ numero.title }} - "{{ dci }}"{% if
+                                    mysqlFullTextSearch == false %}
+                                    <a class="icon text-secondary"
+                                        href="{{
+                                        path(
+                                            'admin_search3_image_dci',
+                                            {
+                                                numero: numero.id,
+                                                dci: dci,
+                                                input: result
+                                            }
+                                        )
+                                        }}"
+                                        alt="{{ 'pages'|trans }}"
+                                        title="{{ 'pages'|trans }}"
+                                        target="_blank">
+                                        <span class="badge badge-info">
+                                            {{
+                                                'dci.mysqlFullTextSearch'|trans
+                                            }}
+                                        </span>
+                                    </a>
+                                {% endif %}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12 images"
+                        id="image{{ image.id }}"
+                        style="position:relative;width:{{
+                        image.width
+                        }}px; height:{{ image.height }}px;">
+                        <img style="position:absolute;left:0px;top:0px;opacity:0.2;"
+                            src="{{
+                            path(
+                                'admin_private_upload',
+                                {
+                                    dir: image.fileDir,
+                                    upload: image.fileName,
+                                    format: 'revues'
+                                }
+                            )
+                            }}" />
+                        {% for _block in blocks %}
+                            <div style="position:absolute;border:1px solid #ced4da;left:{{
+                                _block.left
+                                }}px;top:{{ _block.top }}px;width:{{
+                                _block.width
+                                }}px;height:{{ _block.height }}px">
+                                {{ _block.text|raw|nl2br }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

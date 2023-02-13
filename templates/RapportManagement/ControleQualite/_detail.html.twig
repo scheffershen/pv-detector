@@ -1,0 +1,36 @@
+<hr class="mt-2 mb-3"/>
+
+<div class="page-title-box">
+    <h4 class="page-title">
+        {{ 'controle_qualite.label'|trans }}      
+    </h4>
+</div>
+
+<div class="row bg-light">
+    <div class="col-12">
+        {{ controle_qualite.commentaire|raw }}
+    </div>
+
+    {% if controle_qualite.description %}
+        <table class="table">
+            <tbody>        
+                <tr>
+                    <th>{{ 'controle_qualite.description'|trans }}</th>
+                    <td>{{ controle_qualite.description }}</td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}   
+</div>    
+
+<div class="row">
+    <div class="col-12">
+        {% if is_granted('ROLE_CONTROLE_QUALITE_RAPPORT_VEILLE') %}
+            <a href="{{ path('admin_controle_qualite_edit', {'id': controle_qualite.id}) }}" class="btn waves-effect waves-light btn-primary mt-2">{{ 'action.edit'|trans }}</a>
+        {% endif %}
+        {% if is_granted('ROLE_GESTION_REVUES') %}
+            <a href="{{ path('admin_rapport_show', {'id': controle_qualite.rapport.id }) }}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">{{ 'action.back'|trans }}</a>
+        {% endif %}
+        
+    </div>
+</div>    

@@ -1,0 +1,36 @@
+<table class="table">
+    <tbody>
+        <tr>
+            <th>{{ 'dci.title'|trans }}</th>
+            <td>{{ dci.title }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'dci.categorie'|trans }}</th>
+            <td>{{ dci.categorie }}</td>
+        </tr>
+        <tr>            
+            <th>{{ 'dci.description'|trans }}</th>
+            <td>{{ dci.description|default('-') }}</td>
+        </tr>         
+        {% if dci.clients|length > 0 %}
+            <tr>
+                <th colspan="2">
+                    {{ 'dci.clients'|trans }}
+                </th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table class="table table-bordered table-striped">        
+                        <tbody>  
+                        {% for client in dci.clients %}
+                            <tr>
+                                <td>{{ client.name }}</td>
+                            </tr>
+                        {% endfor %}                  
+                        </tbody>
+                    </table>             
+                </td>
+            </tr>
+        {% endif %}                              		
+    </tbody>
+</table>

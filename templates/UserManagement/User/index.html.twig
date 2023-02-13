@@ -1,0 +1,186 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ 'users'|trans }}{% endblock %}
+
+{% block body %}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ 'user.list'|trans }}
+                        &nbsp;&nbsp;
+                        <a href="{{ path('admin_audit_show_entity_history', {'entity': 'App-Entity-UserManagement-User'}) }}" class="icon text-secondary" data-toggle="tooltip" data-original-title="{{ 'action.audit' | trans }}" target="_blank"><i class="fas fa-code-branch"></i></a>
+                        &nbsp;&nbsp;
+                        <a href="/docs/fr/site/users/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+                            <i class="fas fa-lg fa-question-circle text-purple"></i>
+                        </a>
+                        </h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title -->    
+
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-bordered table-striped" id="tablefiltre">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>{{ 'label.firstname'|trans }}</th>
+                                <th>{{ 'label.lastname'|trans }}</th>
+                                <th>{{ 'label.username'|trans }}</th>
+                                <th>{{ 'label.email'|trans }}</th>
+                                <th>{{ 'user.role'|trans }}</th>
+                                <th>{{ 'clients'|trans }}</th>
+                                {% if is_granted('ROLE_GESTION_UTILISATEURS') %}  
+                                    <th>{{ 'table.action'|trans }}</th>
+                                {% endif %}    
+                            </tr>
+                        </thead>
+                        <thead id="filtreForm">
+                            <tr>                                
+                                <th>{{ 'label.firstname'|trans }}</th>
+                                <th>{{ 'label.lastname'|trans }}</th>
+                                <th>{{ 'label.username'|trans }}</th>
+                                <th>{{ 'label.email'|trans }}</th>
+                                <th>{{ 'clients'|trans }}</th>
+                                <th>{{ 'user.role'|trans }}</th>
+                                {% if is_granted('ROLE_GESTION_UTILISATEURS') %}  
+                                    <th>{{ 'table.action'|trans }}</th>
+                                {% endif %}
+                            </tr>
+                        </thead>                         
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{% if user.isEnable == false %}<del>{% endif %}{{ user.firstName }}{% if user.isEnable == false %}</del>{% endif %}</td>
+                                <td>{% if user.isEnable == false %}<del>{% endif %}{{ user.lastName }}{% if user.isEnable == false %}</del>{% endif %}</td>
+                                <td>{% if user.isEnable == false %}<del>{% endif %}{{ user.username }}{% if user.isEnable == false %}</del>{% endif %}</td>
+                                <td>{% if user.isEnable == false %}<del>{% endif %}{{ user.email }}{% if user.isEnable == false %}</del>{% endif %}</td>
+                                <td>
+                                    {% set break = false  %}
+                                    <select>
+                                    {% for role in user.roles %}
+                                        {% if not break %}
+                                            {% if role != "ROLE_USER" %}
+                                                <option>{{ role|trans }}</option> 
+                                                {# set break = true #}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    {% if 'ROLE_CLIENT' in user.roles and user.clients|length > 0 %}
+                                        <select>
+                                            {% for client in user.clients %}
+                                                <option>{{ client }}</option>
+                                            {% endfor %} 
+                                        </select>
+                                    {% elseif 'ROLE_CLIENT' in user.roles and user.clients|length == 0 %}
+                                        0 {{ 'clients'|trans }} 
+                                    {% else  %}
+                                        {{ 'client.all'|trans }}    
+                                    {% endif %}                               
+                                </td>   
+                                {% if is_granted('ROLE_GESTION_UTILISATEURS') %}    
+                                    <td>
+                                        <a class="icon text-secondary" href="javascript:void();" alt="{{ 'action.show'|trans }}" title="{{ 'action.show'|trans }}" data-target="#user{{ user.id }}" data-toggle="modal">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a class="icon text-secondary" href="{{ path('admin_user_edit', {'id': user.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'action.edit'|trans }}">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>                                  
+                                        {% if user.isEnable %}
+                                            <a class="icon text-success"  href="{{ path('admin_user_show', {'id': user.id, 'action': 'disable'}) }}"  data-toggle="tooltip" data-placement="top" title="{{ 'action.disable'|trans }}" ><i class="fas fa-toggle-on"></i></a>   
+                                        {% else %}
+                                            <a class="icon text-secondary" href="{{ path('admin_user_show', {'id': user.id, 'action': 'enable'}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'action.enable'|trans }}"><i class="fas fa-toggle-off"></i></a>  
+                                            <a class="icon text-danger" href="{{ path('admin_user_show', {'id': user.id, 'action': 'delete'}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'action.delete'|trans }}">
+                                                <i class="fas fa-trash"></i>
+                                            </a>                                         
+                                        {% endif %}
+                                        <a href="{{ path('admin_audit_show_entity_history', {'entity': 'App-Entity-UserManagement-User', id: user.id}) }}" class="icon text-secondary" data-toggle="tooltip" data-original-title="{{ 'action.audit' | trans }}" target="_blank"><i class="fas fa-code-branch"></i></a> 
+                                    </td>
+                                {% endif %}    
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>    
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="card-header">{{ 'legend'|trans }}</div>
+                        <div class="card-body">
+                                <ul class="list-unstyled">
+                                    <li class="">
+                                        <span class="icon text-secondary"><i class="fas fa-code-branch"></i></span>: {{ 'user.audit' | trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-question-circle text-purple"></i></span>: {{ 'label.user_help'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-eye"></i></span>: {{ 'user.detail'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-pencil-alt"></i></span>: {{ 'user.edit'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-success"><i class="fas fa-toggle-on"></i></span>: {{ 'user.disable'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-toggle-off"></i></span>: {{ 'user.enable'|trans }}
+                                    <li class="mt-2">
+                                        <span class="icon text-danger"><i class="fas fa-trash"></i></span>: {{ 'user.delete'|trans }}
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-sm btn-primary" style="border-radius: 50px;box-shadow: 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%), 0 3px 5px -1px rgb(0 0 0 / 20%);height: 30px;width: 30px;z-index: 1;"><i class="fas fa-plus"></i></button>: {{ 'user.create'|trans }}
+                                    </li>
+
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> 
+    </div>
+</div>
+
+{% if is_granted('ROLE_GESTION_UTILISATEURS') %} 
+    <a href="{{ path('admin_user_new') }}" class="btn waves-effect waves-light btn-primary float" data-toggle="tooltip" data-placement="top" title="{{ 'user.create'|trans }}">
+        <i class="fas fa-plus float-icon"></i>
+    </a>        
+{% endif %}
+
+{% for user in users %}
+<div class="modal fade" id="user{{ user.id }}" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ user.username }}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ include('UserManagement/User/_detail.html.twig') }}                       
+            </div>
+        </div>
+    </div>    
+</div>  
+{% endfor %}
+
+{% endblock %}
+
+{% block javascripts %} 
+    {{ parent() }} 
+    {{ encore_entry_script_tags('js/datatables') }}
+{% endblock %}

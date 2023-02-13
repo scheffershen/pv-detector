@@ -1,0 +1,43 @@
+{% extends 'mail_base.html.twig' %}
+
+{% block body %}
+    <table class="main"
+        style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
+        <!-- START MAIN CONTENT AREA -->
+        <tr>
+            <td class="wrapper"
+                style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;">
+                <table border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                    <tr>
+                        <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
+                            <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">
+                                {{ numero.title }}
+                                <br />
+                                {% if numero.isPdf %}
+                                    numéro au format pdf
+                                {% else %}
+                                    numéro au format image
+                                {% endif %}
+                                <br />
+                                {% if numero.state == 'treatment' and numero.isIndexed == true %}
+                                    le numéro a passé au statut 'treaté et indexé'
+                                {% elseif numero.state == 'treatment' and numero.isIndexed == false %}    
+                                    le numéro a passé au statut 'treaté et non indexé'
+                                {% elseif numero.state == 'published' %}
+                                    le numéro a passé au statut 'treaté et indexé et publishé'
+                                {% elseif numero.state == 'submitted' %}
+                                    le numéro a passé au statut 'uploadé'
+                                {% endif %}
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <!-- END MAIN CONTENT AREA -->
+    </table>
+{% endblock %}

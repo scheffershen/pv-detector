@@ -1,0 +1,77 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ 'dci.show'|trans }}{% endblock %}
+
+{% block body %}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ 'dcis'|trans }} / {{ dci.title }}</h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title -->   
+            <div class="row">
+                <div class="col-12">  
+                {{ include('SearchManagement/Dci/_detail.html.twig') }}  
+                        <div class="form-group">
+                            {% if action == 'delete' %}
+                                <form method="post" action="{{ path('admin_dci_delete', {'id': dci.id}) }}">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card-box">
+                                                {#{{ form_row(form.reason) }}  #} 
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    {{ form_widget(form._token) }}
+                                    <button type="submit"  class="btn waves-effect waves-light btn-danger mt-2">{{ 'action.delete'|trans }}</button>  
+                                    <a href="{{ path('admin_dci_index') }}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">{{ 'dci.back'|trans }}
+                                    </a>                                              
+                                </form>
+                            {% elseif action == 'disable' or action == 'enable' %}
+                                <form method="post" action="{{ path('admin_dci_disable', {'id': dci.id}) }}" >
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card-box">
+                                                {#{{ form_row(form.reason) }}  #} 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit"  class="btn waves-effect waves-light btn-danger mt-2">
+                                        {% if action == 'disable' %}{{ 'action.disable' | trans }}
+                                        {% elseif action == 'enable' %}{{ 'action.enable' | trans }}
+                                        {% endif %}
+                                    </button>  
+                                    <a href="{{ path('admin_dci_index') }}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">{{ 'dci.back'|trans }}
+                                    </a>                               
+                                    {{ form_widget(form._token) }}
+                                </form>
+                            {% else %}                          
+                                {% if not dci.isDeleted %} 
+                                    <a href="{{ path('admin_dci_edit', {'id': dci.id}) }}" class="btn waves-effect waves-light btn-primary mt-2">{{ 'action.edit'|trans }}</a> 
+                                {% endif %}    
+                                <a href="{{ path('admin_dci_index') }}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">{{ 'dci.back'|trans }}</a>                            
+                            {% endif %} 
+
+                        </div>
+    			</div>		
+    		</div>
+    	</div>
+
+    </div>    			
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/validator') }}
+{% endblock %}

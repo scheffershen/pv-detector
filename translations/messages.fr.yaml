@@ -1,0 +1,222 @@
+psmf: PSMF
+bonjour: Bonjour
+profile: Profile
+
+no_items_found: Aucun élément trouvé
+view_details: Voir les détails
+users: Utilisateurs
+no_position: Sans image de fond 
+image2text: (image à text)Pages
+pdf2image: (pdf à image)Pages
+configurations: Configurations
+admins: Administrateurs
+chefProjets: Chef de projet 
+managers: Managers 
+helps: Help
+help:
+  guide: Guide d'utilisateur
+legend: Légende
+
+ROLE_ADMIN: Admin
+ROLE_CLIENT: Client
+ROLE_GESTIONNAIRE: Gestionnaire   
+ROLE_LECTEUR: Lecteur 
+
+dashboards: Bureau
+dashboard:
+  label: Bureau
+  numeros_sans_rapport: 10 derniers numéros sans rapport
+  mes_rapports_clients: Mes rapports clients
+  numeros_avec_rapport: Numéros avec report
+  mes_clients: Mes clients
+
+menu:
+  account: Compte
+  admin: Administrateur
+  back: Retour
+  edit_profile: Editer le profil
+  homepage: "Page d'accueil"
+  faq: FAQ
+  login: "S'identifier"
+  logout: Se déconnecter
+  lov: 
+    title: LOVs
+  audit: 
+    title: Audits
+
+message:
+  created: Créé avec succès
+  updated: Mis à jour avec succés
+  deleted: Supprimé avec succès
+  uploaded: Téléchargé avec succès
+  token_expired: Désolé, votre jeton a expiré. Veuillez réessayer.
+  was_sent: Votre message a bien été envoyé. Merci.
+  password_has_been_reset: Le mot de passe a été changé avec succès. Vous pouvez maintenant vous connecter avec un nouveau mot de passe.
+  emailed_reset_link: Nous avons envoyé par e-mail votre lien de réinitialisation de mot de passe!
+  denied: Accès refusé
+  user_not_found: Username or email could not be found.
+  user_is_disenabled: Your account is disabled. 
+  max_attempts_reached: Nombre maximal de tentatives atteint.
+  password_request_non_expired: Vous devez attendre 4h entre chaque demande.  
+  connexion_perdue: Connexion perdue
+  logged_out_due_to_inactivity: You have been logged out due to inactivity
+    
+action:
+  search: Chercher
+  save: Sauvegarder les modifications
+  add: Ajouter
+  edit: Éditer
+  delete: Supprimer
+  audit: Audit trail
+  sign_in: Se connecter
+  sign_out: Déconnexion
+  forgot_password: Mot de passe oublié?
+  send_reset_link: Envoyer le lien de réinitialisation du mot de passe
+  submit: Soumettre
+  continue: Continuer
+  enable: Activer
+  disable: Desactiver
+  download: Télécharger
+  show: Detail
+  preview: Preview  
+  backToSearch: Retourner à la recherche
+  back: Revenir à la page précédente
+  up: Aller en haut de la page
+  down: Aller en bas de la page
+
+state:
+  enable: Actif
+  disable: Désactivé
+  delete: Suprimé
+
+table: 
+  no_records_found: aucun enregistrement trouvé
+  username: Username
+  email: Email
+  group: Groupe
+  action: Action
+
+confirmation:
+  delete_user: Voulez-vous vraiment supprimer cet utilisateur?
+  delete_item: Êtes-vous sûr de bien vouloir supprimer cet élément?
+  delete_service: Voulez-vous vraiment supprimer ce service?
+  delete_organisation: Voulez-vous vraiment supprimer cette organisation?
+  delete_photo: Etes-vous sûr de vouloir supprimer cette photo?
+  delete_dppsi: Voulez-vous vraiment supprimer ce dppsi?
+  delete_dppsi_fichier: Voulez-vous vraiment supprimer ce dppsi fichier?
+
+title:
+  login: Connexion sécurisée
+  reset_password: Réinitialiser le mot de passe
+  set_new_pass: Définissez un nouveau mot de passe
+  settings: Réglages
+
+label:
+  submit: Valider
+  remember_me: Rester connecté
+  roles: 
+    admin: Admin
+    manager: Manager
+    chefDeProjet: Chef de projet
+    user: Utilisateur
+  fullname: Nom complet
+  firstname: Prénom
+  lastname: Nom
+  username: Username
+  email: Email
+  adresse: Adresse
+  city: Ville
+  zipCode: Code postale
+  sexe: Sexe
+  isValid: Valable  
+  password: Mot de passe
+  new_password: nouveau mot de passe
+  confirm_password: Confirmer le nouveau mot de passe
+  name: Nom
+  logo: Logo 
+  title: Titre
+  sort: ordre
+  description: Description
+  fichiers: Fichiers joints
+  create_chefProjet: Créer un chef de projet
+  create_manager: Créer un manager
+  create_admin: Créer un administrateur
+  save_and_create_new: Enregistrez et créez de nouveaux
+  sort_by: Trier par
+  revision: Révision
+  createDate: Date de création
+  updateDate: Date de MAJ
+  createBy: Création par
+  updateBy: MAJ par
+  specimen: Specimen
+  en_cours: En cours
+  termine: Terminé
+  userHelp: Aide au remplissage
+  obligatoire: Champ obligatoire  
+  obligation: Obligation
+  code: Code
+  oui: "Yes"
+  non: "No"
+  systeme: Système
+  globale: Globale
+  locale: Locale
+  user_help: "aide à l'utilisateur"
+
+languages: Langues
+language: 
+  label: Langue
+  code: Code
+  french: Français
+  english: Anglais
+
+placeholder:
+  enter_identifiant: Entrer votre identifiant
+  enter_password: Entrer votre mot de passe
+
+processing: "S'il vous plaît, attendez..."
+
+tracking:  
+  label: Tracking
+  login: Connexion
+  login_failed: Échec de la connexion
+  mail: Email
+  path: Url
+  ip: IP
+  user: User
+  session: Session
+
+email:
+  new_message: Nouveau message de votre site Web
+  new_log: "Log d'import des utilisateurs"
+  produit_missing: Produit manquant
+  new_user: Votre compte a été crée  
+  new_user_message: >+
+        Bonjour %firstname% %lastname%,
+
+        Votre compte a été créé sur %app_name%.
+
+        Identifiant : %email%
+        Mot de passe : %password%
+
+        Nous vous conseillons de changer votre mot de passe à votre première connexion. 
+
+        Cordialement
+
+        L'équipe Veille Bibliographique.
+
+resetting:
+  email:
+    subject: Réinitialiser le mot de passe
+    message: >+
+        Bonjour %username%!
+
+        Pour réinitialiser votre mot de passe - veuillez visiter <a href='%confirmationUrl%' target='_blank'>%confirmationUrl%</a>
+
+        Cordialement, l'équipe.
+  submit: Envoyer le mail
+  title: Réinitialiser votre mot de passe
+  password: Réinitialiser son mot de passe
+  password_1: Nouveau mot de passe
+  password_1_label: Entrer votre nouveau mot de passe
+  password_2: Répéter le mot de passe
+  help: Le mot de passe doit contenir au moins un chiffre, un caractère minuscule et un caractère majuscule, et minimum 8 caractères

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkveille_pv_xxx_com=self.webpackChunkveille_pv_xxx_com||[]).push([[616],{2385:()=>{$((function(){$("#status").fadeOut(),$("#preloader").delay(350).fadeOut((function(){$("body").delay(350).css({overflow:"visible"})}))}))}},e=>{var a;a=2385,e(e.s=a)}]);

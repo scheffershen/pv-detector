@@ -1,0 +1,26 @@
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: critical
+            handler:      grouped
+        grouped:
+            type:               group
+            members:            [streamed, swift]
+        streamed:
+            type:               stream
+            path:               "%kernel.logs_dir%/%kernel.environment%.log"
+            level:              CRITICAL
+        swift:
+            type:               swift_mailer
+            from_email:         'test-veille@xxx.com'
+            to_email:           'yi.shen@xxx.com'
+            subject:            'An Error Occurred! %%message%%'
+            level:              CRITICAL
+            formatter:          monolog.formatter.html
+            content_type:       text/html
+        login:
+            type:               stream
+            path:               "%kernel.logs_dir%/auth.log"
+            level:              CRITICAL
+            channels:           security

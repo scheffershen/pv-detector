@@ -1,0 +1,47 @@
+<hr class="mt-2 mb-3"/>
+
+<div class="page-title-box">
+    <h4 class="page-title">
+        {{ 'numero.rapport'|trans }}
+
+        {%  if rapport.controleQualite %}
+            {#<a class="icon text-secondary" href="{{ path("admin_controle_qualite_download", {'id': rapport.controleQualite.id, 'format': 'pdf'}) }}" data-toggle="tooltip" data-placement="top" title="Pdf {{ 'action.preview'|trans }}">
+                <i class="fas fa-file-pdf"></i>
+            </a>
+            <a class="icon text-secondary" href="{{ path("admin_controle_qualite_download", {'id': rapport.controleQualite.id, 'format': 'word'}) }}" data-toggle="tooltip" data-placement="top" title="Word {{ 'action.preview'|trans }}">
+                <i class="fas fa-file-word"></i>
+            </a>
+            <a class="icon text-secondary" href="{{ path('admin_controle_qualite_show', {'id': rapport.controleQualite.id}) }}" alt="{{ 'action.show'|trans }}" title="{{ 'action.show'|trans }}" target="_blank">
+                <i class="fas fa-eye"></i>
+            </a> #}
+            {% if is_granted('ROLE_CONTROLE_QUALITE_RAPPORT_VEILLE') %}
+                <a href="{{ path('admin_controle_qualite_edit', {'id': rapport.controleQualite.id})}}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">
+                    <i class="fas fa-pencil-alt"></i> {{ 'controle_qualite.edit'|trans }}
+                </a>
+            {% endif %}
+        {% else %}
+            {% if is_granted('ROLE_CONTROLE_QUALITE_RAPPORT_VEILLE') %}
+                <a href="{{ path('admin_controle_qualite_new', {'id': rapport.id})}}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">
+                    <i class="fas fa-plus"></i> {{ 'controle_qualite.add'|trans }}
+                </a>
+            {% endif %}
+        {% endif %}        
+    </h4>
+</div>
+
+<div class="row bg-light">
+    <div class="col-12">
+        {{ rapport.commentaire|raw }}
+    </div>
+</div>    
+
+<div class="row">
+    <div class="col-12">
+        {% if is_granted('ROLE_RAPPORT_VEILLE_CRUD') %}
+            <a href="{{ path('admin_rapport_edit', {'id': rapport.id}) }}" class="btn waves-effect waves-light btn-primary mt-2">{{ 'action.edit'|trans }}</a>
+        {% endif %}
+        {% if is_granted('ROLE_GESTION_REVUES') %}
+            <a href="{{ path('admin_revue_show', {'id': rapport.numero.revue.id }) }}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">{{ 'numero.back'|trans }}</a>
+        {% endif %}
+    </div>
+</div>    

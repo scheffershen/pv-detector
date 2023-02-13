@@ -1,0 +1,79 @@
+{% extends 'admin_base.html.twig' %}
+
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+{% block title %}
+    {{ 'dci.results'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'dci.results'|trans }}: {{
+                                    numero.revue.title
+                                }} - {{ numero.title }}
+                            </h4>
+                            {{ utils.numero_images(numero) }}
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="card-body">
+                            {{ form_start(form) }}
+                            <div class="row">
+                                <div class="col-10">
+                                    {{ form_widget(form.dci) }}
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit"
+                                        class="btn btn waves-effect waves-light btn-dark">
+                                        {{ 'search'|trans }}
+                                    </button>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 images">
+                        <div class="card-header">
+                            {{ 'dcis'|trans }}:{{ dci }}
+                        </div>
+                        <div class="card-body">
+                            {% for page, results in array_search %}
+                                <h4 class="page-title">
+                                    Page {{ page }}
+                                </h4>
+                                {% for result in results %}
+                                    <div class="col-12"
+                                        style="border: 1px solid">
+                                        {{ result|raw|nl2br }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="dci" id="dci" value="{{ dci }}" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/highlighter') }}
+{% endblock %}

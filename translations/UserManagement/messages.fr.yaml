@@ -1,0 +1,137 @@
+dt:
+  columns: 
+    fullName: Nom complet
+    firstName: Prénom
+    lastName: Nom de famille
+    email: Email
+    sexe: Sexe
+    dateNaissance: Date naissance
+    mobile: Téléphone portable
+    adresse: Adresse
+    city: Ville
+    zipCode: Code postale
+    country: Pays    
+    organisation: Organisation 
+    reference: Reference 
+    rpps: RPPS
+    actions: Actions     
+
+clients: Clients
+client:
+    last_client: Dernier client
+    list: Liste de clients
+    label: Client
+    name: Laboratorie
+    code: Code client
+    respondableClient: Responsable client
+    backupResponsableClient: Backup du Responsable client
+    liens: Liens client
+    add_lien: Ajouter un lien du client  
+    delete_lien: Supprimer le lien du client  
+    add: Ajouter un client
+    edit: Editer le client
+    audit: "Historique des modifications de clients"
+    create: Creation un client
+    update: Edit un client
+    disable: Désactiver un client
+    enable: Activer un client
+    delete: Delete un client
+    back: Retourner la liste des clients 
+    indexed: Détail de mots-clés trouvés
+    nb_revues: Nombre de revues associées
+    nb_dcis: Nombre de mots-clés du client
+    detail: "Detail du client"
+    deleted: Ce client a été supprimé         
+    revision: Révision
+    last: Dernières modifications
+    revues: Revues associées
+    dcis: Portefeuille
+    revues_alt: Revues associées du client
+    dcis_alt: Mots-clés associés du client  
+    dcis_alt_dispo: Mots-clés disponibles   
+    all: tous les clients
+    flash:
+        created: Un client a été créé
+        updated: Le client a été mis à jour
+        enable: Client activé
+        disable: Client désactivé
+        deleted: Le Client a été supprimé
+        bilan_hebdomadaire: Bilan hebdomadaire
+
+liens: Liens 
+lien:
+    url: Url
+
+user:
+    list: Utilisateurs
+    role: Roles
+    client: Clients
+    pvUser: PV user
+    workFunction: Fonction
+    workName: "Nom d'entreprise"
+    data_pv: "Données liées à l’activité de PV "
+    isEnable: Actif
+    last: Dernières modifications
+    create: Ajouter un nouvel utilisateur
+    edit: "Modifier l'utilisateur"
+    disable: Désactiver un utilisateur
+    enable: Activer un utilisateur
+    delete: Supprimer un utilisateur
+    audit: "Historique des modifications de l'utilisateur"
+    back: Retourner la liste des utilisateurs 
+    detail: "Detail de l'utilisateur"
+    deleted: Cet utilisateur a été supprimé
+    change_password: Changer mon mot de passe  
+    password:
+        lastchange: "Dernier changement le : %date%."
+        security: "Votre mot de passe n'a pas été changé depuis plus de 1 mois. Nous vous conseillons de le modifier régulièrement pour garantir la securité de votre espace."
+        welcome: "Bienvenue sur la plateforme d'PV detector. Nous vous invitons à choisir un mot de passe personnalisé dès votre première connexion pour garantir la securité de votre espace."                 
+        info_reset: "Un e-mail a été envoyé. Il contient un lien sur lequel il vous faudra cliquer pour réinitialiser votre mot de passe. Ce lien est actif 30 mintutes. Si vous ne recevez pas un email, vérifiez votre dossier spam."
+    flash:
+        created: "Un utilisateur a été créé."
+        updated: "L'utilisateur a été mis à jour."
+        deleted: "L'utilisateur a été supprimé avec succès."
+        enable: "L'utilisateur est activé."
+        disable: "L'utilisateur est désactivé."
+    error:
+        missing_role: Selectionner au moins un rôle
+        missing_client: Selectionner au moins un client
+
+placeholder:
+    enter_email: Entrez votre adresse email
+
+plateforme:
+    label: Le compte de la plateforme
+    configurations: Configurations
+    nom: Nom
+    email: E-mail
+    version: Version
+    logo: Logo    
+    poweredBy: Powered by
+    apropos: A propos
+    edit: Editer
+    flash:
+        updated: "Platform account has been updated."       
+
+trackings: Pistes d'audit
+tracking:      
+    created: Date
+    path_info: Url
+    ip_request: IP client 
+    user: Utilisateur 
+    userNotfound: "Utilisateur inexistant dans la base" 
+    mail: "Inditifiant utilisé"
+    event: "Evénement"   
+    action:
+        list: Liste des trackings 
+        download: Téléchargements 
+
+mailLogs: Mail logs
+mailLog:
+    action:
+        list: Liste des mails envoyés automatiquement
+    date: Date de l'envoi
+    from: From
+    to: To
+    cc: CC
+    subject: Sujet      

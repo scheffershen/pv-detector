@@ -1,0 +1,7 @@
+*/1 0 * * * php /var/www/html/bin/console app:numero-traitement >> /var/www/html/var/log/numero-traitement.log
+
+*/1 0 * * * php /var/www/html/bin/console app:dci-indexation >> /var/www/html/var/log/dci-indexation.log
+*/1 0 * * * php /var/www/html/bin/console app:numero-indexation >> /var/www/html/var/log/numero-indexation.log
+
+0 0 * * * php /var/www/html/bin/console app:alerte-fin-abonnement-revue >> /var/www/html/var/log/alerte-fin-abonnement-revue.log
+0 0 * * * php /var/www/html/bin/console app:alerte-bilan-hebdomadaire >> /var/www/html/var/log/alerte-bilan-hebdomadaire.log

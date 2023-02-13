@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    </head>
+    <body>
+<table>
+    <thead>
+        <tr>
+            <th>
+                {{ 'numero.page'|trans }}
+            </th>
+            <th>
+                {{ 'dci.label'|trans }}
+            </th>
+            <th>
+                {{ 'lov.categorie'|trans }}
+            </th>
+            <th>
+                {{ 'indexation.dci_occurrence'|trans }}
+            </th>
+            <th>
+                {{ 'client.name'|trans }}
+            </th>                                            
+        </tr>
+    </thead>
+    <tbody>
+        {% set page = null %}
+        {% for indexation in indexations %}
+            <tr>
+                <td>
+                    {% if page != indexation.image.numeroPage %}
+                        {% set page = indexation.image.numeroPage %}
+                        {{ 'numero.page'|trans }} {{ indexation.image.numeroPage }}
+                    {% endif %}
+                </td>
+                <td>
+                    {{ indexation.dci }}
+                </td>
+                <td>
+                    {{ indexation.dci.categorie }}
+                </td>
+                <td>
+                    {{ indexation.occurrence }}
+                </td>
+                <td>                            
+                    {% for client in indexation.numero.revue.clients %}
+                        {% for c in indexation.dci.clients %}
+                            {% if c.id == client.id %}
+                                <span class="badge badge-info">{{ client.name }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+    </body>
+</html>

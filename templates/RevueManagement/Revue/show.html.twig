@@ -1,0 +1,171 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("libs/bootstrap4-editable/css/bootstrap-editable.css")}}" />
+{% endblock %}
+
+{% block title %}
+    {% if action == 'delete' %}{{ 'revue.delete'|trans }}
+    {% elseif action == 'disable' %}{{ 'revue.disable'|trans }}
+    {% elseif action == 'enable' %}{{ 'revue.enable'|trans }}
+    {% else %}
+        {{ 'action.show'|trans }}
+    {% endif %}    
+{% endblock %}
+
+{% block body %}
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fas fa-spinner fa-spin"></i></div>
+</div>
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content -->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {% if action == 'delete' %}{{ 'revue.delete' | trans }}
+                                {% elseif action == 'disable' %}{{ 'revue.disable' | trans }}
+                                {% elseif action == 'enable' %}{{ 'revue.enable' | trans }}
+                                {% else %}
+                                    {% if revue.isDeleted %}
+                                        {{ 'revue.deleted'|trans }}                 
+                                    {% else %}
+                                        {{ 'revue.detail'|trans }}
+                                    {% endif %}
+                                {% endif %}
+                                {% if is_granted('ROLE_GESTION_REVUES') %}
+                                    &nbsp;&nbsp;
+                                    <a href="{{ path('admin_audit_show_entity_history', {'entity': 'App-Entity-RevueManagement-Revue', id: revue.id}) }}" class="icon text-secondary" data-toggle="tooltip" data-original-title="{{ 'action.audit' | trans }}" target="_blank">
+                                        <i class="fas fa-code-branch"></i>
+                                    </a>
+                                {% endif %}
+                                &nbsp;
+                                <a href="/docs/fr/site/revues/detail/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+                                    <i class="fas fa-lg fa-question-circle text-purple"></i>
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+                {# if action is null and revue.isValid %}
+                    <div class="btn-group mb-2">
+                        <button type="button" class="btn btn-primary">{{ revue.title }}</button>
+                        <a href="{{ path('admin_revue_clients', {'id': revue.id}) }}" class="btn btn-light">{{ 'revue.clients'|trans }}<i class="fas fa-pencil-alt"></i> </a>
+                    </div>
+                {% endif #}
+
+                <div class="row">
+                    <div class="col-12">
+                        {{ include('RevueManagement/Revue/_detail.html.twig') }}
+                        <div class="row justify-content-center">
+                            {% set show_nuemros = false %}
+                            {% if action == 'delete' and is_granted('ROLE_GESTION_REVUES') %}
+                                <form method="post" action="{{ path('admin_revue_delete', {'id': revue.id}) }}">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card-box">
+                                                {#{{ form_row(form.reason) }}  #} 
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    {{ form_widget(form._token) }}
+                                    <button type="submit"  class="btn waves-effect waves-light btn-danger mt-2">{{ 'action.delete'|trans }}</button>  
+                                    <a href="{{ path('admin_revue_index') }}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">{{ 'revue.back'|trans }}
+                                    </a>                                              
+                                </form>
+                            {% elseif is_granted('ROLE_GESTION_REVUES') and (action == 'disable' or action == 'enable') %}
+                                <form method="post" action="{{ path('admin_revue_disable', {'id': revue.id}) }}" >
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card-box">
+                                                {#{{ form_row(form.reason) }}  #} 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit"  class="btn waves-effect waves-light btn-danger mt-2">
+                                        {% if action == 'disable' %}{{ 'action.disable' | trans }}
+                                        {% elseif action == 'enable' %}{{ 'action.enable' | trans }}
+                                        {% endif %}
+                                    </button>  
+                                    <a href="{{ path('admin_revue_index') }}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">{{ 'revue.back'|trans }}
+                                    </a>                               
+                                    {{ form_widget(form._token) }}
+                                </form>
+                            {% else %}                          
+                                {% if not revue.isDeleted and is_granted('ROLE_GESTION_REVUES') %} 
+                                    <a href="{{ path('admin_revue_edit', {'id': revue.id}) }}" class="btn waves-effect waves-light btn-primary mt-2" data-toggle="tooltip" data-original-title="{{ 'revue.edit' | trans }}"><i class="fas fa-pencil-alt"></i> {{ 'action.edit'|trans }}</a> 
+                                {% endif %}    
+                                {#<a href="{{ path('admin_revue_index') }}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">{{ 'revue.back'|trans }}</a> #}     
+                                {% set show_nuemros = true %}
+                            {% endif %} 
+                        </div>                        
+                    </div>
+                </div>
+
+                {% if show_nuemros %}
+                    <hr class="mt-2 mb-3"/>
+                    <div class="row">
+                        <div class="col-12">
+                        {{ include('RevueManagement/Revue/_numeros.html.twig') }}
+                        </div>
+                    </div>                    
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/preloader') }} 
+    {{ encore_entry_script_tags('js/validator') }}
+    {{ encore_entry_script_tags('js/datatables') }}
+<script src="{{ asset('libs/bootstrap4-editable/js/bootstrap-editable.js') }}"></script>    
+<script>
+window.onload = (event) => {
+    // $.fn.editableform.buttons = '<button type="submit" class="btn btn-success editable-submit"><i class="fas fa-save"></button><button type="button" class="btn btn-danger editable-cancel"><i class="fas fa-trash"></button>';
+
+    $('.ed_numero').editable({
+            type: 'text',
+            name: 'description',
+            title: 'Résumé',        
+            mode: 'inline',
+            inputclass: 'form-control',
+            error: function(response, newValue) {
+                if (response.status == 'error') return response.message; 
+            }
+    });   
+
+    $('.ed_controle_qualite').editable({
+            type: 'text',
+            name: 'description',
+            title: 'Résumé',        
+            mode: 'inline',
+            inputclass: 'form-control',
+            error: function(response, newValue) {
+                if (response.status == 'error') return response.message; 
+            }
+    }); 
+    
+};
+
+$(() => {
+    $('#revueSelect').change(function() {        
+        $(".spinner").show();
+        var route = "{{ path('admin_revue_show', {'id': 'PLACEHOLDER'}) }}";
+        var url = route.replace("PLACEHOLDER", $(this).val());
+        window.location.replace(url);
+    });
+});   
+
+</script> 
+{% endblock %}

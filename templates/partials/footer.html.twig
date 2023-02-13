@@ -1,0 +1,23 @@
+<br/><br/><br/>
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                {{ render(controller('App\\Controller\\PlateformeController::footer')) }} 
+                {# if app.request.get('_locale') == 'fr' %}
+                    {{ 'now'|date('d-M-Y') }}
+                {% else %}
+                    {{ 'now'|date('d-M-Y') }}
+                {% endif #}                               
+                &ndash;
+                <a class="{% if 'plateforme_apropos' in app.request.attributes.get('_route') %}active{% endif %} " href="{{ path('plateforme_apropos') }}" target="_blank">  
+                    <i class="fas fa-question-circle"></i>
+                    <span>{{ 'plateforme.apropos'|trans }}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<input type="hidden" id="is_login" value="{{ path("is_login") }}">
+<input type="hidden" id="message_connexion_perdue" value="{{ 'message.connexion_perdue'|trans }}">

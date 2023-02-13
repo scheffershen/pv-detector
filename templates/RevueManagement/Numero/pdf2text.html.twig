@@ -1,0 +1,76 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'numero.add'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'numero.add'|trans }}
+                                {% if numero.fileUri %}
+                                    <a class="icon text-secondary"
+                                        href="{{
+                                        path(
+                                            'admin_private_upload',
+                                            {
+                                                upload: numero.fileUri,
+                                                format: 'revues'
+                                            }
+                                        )
+                                        }}"
+                                        alt="{{ 'pdf'|trans }}"
+                                        title="{{ 'pdf'|trans }}"
+                                        target="_blank">
+                                        <span class="badge badge-info">
+                                            {{ 'pdf'|trans }}
+                                        </span>
+                                    </a>
+                                {% endif %}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+                <div class="row">
+                    <div class="col-12">
+                        {{ include('RevueManagement/Numero/_form.html.twig') }}
+                    </div>
+                </div>
+
+                {% for page in pages %}
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                {{ page }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/numero') }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.fr.min.js"
+        integrity="sha512-fx3aztaUjb4NyoD+Tso5g7R1l29bU3jnnTfNRKBiY9fdQOHzVhKJ10wEAgQ1zM/WXCzB9bnVryHD1M40775Tsw=="
+        crossorigin="anonymous"></script>
+    <script>
+        $(function() { $('.pop-date').datepicker({{% if
+            app.request.get('_locale') == 'fr' %}
+            language: 'fr', format: "dd/mm/yyyy",
+        {% else %}
+            language: 'en', format: "yyyy-mm-dd",
+        {% endif %}}); });
+    </script>
+{% endblock %}

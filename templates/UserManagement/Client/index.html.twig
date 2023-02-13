@@ -1,0 +1,203 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ 'clients'|trans }}{% endblock %}
+
+{% block body %}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ 'client.list'|trans }}
+                        &nbsp;&nbsp;
+                        <a href="{{ path('admin_audit_show_entity_history', {'entity': 'App-Entity-UserManagement-Client'}) }}" class="icon text-secondary" data-toggle="tooltip" data-original-title="{{ 'action.audit' | trans }}" target="_blank"><i class="fas fa-code-branch"></i></a>
+                        &nbsp;&nbsp;
+                        <a href="/docs/fr/site/clients/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+                            <i class="fas fa-lg fa-question-circle text-purple"></i>
+                        </a>
+                        </h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title -->    
+
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-bordered table-striped" id="tablefiltre">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>{{ 'client.name'|trans }}</th>
+                                <th>{{ 'lov.jour'|trans }}</th>
+                                <th>{{ 'client.respondableClient'|trans }}</th>
+                                <th>{{ 'revues'|trans }}</th>
+                                <th>{{ 'dcis'|trans }}</th>
+                                {% if is_granted('ROLE_REPRESENTATION_RESULTATS') %} 
+                                    <th>{{ 'indexation.indexed'|trans }}</th>
+                                {% endif %}    
+                                <th>{{ 'table.action'|trans }}</th>
+                            </tr>
+                        </thead>
+                        <thead id="filtreForm">
+                            <tr>                                
+                                <th>{{ 'client.name'|trans }}</th>
+                                <th>{{ 'lov.jour'|trans }}</th>
+                                <th>{{ 'client.respondableClient'|trans }}</th>
+                                <th>{{ 'revues'|trans }}</th>
+                                <th>{{ 'dcis'|trans }}</th>
+                                {% if is_granted('ROLE_REPRESENTATION_RESULTATS') %} 
+                                    <th>{{ 'indexation.indexed'|trans }}</th>
+                                {% endif %}    
+                                <th>{{ 'table.action'|trans }}</th>
+                            </tr>
+                        </thead>                         
+                        <tbody>
+                        {% for client in clients %}
+                            <tr>
+                                <td>
+                                {# maybe late
+                                    {% if client.logoUri is not null %}
+                                        <img src="{{ path('admin_private_upload', {'upload': client.logoUri, 'format': 'small'}) }}" class="rounded-circle avatar-md bx-shadow-lg" >
+                                    {% else %}
+                                        <img src="/images/users/avatar-9.jpg" alt="user-pic" class="rounded-circle avatar-sm bx-shadow-lg">
+                                    {% endif %}#}
+                                    <span class="ml-2">
+                                        {% if client.isValid == false %}<del>{% endif %}{{ client.name }}{% if client.isValid == false %}</del>{% endif %}
+                                        {% if client.code %} ({{ client.code }}){% endif %}    
+                                    </span>
+                                </td>
+                                <td>{{ client.jourBilanHebdomadaire|default('') }}</td>
+                                <td>{{ client.respondableClient|default('') }}</td>
+                                {#<td>{% if client.isValid == false %}<del>{% endif %}{{ client.adress }}{% if client.isValid == false %}</del>{% endif %}</td>#}
+                                <td>
+                                    {% if client.revues|length > 0 %}
+                                        <select>
+                                            {% for revue in  client.revues %}
+                                                {% if revue.isValid == true %}
+                                                    <option>{{ revue.title|u.truncate(20, '...') }}</option>
+                                                {% endif %}    
+                                            {% endfor %}
+                                        </select>
+                                    {% endif %}   
+                                </td>
+                                <td>
+                                    {% if client.dcis|length > 0 %}
+                                        <select>
+                                            {% for dci in  client.dcis %}
+                                                {% if dci.isValid == true %}
+                                                    <option>{{ dci.title|u.truncate(20, '...') }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    {% endif %} 
+                                </td>
+                                {% if is_granted('ROLE_REPRESENTATION_RESULTATS') %} 
+                                    <td>
+                                        <a class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.indexed'|trans }}" href="{{ path('admin_indexation_client', {'client': client.id}) }}" target="_blank">
+                                            <i class="fas fa-tachometer-alt"></i>
+                                        </a>
+                                    </td>
+                                {% endif %}
+                                <td>                                   
+                                    <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'revues'|trans }}">
+										{{ client.nbRevues }}
+									</span>
+									<span class="badge badge-pill badge-primary" data-toggle="tooltip" data-placement="top" title="{{ 'dcis'|trans }}">
+										{{ client.nbDcis }}
+									</span>
+                                    {#<a class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.results'|trans }}" href="{{ path('admin_indexation_client', {'client': client.id}) }}"><i class="fas fa-chart-line" target="_blank"></i></a>#}
+                                    {% if is_granted('ROLE_GESTION_CLIENTS') %} 
+                                        <a class="icon text-secondary" href="{{ path('admin_client_show', {'id': client.id}) }}" alt="{{ 'action.show'|trans }}" title="{{ 'action.show'|trans }}" target="_blank">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a class="icon text-secondary" href="{{ path('admin_client_edit', {'id': client.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'action.edit'|trans }}">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>                                   
+                                        {% if client.isValid %}
+                                            <a class="icon text-success"  href="{{ path('admin_client_show', {'id': client.id, 'action': 'disable'}) }}"  data-toggle="tooltip" data-placement="top" title="{{ 'action.disable'|trans }}" ><i class="fas fa-toggle-on"></i></a>  
+                                        {% else %}
+                                            <a class="icon text-secondary" href="{{ path('admin_client_show', {'id': client.id, 'action': 'enable'}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'action.enable'|trans }}">
+                                                <i class="fas fa-toggle-off"></i>
+                                            </a>
+                                            <a class="icon text-danger" href="{{ path('admin_client_show', {'id': client.id, 'action': 'delete'}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'action.delete'|trans }}">
+                                                <i class="fas fa-trash"></i>
+                                            </a>  
+                                        {% endif %}
+                                        <a href="{{ path('admin_audit_show_entity_history', {'entity': 'App-Entity-UserManagement-Client', id: client.id}) }}" class="icon text-secondary" data-toggle="tooltip" data-original-title="{{ 'action.audit' | trans }}" target="_blank">
+                                            <i class="fas fa-code-branch"></i>
+                                        </a> 
+                                    {% endif %} 
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>    
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="card-header">{{ 'legend'|trans }}</div>
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <span class="icon text-secondary"><i class="fas fa-code-branch"></i></span>: {{ 'client.audit' | trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-lg fa-question-circle text-purple"></i></span>: {{ 'label.user_help'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-tachometer-alt"></i></span>: {{ 'client.indexed'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="badge badge-pill badge-success">3</span>: {{ 'client.nb_revues'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="badge badge-pill badge-primary">27</span>: {{ 'client.nb_dcis'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-eye"></i></span>: {{ 'client.detail'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-pencil-alt"></i></span>: {{ 'client.edit'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-success"><i class="fas fa-toggle-on"></i></span>: {{ 'client.disable'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-toggle-off"></i></span>: {{ 'client.enable'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <button class="btn btn-sm btn-primary" style="border-radius: 50px;box-shadow: 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%), 0 3px 5px -1px rgb(0 0 0 / 20%);height: 30px;width: 30px;z-index: 1;"><i class="fas fa-plus"></i></button>: {{ 'client.add'|trans }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div> 
+    </div>
+</div>
+
+{% if is_granted('ROLE_GESTION_CLIENTS') %} 
+    <a href="{{ path('admin_client_new') }}" class="btn waves-effect waves-light btn-primary float" data-toggle="tooltip" data-placement="top" title="{{ 'client.add'|trans }}">
+        <i class="fas fa-plus float-icon"></i>
+    </a>  
+{%  endif %}
+{% endblock %}
+
+{% block javascripts %} 
+    {{ parent() }}  
+    {{ encore_entry_script_tags('js/datatables') }}
+{% endblock %}

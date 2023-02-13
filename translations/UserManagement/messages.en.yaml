@@ -1,0 +1,131 @@
+dt:
+  columns: 
+    fullName: Full name
+    firstName: First name
+    lastName: Last name
+    email: Email
+    sexe: Sexe
+    dateNaissance: Date naissance
+    mobile: Téléphone portable
+    adresse: Adresse
+    city: Ville
+    zipCode: Code postale
+    country: Pays 
+    organisation: Organisation 
+    reference: Reference 
+    rpps: RPPS  
+    actions: Actions
+
+clients: Customers
+client:
+    last_client: Last customer
+    list: List of customers
+    label: Customer
+    name: Laboratory   
+    code: Client code 
+    respondableClient: Client manager
+    backupResponsableClient: Backup of client manager
+    liens: Customer links  
+    add_lien: Add customer link
+    delete_lien: Delete the customer link
+    add: Add a customer
+    edit: Edit
+    audit: "Customer's change log"
+    create: Creation
+    update: Update
+    disable: Disable a customer
+    enable: Enable a customer      
+    delete: Delete
+    back: Back to the customers list
+    indexed: Details of the keywords found
+    nb_revues: Number of journals subscribed
+    nb_dcis: Number of the client keywords    
+    detail: Customer detail
+    deleted: This customer has been deleted        
+    revision: Revision
+    last: Latest changes
+    revues: Associated journals
+    dcis: Portfolio 
+    revues_alt: Associated journals of customer
+    dcis_alt: Keywords associated of customer
+    all: all customers    
+    flash:
+        created: "A customer has been created."
+        updated: "Customer has been updated."
+        enable: "Customer enabled."
+        disable: "Customer disabled."
+        deleted: "Customer has been deleted"
+        dcis_updated: "Customer's portfolio has been updated."
+        revues_updated: "Customer's associated journals has been updated."
+        bilan_hebdomadaire: Weekly review
+        
+users: Users
+user:
+    list: User list
+    role: Roles  
+    client: Customers
+    isEnable: Active
+    last: Latest changes
+    data_pv: Personal data related to PV activity
+    create: Add a user
+    edit: Edit user
+    delete: Delete a user
+    disable: Disable a user
+    enable: Enable a user     
+    back: Back to the user list
+    detail: User detail
+    deleted: This user has been deleted  
+    change_password: Change my password 
+    password:
+        lastchange: "Last change on : %date%."  
+        security: "Your password has not been changed for more than 1 month. We advise you to modify it regularly to guarantee the security of your space."
+        welcome: "Welcome to the platform. We invite you to choose a personalized password from your first connection to guarantee the security of your space."                                    
+        info_reset: "An e-mail has been sent. It contains a link that you will need to click to reset your password. This link is active 30 mintutes. If you don't receive an email, check your spam folder."
+    flash:
+        created: "A user has been created."
+        updated: "User has been updated."
+        deleted: "User has been successfully deleted."
+        enable: "User has been enabled."
+        disable: "User has been disabled."
+    error:
+        missing_role: Select at least one role
+        missing_client: Select at least one client
+
+placeholder:
+    enter_email: Enter your email adress
+
+plateforme:
+    label: Platform account
+    configurations: Configurations    
+    nom: Name
+    email: E-mail
+    version: Version
+    logo: Logo    
+    poweredBy: Powered by
+    apropos: About
+    edit: Edit
+    flash:
+        updated: "Platform account has been updated."   
+
+trackings: Trackings
+tracking:      
+    created: Date
+    path_info: Url
+    ip_request: IP Customer 
+    user: User 
+    userNotfound: User does not exist in the database 
+    mail: Username used
+    event: event  
+    action:
+        list: List of trackings
+        download: Download 
+
+mailLogs: Mail logs
+mailLog:
+    action:
+        list: List of emails sent automatically
+    date: Sending date
+    from: From
+    to: To
+    cc: CC
+    subject: Subject          

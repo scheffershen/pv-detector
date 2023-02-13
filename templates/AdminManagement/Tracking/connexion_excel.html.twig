@@ -1,0 +1,29 @@
+<table>
+    <thead>
+        <tr>
+          <th>{{ "tracking.created" | trans  }}</th>
+          <th>{{ "tracking.ip" | trans  }}</th>
+          <th>{{ "tracking.user" | trans  }}</th>
+          <th>{{ "tracking.login" | trans  }}</th>   
+        </tr>
+    </thead>    
+    <tbody>
+       {% for tracking in trackings %}
+          {% set data = tracking.queryRequest|json_decode%}
+            {% if data.authenticated is defined %}
+              <tr>                                              
+                <td>{{ tracking.created|date('d-M-Y H:i')}}</td>
+                <td>{{ tracking.ipRequest }}</td>
+                <td>
+                  {% if tracking.user == false %}
+                    {{ data.username|default("-") }} ({{ 'message.user_not_found' | trans }})
+                  {% else %}
+                    {{ data.username|default("-") }}
+                  {% endif %}
+                </td>
+                <td>{% if data.authenticated %}yes{% else %}no{% endif %}</td>
+              </tr>
+            {% endif %}
+       {% endfor %}
+    </tbody>
+</table>

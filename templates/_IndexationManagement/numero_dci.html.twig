@@ -1,0 +1,94 @@
+{% extends 'admin_base.html.twig' %}
+
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+{% block title %}
+    {{ 'indexation.results'|trans }}
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet"
+        href="{{ asset('libs/tag-cloud/jquery.tagcloud.css') }}" />
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'numeros'|trans }}: {{ numero.revue.title }}, {{
+                                    numero.title
+                                }}, {{ numero.receiptDate|date('d-M-Y') }}
+                                &nbsp;&nbsp;
+                                {{ utils.numero_images(numero) }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">{{ 'dcis'|trans }}</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                {{ dci.title }}
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                {% set numeroPage = 0 %}
+
+                <div class="row mt-3">
+                    {% for image in numero.images %}
+                        {% if image.isDeleted == false %}
+                            {% set numeroPage = numeroPage + 1 %}
+                            {% set existed = false %}
+
+                            {% for indexation in indexations %}
+                                {% if
+                                    indexation.image.id == image.id
+                                        and existed == false %}
+                                    {% set existed = true %}
+                                    <div class="col-12">
+                                        <h4 class="card-title">
+                                            Page {{ numeroPage }}
+                                        </h4>
+                                        {% set page_existed = false %}
+                                        {% for page in image.pages %}
+                                            {% if
+                                                page.isDeleted == false
+                                                    and page_existed == false %}
+                                                {% set page_existed = true %}
+                                                {% for _block in page.blocks %}
+                                                    <div class="card col-12">
+                                                        {{ _block.text|nl2br }}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="dci" id="dci" value="{{ dci.title }}" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/highlighter') }}
+{% endblock %}

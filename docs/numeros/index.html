@@ -1,0 +1,43 @@
+<!DOCTYPE html><html><head><title>Cuttlebelle - Numéros</title><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/css/site.css"/></head><body><div class="top"><header role="banner"><p><a href="../index.html">Retourner à la sommaire</a></p>
+</header><main><h1 id="numero">Numero</h1>
+<p>La numero a deux formats, soit en pdf soit en image.</p>
+<p>La numero a quatre status:</p>
+<ul>
+<li><code>submitted</code>: Un numero est créé. Un fichier en format pdf ou plusieurs fichiers en format images sont envoyés au serveur.</li>
+<li><code>traitement</code>: Transfert le fichier pdf ou image vers des textes par Google Vision API.</li>
+<li><code>rejected</code>: Le transfert a échoué.</li>
+<li><code>published</code>: Effectuer une recherche par dcis.</li>
+</ul>
+<p>Vous pouvez ajouter, modifier, désactiver/activer et prévisualiser un numéro.</p>
+<p><img src="../images/numero/list.png" alt="code"></p>
+<ul>
+<li><img src="../images/add.png" alt="code"> Ajoutez un numéro.</li>
+<li><img src="../images/search.png" alt="code"> recherchez des dcis de cette numéro.</li>
+<li><img src="../images/view.png" alt="code"> Visualisez le numéro.</li>
+<li><img src="../images/edit.png" alt="code"> Modifiez d&#39;un numéro.</li>
+<li><img src="../images/desactive.png" alt="code"> Désactivez ou activez un numéro.</li>
+<li><img src="../images/audit.png" alt="code"> Historique des modifications d&#39;un numéro.</li>
+</ul>
+<h3 id="ajouter-un-numéro-en-format-pdf">Ajouter un numéro en format pdf</h3>
+<p>Si vous ajoutez un numéro au format PDF, l&#39;application transforme immédiatement le pdf en texte et le numéro est maintenant dans le statut <code>submitted</code>.</p>
+<p>Il y a une tache en fond qui transforme le pdf vers des images, puis transforme l&#39;image en text par L&#39;API Google Vision, et le numero est dans le statut <code>traitement</code>.</p>
+<h3 id="ajouter-un-numéro-en-format-dimage">Ajouter un numéro en format d&#39;image</h3>
+<p>Si vous ajoutez un numero au format d&#39;image, l&#39;application transforme l&#39;image en texte immédiatement par L&#39;API Google Vision, et le numéro est dans le statut <code>traitement</code>.</p>
+<h3 id="prévisualiser-un-numéro">Prévisualiser un numéro</h3>
+<p>Il existe trois modes de visualisation d&#39;un numéro</p>
+<ol>
+<li>Voir le pdf ou les images envoyées</li>
+<li>Pour le fichier pdf: voir le texte transformé par pdf et le text transformé par image de pdf </li>
+<li>pour le fichier d&#39;image: voir le texte transformé par image</li>
+</ol>
+<p><img src="../images/numero/view.png" alt="code"></p>
+<ul>
+<li><code>1</code>: Pour le fichier pdf, voir le texte transformé par pdf </li>
+<li><code>2</code>: Pour le fichier pdf, voir le texte transformé par image de pdf ou pour le fichier d&#39;image, voir le texte transformé par image</li>
+</ul>
+<p>Pour voir le texte transformé par image, il ne s&#39;affiche que page par page. Il y a donc un filtre pour passer d&#39;une page à l&#39;autre.</p>
+<p><img src="../images/numero/pageSelect.png" alt="code"></p>
+<p>Ajoutez <code>?scroll=1</code> à la fin de url pour scroller le texte, exemple: <code>/en/admin/numero/pdf2images/2?scroll=1</code></p>
+<p>Ajoutez <code>?no_position=1</code> à la fin de url pour sans position de la texte, exemple: <code>/en/admin/numero/pdf2images/2?no_position=1</code></p>
+</main></div><footer><p>Plateforme PV detector – V1.0.0 – Powered by xxx.com</p>
+</footer></body></html>

@@ -1,0 +1,22 @@
+lovs: List of values
+lov:
+  code: Code
+  access: Accessibility 
+  categorie: Category 
+  jour: Weekly report day
+  typeLien: Link type
+  obligation: Obligation             
+  sort: Order
+  description: Description
+  keywords: Key words
+  add: Add a value to the list
+  edit: Edit a value to the list
+  title: Title
+  create: Creation
+  update: Edit
+  revision: Révision
+  flash:
+    created: A LOV has been created
+    updated: LOV has been updated
+    enable: LOV has been enabled
+    disable: LOV has been disabled

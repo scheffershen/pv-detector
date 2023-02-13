@@ -1,0 +1,65 @@
+variables: Variables
+variable:
+    list: Liste
+    label: Label
+    balise: Balise  
+    add: "Add a variable "
+    edit: "Edit a variable"
+    create: Creation
+    update: Edit
+    delete: Delete
+    revision: Révision
+    flash:
+        created: "A variable has been created."
+        updated: "Variable has been updated."
+        enable: "Variable enabled."
+        disable: "Variable disabled."
+correspondances: Correspondances
+correspondance:
+    globale: Equivalences globales
+    locale: Equivalences locales
+    label: Correspondance
+    valueLocal: Value
+    valueLocalImage: Image
+    add: "Add a correspondance"
+    edit: "Edit a correspondance"
+    create: Creation
+    update: Edit
+    delete: Delete
+    revision: Révision
+    flash:
+        created: "A correspondance has been created."
+        updated: "Correspondance has been updated."
+classes: Classe
+classe:
+    list: Classe
+    label: Classe
+    add: "Add a classe"
+    edit: "Edit a classe"
+    create: Creation
+    update: Edit
+    delete: Delete
+    nb_varaible: Nombre de variables
+    flash:
+        created: "A classe has been created."
+        updated: "classe has been updated."
+templates: Template
+sections: Sections
+section:
+    list: Section
+    label: Section
+    add: "Add a section"
+    add_subsection: "Add a subsection"
+    edit: "Edit a section"
+    create: Creation
+    update: Edit
+    delete: Delete
+    title: Section title 
+    position: Position
+    isValid: Section active
+    parent: Parent    
+    contenu: Contenu
+    last: Latest changes
+    flash:
+        created: "A section has been created."
+        updated: "section has been updated."

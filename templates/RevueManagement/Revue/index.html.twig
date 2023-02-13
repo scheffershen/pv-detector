@@ -1,0 +1,184 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ 'revues'|trans }}{% endblock %}
+
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+{% block body %}    
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ 'revues'|trans }}
+                        &nbsp;&nbsp;
+                        <a href="{{ path('admin_audit_show_entity_history', {'entity': 'App-Entity-RevueManagement-Revue'}) }}" class="icon text-secondary" data-toggle="tooltip" data-original-title="{{ 'revue.audit' | trans }}" target="_blank"><i class="fas fa-code-branch"></i></a>
+                        &nbsp;&nbsp;
+                        <a href="/docs/fr/site/revues/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+                            <i class="fas fa-lg fa-question-circle text-purple"></i>
+                        </a>
+                        </h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title -->      
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="tablefiltre">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>{{ 'revue.title'|trans }}</th>
+                                    <th>{{ 'revue.editeur'|trans }}</th>
+                                    <th>{{ 'revue.endDate'|trans }}</th>
+                                    <th>{{ 'revue.access'|trans }}</th>
+                                    <th>{{ 'revue.site'|trans }}</th>
+                                    <th>{{ 'revue.periodicity'|trans }}</th>
+                                    <th>{{ 'revue.isCFC'|trans }}</th>
+                                    <th>{{ 'revue.contact'|trans }}</th>
+                                    <th>{{ 'revue.nb_numeros'|trans }}</th>                                
+                                    {#<th>{{ 'clients'|trans }}</th>#}
+                                    <th>{{ 'table.action'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <thead id="filtreForm">
+                                <tr>  
+                                    <th>{{ 'revue.title'|trans }}</th>
+                                    <th>{{ 'revue.editeur'|trans }}</th>
+                                    <th>{{ 'revue.endDate'|trans }}</th>
+                                    <th>{{ 'revue.access'|trans }}</th>
+                                    <th>{{ 'revue.sites'|trans }}</th>
+                                    <th>{{ 'revue.periodicity'|trans }}</th>
+                                    <th>{{ 'revue.isCFC'|trans }}</th>
+                                    <th>{{ 'revue.contact'|trans }}</th>
+                                    <th>{{ 'revue.nb_numeros'|trans }}</th>
+                                    {#<th>{{ 'clients'|trans }}</th>#}
+                                    <th>{{ 'table.action'|trans }}</th>                                
+                                </tr>
+                            </thead>        
+                            <tbody>  
+                            {% for revue in revues %}
+                                <tr>
+    								<td>
+    									<span data-toggle="tooltip" data-placement="top" title="{{ revue.title }}">
+                                            {% if revue.isValid == false %}<del>{% endif %}
+                                                {{ revue.title|u.truncate(80, '...') }}
+                                            {% if revue.isValid == false %}</del>{% endif %}
+                                        </span>
+    								</td>
+                                    <td>{{ revue.editeur }}</td>
+                                    <td>{{ utils.format_date(revue.endDate) }}</td>
+                                    <td>{{ revue.access }}</td>	
+                                    <td>{{ revue.site }}</td>
+                                    <td>{{ revue.periodicity }}</td>
+                                    <td>{{ utils.revue_isCFC(revue) }}</td>
+                                    <td>{{ revue.contact }}</td>             
+                                    <td>
+                                        <a class="icon text-secondary" href="{{ path('admin_revue_show', {'id': revue.id}) }}" data-toggle="tooltip" data-original-title="{{ 'revue.numeros'|trans({ '%nb%': revue.nombreNumeroValid }) }}">{{ revue.nombreNumeroValid}}</a>
+                                        {% if is_granted('ROLE_GESTION_NUMEROS') %}
+                                            &nbsp;&nbsp;<a href="{{ path('admin_revue_new_numero', {'id': revue.id }) }}" class="icon text-danger" data-toggle="tooltip" data-original-title="{{ 'numero.add' | trans }}" >
+                                                <i class="fas fa-plus"></i>
+                                            </a>  
+                                        {% endif %} 
+                                    </td>                   
+                                    {#<td>
+                                        {% if revue.clients|length > 0 %}
+                                            <select>
+                                                {% for client in  revue.clients %}
+                                                    <option>{{ client.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% endif %}           
+                                    </td>#}        
+                                    <td>
+    									{#<span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'numeros'|trans }}">
+    									   {{ revue.numeros | length }}
+    									</span>#}
+    									<a class="icon text-secondary" href="{{ path('admin_revue_show', {'id': revue.id}) }}" data-toggle="tooltip" data-original-title="{{ 'revue.show' | trans }}" >
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        {% if is_granted('ROLE_GESTION_REVUES') %}
+        									<a class="icon text-secondary" href="{{ path('admin_revue_edit', {'id': revue.id}) }}" data-toggle="tooltip" data-original-title="{{ 'action.edit'|trans }}">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>   
+        									{% if revue.isValid %}
+                                                <a class="icon text-success"  href="{{ path('admin_revue_show', {'id': revue.id, 'action': 'disable'}) }}"  data-toggle="tooltip" data-placement="top" title="{{ 'action.disable'|trans }}" >
+                                                    <i class="fas fa-toggle-on"></i>
+                                                </a>  
+                                            {% else %}
+                                                <a class="icon text-secondary" href="{{ path('admin_revue_show', {'id': revue.id, 'action': 'enable'}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'action.enable'|trans }}">
+                                                    <i class="fas fa-toggle-off"></i>
+                                                </a>   
+                                            {% endif %}
+        									<a href="{{ path('admin_audit_show_entity_history', {'entity': 'App-Entity-RevueManagement-Revue', id: revue.id}) }}" class="icon text-secondary" data-toggle="tooltip" data-original-title="{{ 'action.audit' | trans }}" target="_blank">
+                                                <i class="fas fa-code-branch"></i>
+                                            </a>
+                                        {% endif %}    
+                                    </td>
+                                </tr>
+                            {% endfor %}                   
+                            </tbody>
+                        </table>
+                    </div>    
+                </div>    
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="card-header">{{ 'legend'|trans }}</div>
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <span class="icon text-secondary">2</span>: {{ 'revue.nb_numeros' | trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-danger"><i class="fas fa-plus"></i></span>: {{ 'numero.add' | trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-eye"></i></span>: {{ 'revue.show' | trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-pencil-alt"></i></span>: {{ 'revue.edit'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-success"><i class="fas fa-toggle-on"></i></span>: {{ 'revue.disable'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-toggle-off"></i></span>: {{ 'revue.enable'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-code-branch"></i></span>: {{ 'revue.audit' | trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="btn btn-primary" style="border-radius: 50px;box-shadow: 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%), 0 3px 5px -1px rgb(0 0 0 / 20%);height: 30px;width: 30px;z-index: 1;"><i class="fas fa-plus"></i></span>: {{ 'revue.add'|trans }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> 
+    </div>
+</div>
+
+{% if is_granted('ROLE_GESTION_REVUES') %} 
+    <a href="{{ path('admin_revue_new') }}" class="btn waves-effect waves-light btn-primary float" data-toggle="tooltip" data-placement="top" title="{{ 'revue.add'|trans }}">
+        <i class="fas fa-plus float-icon"></i>
+    </a>    
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %} 
+    {{ parent() }}  
+    {{ encore_entry_script_tags('js/datatables') }}
+{% endblock %}

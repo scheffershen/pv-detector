@@ -1,0 +1,193 @@
+{% extends 'admin_base.html.twig' %}
+
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+{% block title %}
+    {{ 'indexation.results'|trans }}
+{% endblock %}
+
+{% block body %}
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fas fa-spinner fa-spin"></i></div>
+</div>
+
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'revues'|trans }} / {{ 'numero.label'|trans }} / {{ 'numero.result'|trans }}
+                                &nbsp;&nbsp;
+                                <a href="/docs/fr/site/clients/portefeuille/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+                                    <i class="fas fa-lg fa-question-circle text-purple"></i>
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-8">
+                        {% include 'RevueManagement/Numero/_detail.html.twig' with {'showPdfOrImage': 'notShowPdfOrImage' } %}
+                    </div>
+                    <div class="col-4">
+                        <div class="card">
+                            <div class="card-header">{{ 'legend'|trans }}</div>
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <span class="badge badge-primary">{{ 'numero.state.treatment'|trans }}</span>: {{ 'numero.state.treatment_help'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <span class="icon text-secondary"><i class="fas fa-eye"></i></span>: {{ 'numero.extraction'|trans }}
+                                    </li>
+                                    {% if action is not null and action == "clients" %}
+                                        <li class="mt-2">                               
+                                            <button class="btn btn-sm btn-light">{{ 'indexation.touts_les_indexations'|trans }}</button>: {{ 'indexation.touts_les_indexations_alt'|trans }}
+                                        </li>
+                                    {% else %}
+                                        <li class="mt-2">
+                                            <button class="btn btn-sm btn-light">{{ 'indexation.clients_de_la_revue'|trans }}</button>: {{ 'indexation.clients_de_la_revue_alt'|trans }}
+                                        </li>
+                                    {% endif %}
+                                    <li class="mt-2">
+                                        <button class="btn btn-sm btn-info"><i class="fas fa-download"></i> {{ 'action.download'|trans }}</button>: {{ 'indexation.download_alt'|trans }}
+                                    </li> 
+                                    <li class="mt-2">
+                                        <span class="bg-warning">{{ 'dci.label'|trans }}</span>: {{ 'indexation.soulignement_alt'|trans }}
+                                    </li>
+                                    <li class="mt-2">
+                                        <button class="btn btn-sm btn-dark"><i class="fas fa-angle-up"></i></button>: {{ 'action.up' | trans }} &nbsp;&nbsp; 
+                                        <button class="btn btn-sm btn-dark"><i class="fas fa-angle-down"></i></button>: {{ 'action.down' | trans }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <div class="btn-group mb-2">
+                            {% if action is not null and action == "clients" %}
+                                <a href="javascript:void();" class="btn btn-primary" id="btn-indexations-clients">{{ 'indexation.clients_de_la_revue'|trans }}</a>                                
+                                <a href="{{ path('admin_indexation_numero', {'numero': numero.id}) }}" class="btn btn-light" id="btn-all-indexations" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.touts_les_indexations_alt'|trans }}">{{ 'indexation.touts_les_indexations'|trans }}</a>
+                            {% else %}
+                                <a href="{{ path('admin_indexation_numero', {'numero': numero.id}) }}?action=clients" class="btn btn-light" id="btn-indexations-clients" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.clients_de_la_revue_alt'|trans }}">{{ 'indexation.clients_de_la_revue'|trans }}</a>
+                                <a href="javascript:void();" class="btn btn-primary" id="btn-all-indexations">{{ 'indexation.touts_les_indexations'|trans }}</a>
+                            {% endif %} 
+
+                        </div>
+                    </div>
+                </div>        
+
+                <!-- table indexs-->
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                {{ 'indexation.results'|trans }}
+                                <a href="{{ path('admin_indexation_numero_export', {'numero': numero.id}) }}" class="btn waves-effect waves-light btn-info mt-2 float-right" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.download_alt'|trans }}"><i class="fas fa-download"></i> {{ 'action.download'|trans }}
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>{{ 'numero.page'|trans }}</th>
+                                            <th>{{ 'dci.label'|trans }}</th>
+                                            <th>{{ 'lov.categorie'|trans }}</th>
+                                            <th>{{ 'client.name'|trans }}</th> 
+                                            <th>{{ 'indexation.dci_occurrence'|trans }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set numeroPage = 0 %}
+                                        {% for image in numero.images %}
+                                            {% if image.isDeleted == false %}
+                                                {% set numeroPage =  numeroPage + 1 %}
+                                                {% set show_numeroPage = true %}
+                                                {% for indexation in indexations %}
+                                                    {% if image.id == indexation.image.id %}
+                                                        {# get client name #}
+                                                        {% set clients_indexations = false %}
+                                                        {% set clients_name = "" %}
+                                                        {% for client in indexation.numero.revue.clients %}
+                                                            {% for c in indexation.dci.clients %}
+                                                                {% if c.id == client.id %}
+                                                                    {% set clients_indexations = true %}
+                                                                    {% set clients_name = clients_name~"<span class='badge badge-info'>"~client.name~"</span>&nbsp;" %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endfor %}
+                                                        <tr {% if clients_indexations %}class="clients-indexations"{% else %}class="indexations {% if action is not null and action == "clients" %}hide{% endif %}"{% endif %}>
+                                                            <td>
+                                                                {% if show_numeroPage %}
+                                                                    Page {{ numeroPage }}
+                                                                    {% set show_numeroPage = false %}
+                                                                {%  endif %}
+                                                                {#({{ indexation.id }} - {{ indexation.image.id }} - {{ indexation.numero.id }} - {{ indexation.image.numeroPage }})#}
+                                                            </td>
+                                                            <td>
+                                                                {{ indexation.dci }}
+                                                                {#<a class="icon text-secondary" href="{{ path('admin_search4_dci', {'dci': indexation.dci|url_encode }) }}" data-toggle="tooltip" data-placement="top" title="{{ 'action.search'|trans }}" target="_blank">{{ indexation.dci }}</a>#}
+                                                            </td>
+                                                            <td>{{ indexation.dci.categorie }}</td>
+                                                            <td>{{ clients_name|raw }}</td>                                                
+                                                            <td> 
+                                                                <a class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'action.show'|trans }}" href="{{ path('admin_indexation_numero_dci', {'numero': indexation.numero.id, 'dci': indexation.dci.id}) }}" target="_blank">
+                                                                {% if indexation.occurrence > 0 %}{{ indexation.occurrence }}{% else %}1{% endif %}</a>
+                                                            </td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}    
+                                            {% endif %}
+                                        {% endfor %} 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                            
+                {% if action is not null and action == "clients" %}  
+                    {{ utils.numero_pages(numero, action) }}   
+                {% else %}
+                    {{ utils.numero_pages(numero) }}
+                {% endif %}       
+
+            </div>
+        </div>
+    </div>
+
+{#<input type="hidden" name="dci" id="dci" value=""/>#}
+
+<button class="btn waves-effect waves-light btn-dark floatUp" data-toggle="tooltip" data-original-title="{{ 'action.up' | trans }}">
+    <i class="fas fa-angle-up"></i>
+</button> 
+<button class="btn waves-effect waves-light btn-dark floatDown" data-toggle="tooltip" data-placement="right" data-original-title="{{ 'action.down' | trans }}">
+    <i class="fas fa-angle-down"></i>
+</button>     
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}  
+    {{ encore_entry_script_tags('js/preloader') }}     
+    {# encore_entry_script_tags('js/indexation-numero') }} 
+    {{ encore_entry_script_tags('js/highlighter')         
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+         {%  % for dci in dcis %}
+             {% if dci %}
+                $(".images").mark('{{ dci }}');
+             {% endif %}
+         {% endfor %}
+    });
+</script> #}   
+{% endblock %}

@@ -1,0 +1,88 @@
+security:
+    encoders:
+        App\Entity\UserManagement\User:
+            algorithm: auto
+
+    role_hierarchy:
+        ROLE_GESTION_MOTS_CLES: ROLE_USER
+        ROLE_GESTION_REVUES: ROLE_USER
+        ROLE_GESTION_NUMEROS: ROLE_USER
+        ROLE_GESTION_INMFORMATION_NUMEROS: ROLE_USER
+        ROLE_CONSULTER_INDEXATION: ROLE_USER
+        ROLE_REPRESENTATION_RESULTATS: ROLE_USER
+        ROLE_EXPORT_RESULTATS: ROLE_USER
+        ROLE_RAPPORT_VEILLE: ROLE_USER
+        ROLE_RAPPORT_VEILLE_CRUD: ROLE_RAPPORT_VEILLE
+        ROLE_CONTROLE_QUALITE_RAPPORT_VEILLE: ROLE_USER
+        ROLE_EXPORT_RAPPORT: ROLE_USER
+        ROLE_GESTION_CLIENTS: ROLE_USER
+        ROLE_LIEN_REVUES_CLIENTS: ROLE_USER
+        ROLE_LIEN_MOTCLE_CLIENTS: ROLE_USER
+        ROLE_BIBLIOTHEQUE_LIENS: ROLE_USER
+        ROLE_GESTION_UTILISATEURS: ROLE_USER
+        ROLE_AUDIT: ROLE_USER
+        ROLE_MONITORING_CONNEXIONS: ROLE_USER
+        ROLE_MONITORING_EMAIL: ROLE_USER
+        ROLE_EXPORT_AUDIT: ROLE_USER
+        ROLE_SUPPRESSION_AUDIT: ROLE_USER
+        ROLE_GESTION_LOV: ROLE_USER
+        ROLE_GESTION_COMPTE_PLATEFORME: ROLE_USER
+        ROLE_CLIENT: [ROLE_CONSULTER_INDEXATION, ROLE_REPRESENTATION_RESULTATS, ROLE_EXPORT_RESULTATS, ROLE_RAPPORT_VEILLE,ROLE_CONTROLE_QUALITE_RAPPORT_VEILLE, ROLE_EXPORT_RAPPORT]
+        ROLE_LECTEUR: [ROLE_GESTION_NUMEROS, ROLE_GESTION_INMFORMATION_NUMEROS, ROLE_CLIENT, ROLE_RAPPORT_VEILLE_CRUD]
+        ROLE_GESTIONNAIRE: [ROLE_GESTION_MOTS_CLES, ROLE_GESTION_REVUES, ROLE_LECTEUR, ROLE_GESTION_CLIENTS, ROLE_LIEN_REVUES_CLIENTS, ROLE_LIEN_MOTCLE_CLIENTS, ROLE_BIBLIOTHEQUE_LIENS, ROLE_GESTION_UTILISATEURS, ROLE_AUDIT, ROLE_MONITORING_CONNEXIONS, ROLE_MONITORING_EMAIL, , ROLE_RAPPORT_VEILLE_CRUD, ROLE_EXPORT_AUDIT, ROLE_SUPPRESSION_AUDIT, ROLE_GESTION_LOV, ROLE_GESTION_COMPTE_PLATEFORME]
+        ROLE_ADMIN: [ROLE_GESTION_REVUES, ROLE_GESTION_CLIENTS, ROLE_LIEN_REVUES_CLIENTS, ROLE_LIEN_MOTCLE_CLIENTS, ROLE_BIBLIOTHEQUE_LIENS, ROLE_GESTION_UTILISATEURS, ROLE_AUDIT, ROLE_MONITORING_CONNEXIONS, ROLE_MONITORING_EMAIL, ROLE_EXPORT_AUDIT, ROLE_SUPPRESSION_AUDIT, ROLE_GESTION_LOV, ROLE_GESTION_COMPTE_PLATEFORME]
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\UserManagement\User
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            lazy: true
+            provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            form_login:
+                # The route name that the login form submits to
+                check_path: app_login
+                # The name of the route where the login form lives
+                # When the user tries to access a protected page, they are redirected here
+                login_path: app_login
+                # Secure the login form against CSRF
+                # Reference: https://symfony.com/doc/current/security/csrf_in_login_form.html                
+                csrf_token_generator: security.csrf.token_manager
+                # The page users are redirect to when there is no previous page stored in the
+                # session (for example when the users access directly to the login page).
+                default_target_path: home   
+
+            logout:
+                path: app_logout
+                target: /%locale%/
+                # where to redirect after logout
+                # target: app_any_route
+
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 31536000 # 365j=31536000s 
+                path:     /
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/%locale%/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/%locale%/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/%locale%/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        #roles administrateur
+        - { path: ^/%locale%/admin, roles: [ROLE_CLIENT, ROLE_LECTEUR, ROLE_GESTIONNAIRE, ROLE_ADMIN] }
+        #roles user
+        - { path: ^/%locale%/user, roles: ROLE_USER }
+        - { path: ^/audit, roles: ROLE_AUDIT }
+        - { path: ^/media, roles: ROLE_USER } 

@@ -1,0 +1,54 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ numero.title }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'numeros'|trans }}: {{ numero.revue.title }}, {{
+                                    numero.title
+                                }}, {{ numero.receiptDate|date('d-M-Y') }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                {{ 'keywords cloud'|trans }}
+                            </div>
+                            <div class="card-body">
+                                <div id="keywordsCloud">
+                                    {{ dump(output) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/datatables') }}
+    <script src="{{ asset('libs/tag-cloud/jquery.tagcloud.js') }}"
+        type="text/javascript"
+        charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() { });
+    </script>
+{% endblock %}

@@ -1,0 +1,38 @@
+# Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/doc/setup.md
+fos_elastica:
+    clients:
+        default: { url: '%env(ELASTICSEARCH_URL)%' }
+    indexes:
+        pages:
+            persistence:
+                driver: orm
+                model: App\Entity\RevueManagement\Page
+                provider: ~
+                finder: ~
+                listener:
+                    insert: true
+                    update: true
+                    delete: true
+                    defer: true
+                    logger: true               
+            properties:
+                blocksText: ~
+            # Testing if an object should be indexed    
+            indexable_callback: 'enabled'
+        # Nested objects in FOSElasticaBundle        
+        # post:
+        #     properties:
+        #         date: { boost: 5 }
+        #         title: { boost: 3 }
+        #         content: ~
+        #         comments:
+        #             type: "nested"
+        #             properties:
+        #                 date: { boost: 5 }
+        #                 content: ~
+        #         user:
+        #             type: "object"
+        #         approver:
+        #             type: "object"
+        #             properties:
+        #                 date: { boost: 5 }

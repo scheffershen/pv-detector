@@ -1,0 +1,13 @@
+{{ include('partials/_flash_messages.html.twig') }}
+
+{{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.categorie) }} 
+    {{ form_row(form.clients) }}  
+    {{ form_row(form.description) }}
+
+    <div class="col text-center">
+        <button type="submit" class="btn waves-effect waves-light btn-dark">{{ button_label|default('Sauvegarder') }}</button>
+    </div>
+
+{{ form_end(form) }}

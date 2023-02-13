@@ -1,0 +1,50 @@
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>{{ 'numero.revue'|trans }}</th>
+            <td>{{ rapport.numero.revue }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'numero.reference'|trans }}</th>
+            <td>{{ rapport.numero.title }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'numero.numero'|trans }}</th>
+            <td>{{ rapport.numero.numero }}</td>
+        </tr> 
+        <tr>
+            <th>{{ 'numero.receiptDate'|trans }}</th>
+            <td>{{ utils.format_date(rapport.numero.receiptDate) }}</td>
+        </tr>
+        <tr>
+            <th >
+                {{ 'numero.format'|trans }}
+            </th>
+            <td>
+                <a class="icon text-secondary" href="{{ path('admin_numero_show', {'id': rapport.numero.id}) }}" alt="{{ 'action.show'|trans }}" title="{{ 'action.show'|trans }}" target="_blank">
+                    {% if rapport.numero.isPdf and rapport.numero.fileUri|isPdf == true %}
+                            {{ 'numero.pdf'|trans }}
+                        {% else %}
+                            {{ 'numero.images'|trans }}
+                        {% endif %}
+                    <i class="fas fa-eye"></i>
+                </a>
+            </td>
+        </tr>          
+        <tr>
+            <th>{{ 'numero.statut_activation'|trans }}</th>
+            <td>{{ utils.numero_statut_activation(rapport.numero) }}</td>
+        </tr>
+
+        <tr>
+            <th>{{ 'numero.statut_traiement'|trans }}</th>
+            <td>{{ utils.numero_state(rapport.numero) }}</td>
+        </tr>
+        <tr> 
+            <th>{{ 'numero.result'|trans }}</th>
+            <td>{{ utils.numero_result(rapport.numero) }}</td>
+        </tr>                                                                    
+    </tbody>
+</table>

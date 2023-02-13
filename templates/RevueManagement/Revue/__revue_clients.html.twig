@@ -1,0 +1,112 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ 'revue.clients'|trans }}{% endblock %}
+
+{% block body %}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ revue.title }}: {{ 'revue.clients'|trans }}</h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title -->  
+
+            <div class="btn-group mb-2">
+                <a href="{{ path('admin_revue_show', {'id': revue.id}) }}" class="btn btn-light">{{ 'revue.detail'|trans }}<i class="fas fa-pencil-alt"></i></a>
+                <a href="#" class="btn btn-primary">{{ 'revue.clients'|trans }}</a>
+            </div>
+
+            {{ form_start(form) }} 
+
+            {% if oldClients|length > 0 %} 
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th><input type="checkbox" id="selected_client" checked /></th>
+                                    <th>{{ 'revue.clients'|trans }}</th>                           
+                                </tr>
+                            </thead>        
+                                <tbody>  
+                                {% for client in oldClients %}
+                                    {% if client.isValid %}
+                                        <tr>
+                                            <td><input type="checkbox" checked id="revue_client_clients_{{ client.id }}" name="revue_client[clients][]" class="selected_client" value="{{ client.id }}" /></td> 
+                                            <td>
+                                                {{ client.name }}     
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}                   
+                                </tbody>
+                        </table>                 
+                    </div>
+                </div>  
+            {% endif %}
+                
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box border-bottom">
+                        <h4 class="page-title">{{ 'clients'|trans }}</h4>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <table class="table table-bordered table-striped" id="tablefiltre">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th><input type="checkbox" id="selecting_client"></th>
+                                <th>{{ 'clients'|trans }}</th>                           
+                            </tr>
+                        </thead>
+                        <thead id="filtreForm">                            
+                            <tr>
+                                <th></th>
+                                <th>{{ 'clients'|trans }}</th>                           
+                            </tr>                            
+                        </thead>
+                        <tbody> <!-- Corps du tableau -->
+                            {% for client in clients %}
+                                {% if client.isValid %}
+                                    {% set oldClient = false %}
+                                    {% for old in oldClients %}{% if old.id == client.id %}{% set oldClient = true %}{% endif %}{% endfor %} 
+                                    {% if oldClient == false %}
+                                        <tr>
+                                            <td><input type="checkbox" id="revue_client_clients_{{ client.id }}" name="revue_client[clients][]" class="selecting_client" value="{{ client.id }}" /></td>
+                                            <td>{{ client.name }}</td>                              
+                                        </tr>
+                                    {% endif %}  
+                                {% endif %}  
+                            {% endfor %}
+                        </tbody>
+                    </table>                         
+                </div>
+            </div>
+            
+            <div class="col text-center mt-3 mb-3">
+                <button type="submit" class="btn waves-effect waves-light btn-dark">{{ button_label|default('Sauvegarder') }}</button>
+            </div>
+
+            <div class="d-none" id="revueClientFormBloc">
+                {{ form_row(form.clients) }}
+            </div>
+            {{ form_end(form) }}
+
+        </div> 
+    </div>
+</div>
+  
+{% endblock %}
+
+{% block javascripts %} 
+    {{ parent() }}  
+    {{ encore_entry_script_tags('js/revue-client') }}
+{% endblock %}

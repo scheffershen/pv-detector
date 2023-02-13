@@ -1,0 +1,147 @@
+<div class="left-side-menu">
+    <div class="slimscroll-menu">
+        {# Sidemenu #}
+        <div id="sidebar-menu">
+            <ul class="metismenu" id="side-menu">
+				{#
+                <li class="menu-title">{{ 'navigation' | upper|trans }}</li>
+				#}
+                {% if is_granted('ROLE_USER') %}
+                    {# dashboard #}
+                    <li>
+                        <a href="{{ path('admin_dashboard') }}" class="{% if 'admin_dashboard' in app.request.attributes.get('_route') %}active{% endif %} ">
+                            <i class="fas fa-rss"></i>
+                            <span> {{ 'dashboards'|trans }} </span>
+                        </a>
+                    </li>
+                    
+					{# Revues #}
+                    {% if is_granted('ROLE_GESTION_REVUES') or is_granted('ROLE_GESTION_NUMEROS') %}
+    					<li>
+                            <a href="{{ path('admin_revue_index') }}" class="{% if 'admin_revue' in app.request.attributes.get('_route') or 'admin_numero' in app.request.attributes.get('_route') or 'admin_rapport' in app.request.attributes.get('_route') or 'admin_controle_qualite' in app.request.attributes.get('_route') %}active{% endif %}">
+                                <i class="fas fa-database"></i>
+                                <span> {{ 'revues'|trans }}  </span>
+                            </a>
+                        </li>
+                    {% endif %} 
+
+                    {# dcis #}
+                    {% if is_granted('ROLE_GESTION_MOTS_CLES') %}        
+                        {# Gestion des mots-clès #}  
+                        <li>
+                            <a href="{{ path('admin_dci_index') }}" class="{% if 'admin_dci' in app.request.attributes.get('_route') %}active{% endif %} ">
+                                <i class="fas fa-pills"></i>
+                                <span> {{ 'dcis'|trans }} </span>
+                            </a>
+                        </li>
+                    {% endif %}   
+
+                    {% if is_granted('ROLE_GESTION_CLIENTS') %}
+                        {# Gestion des clients #}  
+                        <li>
+                            <a href="{{ path('admin_client_index') }}" class="{% if 'admin_client' in app.request.attributes.get('_route') %}active{% endif %} ">
+                                <i class="fas fa-briefcase"></i>
+                                <span> {{ 'clients'|trans }} </span>
+                            </a>
+                        </li> 
+                    {% endif %} 
+                    
+                    {% if is_granted('ROLE_GESTION_UTILISATEURS') %}                                           
+                        {# Gestion des utilisateurs #}
+                        <li class="{% if 'admin_user' in app.request.attributes.get('_route')  %}mm-active{% endif %}">
+                            <a href="{{ path('admin_users_index') }}" class="{% if 'admin_user' in app.request.attributes.get('_route')  %}active{% endif %}">
+                                <i class="fas fa-users"></i>
+                                <span>{{ 'users'|trans }} </span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_GESTION_LOV')  %}                                           
+                        {# Gestion des lovs #}
+                        <li class="{% if 'admin_lov' in app.request.attributes.get('_route')  %}mm-active{% endif %}">
+                            <a href="{{ path('admin_lov_list') }}" class="{% if 'admin_lov' in app.request.attributes.get('_route')  %}active{% endif %}">
+                                <i class="fas fa-cogs"></i>
+                                <span>{{ 'lovs'|trans }} </span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_GESTION_COMPTE_PLATEFORME') %}
+                        {# Gestion de la compte de la plateforme #}
+                        <li class="{% if 'admin_plateforme' in app.request.attributes.get('_route')  %}mm-active{% endif %}">
+                            <a href="{{ path('admin_plateforme_show') }}" class="{% if 'admin_plateforme' in app.request.attributes.get('_route')  %}active{% endif %}">
+                                <i class="fas fa-copyright"></i>
+                                <span>{{ 'plateforme.configurations'|trans }} </span>
+                            </a>
+                        </li>                        
+                    {% endif %}                                                
+       
+                    {% if is_granted('ROLE_MONITORING_CONNEXIONS') or is_granted('ROLE_MONITORING_EMAIL') %}
+                    <li class="{% if 'admin_tracking' in app.request.attributes.get('_route') or 'admin_mail' in app.request.attributes.get('_route') %}mm-active{% endif %}">
+                            <a href="javascript: void(0);" class="{% if 'admin_tracking' in app.request.attributes.get('_route') or 'admin_mail' in app.request.attributes.get('_route') %}active{% endif %}">
+                                <i class="fas fa-shield-alt"></i>
+                                <span> {{ 'trackings'|trans }}  </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul class="nav-second-level" aria-expanded="{% if 'admin_tracking' in app.request.attributes.get('_route') or 'admin_mail' %}true{% else %}false{% endif %}">
+                                {% if is_granted('ROLE_MONITORING_CONNEXIONS') %}  
+                                    {# Gestion des LOV #}
+                                    <li>
+                                          <a class="{% if 'admin_tracking' in app.request.attributes.get('_route') %}active{% endif %} " href="{{ path('admin_tracking_connexion') }}">
+                                            {#<i class="fas fa-cogs"></i> #}
+                                            <span>{{ 'tracking.login'|trans }}</span>
+                                          </a>
+                                    </li>    
+                                {% endif %}
+                                {% if is_granted('ROLE_MONITORING_EMAIL') %}
+                                    {# Gestion de la compte de la plateforme #}
+                                    <li>
+                                          <a class="{% if 'admin_mail' in app.request.attributes.get('_route') %}active{% endif %} " href="{{ path('admin_mail_log') }}">
+                                            {#<i class="fas fa-copyright"></i> #}
+                                            <span>{{ 'tracking.mail'|trans }}</span>
+                                          </a>
+                                    </li>                         
+                                {% endif %}                                                
+                            </ul>
+                        </li>  
+                    {% endif %}
+
+                    {% if is_granted('ROLE_AUDIT') %} 
+                        {# Pistes d'audit #}
+                        {% if 'admin_audit' in app.request.attributes.get('_route') %}
+                            <li>
+                              <a class="{% if 'admin_audit' in app.request.attributes.get('_route') %}active{% endif %}" href="javascript: void(0);">
+                                <i class="fas fa-code-branch"></i>
+                                <span>{{ 'audits'|trans }}</span>
+                              </a>
+                            </li>
+                        {% endif %} 
+                    {% endif %}
+
+                    {#<li>
+                      <a class="{% if 'plateforme_apropos' in app.request.attributes.get('_route') %}active{% endif %} " href="{{ path('plateforme_apropos') }}">  
+                        <i class="fas fa-question-circle"></i>
+                        <span>{{ 'plateforme.apropos'|trans }}</span>
+                      </a>
+                    </li>#}
+
+                    <li>
+                      <a href="/docs/la_guide_d-utilisateur.docx" target="_blank">  
+                        <i class="fas fa-download"></i>
+                        <span>{{ 'help.guide'|trans }}</span>
+                      </a>
+                    </li>
+                {% endif %}
+            
+            </ul>
+
+        </div>
+        <!-- End Sidebar -->
+
+        <div class="clearfix"></div>
+
+        <div style="position:fixed;bottom:-10px;margin-left:2px;width:100px;height:60px" id="timer" data-timer="1800"></div>
+    </div>
+    <!-- Sidebar -left -->
+    
+</div>

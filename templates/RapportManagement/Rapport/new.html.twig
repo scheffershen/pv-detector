@@ -1,0 +1,97 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'rapport.add'|trans }}
+{% endblock %}
+
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                               {{ 'revues'|trans }} / {{ 'numero.label'|trans }} / {{ 'rapport.label'|trans }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        {{ include('RapportManagement/Rapport/_numero.html.twig') }}
+                    </div>
+                </div>    
+
+                <!-- end page title -->
+                <div class="row">
+                    <div class="col-12">
+                        {{ include('RapportManagement/Rapport/_form.html.twig') }}
+                    </div>
+                </div>
+                
+                <hr/>
+                {#<div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <div class="btn-group mb-2">
+                            <button type="button" class="btn btn-light" id="btn-indexations-clients">{{ 'indexation.clients_de_la_revue'|trans }}</button>
+                            <button type="button" class="btn btn-primary" id="btn-all-indexations">{{ 'indexation.touts_les_indexations'|trans }}</button>
+                        </div>
+                    </div>
+                </div> #}
+                
+                {{ utils.numero_pages(rapport.numero) }}
+
+            </div>
+        </div>
+    </div>
+
+<button class="btn waves-effect waves-light btn-dark floatUp" data-toggle="tooltip" data-original-title="{{ 'action.up' | trans }}">
+    <i class="fas fa-angle-up"></i>
+</button> 
+<button class="btn waves-effect waves-light btn-dark floatDown" data-toggle="tooltip" data-placement="right" data-original-title="{{ 'action.down' | trans }}">
+    <i class="fas fa-angle-down"></i>
+</button>     
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script type="text/javascript">
+  var CKEDITOR_BASEPATH = "/libs/ckeditor/";
+</script>
+<script src="{{ asset('libs/ckeditor/ckeditor.js') }}"></script>
+<script>
+if (CKEDITOR.instances["rapport_commentaire"]) { CKEDITOR.instances["rapport_commentaire"].destroy(true); delete CKEDITOR.instances["rapport_commentaire"]; }
+
+    CKEDITOR.replace("rapport_commentaire", {
+        toolbar: [
+        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike'] },
+        { name: 'colors', items: [ 'TextColor', 'BGColor' ] },    
+        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl'] },
+        { name: 'insert', items: ['Table', 'HorizontalRule'] },
+        { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Undo', 'Redo' ] },
+        '/',
+        { name: 'styles', items: [ 'Styles', 'Format', 'FontSize' ] },
+        { name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+        { name: 'others', items: [ '-' ] },
+        { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] }
+    ]
+    });
+
+    $(() => {
+        $("form").submit(function(e) {
+            var description = CKEDITOR.instances['rapport_commentaire'].getData().replace(/<[^>]*>/gi, '').length;
+            if (!description) {
+                toastr.error("{{ 'rapport.error.rapport_empty'|trans }}", "Error");
+                return false;
+            }
+            $(".spinner").show();
+        });
+    });      
+</script>      
+{% endblock %}

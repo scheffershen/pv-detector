@@ -1,0 +1,49 @@
+<table class="table">
+    <tbody>                    
+        <tr>
+            <th>{{ 'label.firstname'|trans }}</th>
+            <td>{{ user.firstname }}</td>
+        </tr>                        
+        <tr>
+            <th>{{ 'label.lastname'|trans }}</th>
+            <td>{{ user.lastname }}</td>
+        </tr>  
+        <tr>
+            <th>{{ 'label.username'|trans }}</th>
+            <td>{{ user.username }}</td>
+        </tr>        
+        <tr>
+            <th>{{ 'label.email'|trans }}</th>
+            <td>{{ user.email }}</td>
+        </tr>  
+        <tr>
+            <th>{{ 'user.isEnable'|trans }}</th>
+            <td>{{ user.isEnable?'yes':'no' }}</td>
+        </tr>  
+        <tr>
+            <th>{{ 'user.role'|trans }}</th>
+            <td>
+                {% for id, value in user.roles %}
+                    {% if value != "ROLE_USER" %}
+                        <label class="custom-control custom-checkbox">                          
+                            <input type="checkbox" name="user[roles][]" value="{{ id }}" class="custom-control-input" checked="checked"/>
+                            <span class="custom-control-label">{{ value|trans }}</span>  
+                        </label>
+                    {% endif %}    
+                {% endfor %}
+            </td>
+        </tr>                
+        {% if 'ROLE_CLIENT' in user.roles and user.clients|length > 0 %}                                                     
+            <tr>
+                <th>{{ 'user.client'|trans }}</th>
+                <td>
+                    <select>
+                        {% for client in user.clients %}
+                            <option>{{ client }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr> 
+        {% endif %}                                                    
+    </tbody>
+</table> 

@@ -1,0 +1,143 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'indexation.results'|trans }}
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet"
+        href="{{ asset('libs/tag-cloud/jquery.tagcloud.css') }}" />
+{% endblock %}
+
+{% block body %}
+<div class="content-page">
+	<div
+		class="content">
+		<!-- Start Content -->
+		<div
+			class="container-fluid">
+			<!-- start page title -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title">
+							{{ 'dci.label'|trans }}:
+							"{{ dci.title }}"
+							&nbsp;&nbsp;
+							<a href="/docs/fr/site/dcis/resultats/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+                            	<i class="fas fa-lg fa-question-circle text-purple"></i>
+                        	</a>
+						</h4>
+					</div>
+				</div>
+			</div>
+			<!-- end page title -->
+
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							{{ 'indexation.results_dci'|trans }}
+						</div>
+						<div class="card-body">
+							<table class="table table-bordered table-striped" id="tablefiltre">
+								<thead class="thead-dark">
+									<tr>
+										<th>
+											{{ 'numero.revue'|trans }}
+										</th>
+										<th>
+											{{ 'numero.label'|trans }}
+										</th>
+										<th>
+											{{ 'numero.receiptDate'|trans }}
+										</th>
+										<th>
+											{{ 'indexation.nb_page'|trans }}
+										</th>
+									</tr>
+								</thead>
+								<thead id="filtreForm">
+									<tr>
+										<th>
+											{{ 'numero.revue'|trans }}
+										</th>
+										<th>
+											{{ 'numero.label'|trans }}
+										</th>
+										<th>
+											{{ 'numero.receiptDate'|trans }}
+										</th>
+										<th>
+											{{ 'indexation.nb_page'|trans }}
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for indexation in indexations %}
+										<tr>
+											{#<td>{{ indexation['id'] }} </td>
+											<td>{{ indexation['numero'] }} </td>#}
+											<td>
+												{{ indexation['revue'] }}
+											</td>
+											<td>
+												{{ indexation['numero'] }}
+											</td>
+											<td>
+												{{ indexation['receiptDate']|date('d-M-Y') }}
+											</td>
+											<td>
+												{# <a href="{{ path('admin_search3_numero_dci', {'numero':indexation['id'], 'dci': indexation['dci']|url_encode })}}" target="_blank">{{ indexation['count_numero'] }}</a> #}
+												<a href="{{ path( 'admin_indexation_numero_dci', { numero: indexation['id'], dci: indexation['dci_id'] } ) }}" target="_blank">
+													{{ indexation['count_numero'] }}
+												</a>
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{# <div class="row mt-4">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							{{ 'indexation.numero_cloud'|trans }}
+						</div>
+						<div class="card-body">
+							<div id="dciCloud"></div>
+						</div>
+					</div>
+				</div>
+			</div> #}
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/datatables') }}
+    <script src="{{ asset('libs/tag-cloud/jquery.tagcloud.js') }}" type="text/javascript"  charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() { 
+            {# let options = { 
+                container: { width: 960,
+                            fontFamily: '"Times New Roman", Times, serif', 
+                            backgroundColor:  '#fafaf8'
+                }, 
+                tag: { format: '{tag.name}: {tag.weight}', 
+                       maxFontSize: 45,
+                       textShadow: true, 
+                       data:   [{% for indexation in indexations|slice(0, 39) %} { name: '{{ indexation['numero']|escape }}', link: '', weight: {{  indexation['count_numero'] }} }, {% endfor %}] 
+                }
+            };
+            $('#dciCloud').tagCloud(options);  #}
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,108 @@
+revues: Revues scientifiques
+revue:
+    menu: Gestion des revues
+    label: Revue scientifique
+    title: Titre de la revue
+    editeur: Editeur
+    access: Accessibilité
+    endDate: Date de fin d'abonnement
+    site: Site internet
+    periodicity: Périodicité (par an)
+    isCFC: Revue couverte par CFC
+    contact: Contact générique
+    nb_numeros: Nb Numéros
+    numeros: ce revue a %nb% numeros
+    clients: Clients    
+    add: Ajouter une revue scientifique
+    edit: Editer la revue scientifique
+    disable: Désactiver une revue scientifique
+    enable: Activer une revue scientifique
+    delete: Supprimer une revue scientifique
+    back: Retourner la liste des revues scientifiques
+    detail: "Detail de la revue scientifique"
+    deleted: Cette revue scientifique a été supprimé 
+    audit: Historique des modifications d'un revue.
+    show: Revue détail  
+    flash:
+        created: "Une revue scientifique a été créée"
+        updated: "La revue scientifique a été mise à jour"
+        enable: "La revue scientifique a été activée"
+        disable: "La revue scientifique a été désactivée"
+        clients_updated: Les clients associés sont été mise à jour
+        fin_abonnement: "Alerte fin d'abonnement"
+
+numeros: Numéros
+numero:
+    label: Numéro
+    revue: Revue
+    title: Titre
+    reference: Référence
+    numero: Numero    
+    page: Page
+    pages: Pages
+    receiptDate: Date de réception
+    isImage: "Est l'image"
+    image: Image
+    images: Images
+    images_alt: "Le ficher d'origine est des images"
+    zip: "un zip d'image"
+    images_zip: "un fichier zip d'images"
+    image2text: Pages (images)
+    image2text_alt: "Nombre de pages de ce numéro, le fichier d'origine est des images"
+    pdf: PDF
+    pdf_alt: "Le ficher d'origine est PDF"
+    audit: "Historique des modifications d'un numéro"
+    format: Format
+    statut_activation: "Statut d'activation"  
+    statut_traiement: Statut de traitement  
+    pdf2image: Pages (PDF)
+    pdf2image_alt: "Nombre de pages de ce numéro, le fichier d'origine est PDF"
+    addImage: Ajouter un autre fichier image
+    add: Ajouter un numéro
+    edit: Editer un numéro
+    disable: Désactiver un numéro
+    disabled_list: Liste des numéros désactivés
+    enable: Activer un numéro
+    enabled_list: Liste des numéros activés 
+    back: Retourner la liste des numéros     
+    show: Détail du numéro
+    file: Pdf fichier
+    result: Résultats
+    report: Rapport    
+    rapport: Rapport    
+    last: Dernières revues
+    phrases: Phrases extraction  
+    collocations: Collocations extraction 
+    keywords: Keywords extraction
+    description: Numéro résumé
+    add_resume: Ajouter une résumé
+    extraction: "Détail de l'extraction du texte"       
+    flash:
+        created: "Un numéro a été créé."
+        updated: "Le numéro a été mis à jour."
+        enable: "Le numéro a été activé."
+        disable: "Le numéro a été désactivé."
+    indexed: Indexed
+    states: Status
+    have_published: Ce numero a été traité
+    state:    
+        submitted: soumise
+        submitted_help: le numero est envoyé à la plateforme, attend l'extraction du texte
+        treatment: traité
+        treatment_help: le numéro est extrait du texte et indexé par les mots-clés, attend le rapport
+        published: analysé
+        published_help: le numéro est extrait du texte et indexé par les mots-clés, et il a un rapport
+        controlled: CQT
+        controlled_help: le numéro est extrait du texte et indexé par les mots-clés, et il a un rapport et un control qualité
+        rejected: rejetée
+        rejected_help:  le numero est envoyé à la plateforme, mais il y a eu des erreurs lors de l'extraction du texte
+
+dt:
+  columns: 
+    revue: Revue
+    title: Numéro
+    dci: Dci(mot-clé)
+    categorie: Categorie
+    receiptDate: Date de réception
+    updateDate: Date de maj
+    actions: Actions            

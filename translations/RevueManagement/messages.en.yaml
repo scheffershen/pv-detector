@@ -1,0 +1,108 @@
+revues: Journals
+revue:
+    menu: Journals Management
+    label: Scientific journal
+    title: Title
+    editeur: Editor
+    access: Access
+    endDate: Subscription end date
+    site: Website
+    periodicity: Periodicity
+    isCFC: Review covered by CFC
+    contact: Contact
+    nb_numeros: Nb of numbers
+    numeros: this scientific journal has %nb% numbers
+    clients: Subscribed customers
+    add: Add a scientific journal
+    edit: Edit a scientific journal
+    disable: Disable a scientific journal
+    enable: Enable a scientific journal
+    delete: Delete a scientific journal
+    back: Back to the scientific journals list 
+    detail: Scientific journal detail
+    deleted: This scientific journal has been deleted
+    show: Detail      
+    flash:
+        created: A scientific journal has been created
+        updated: The scientific journal has been updated
+        enable: The scientific journal has been activated
+        disable: The scientific journal has been disabled
+        clients_updated: Associated customers have been updated
+        fin_abonnement: End of subscription alert
+        
+numeros: Numbers
+numero:
+    label: Number
+    revue: Scientific journal
+    title: Title
+    reference: Reference
+    numero: Number
+    page: Page
+    pages: Pages           
+    receiptDate: Receipt date
+    isImage: Is image
+    images_zip: a zip file of images    
+    image: Image
+    images: Images
+    images_alt: The original file is pictures  
+    zip: A zip of images
+    image2text: Pages (images)
+    image2text_alt: Number of pages of this number, the original file is pictures
+    pdf: PDF
+    pdf_alt: The original file is PDF
+    audit: Number modification log
+    format: Format    
+    statut_activation: Activation status  
+    statut_traiement: Processing status         
+    pdf2image: Pages (PDF)   
+    pdf2image_alt: Number of pages of this issue, the original file is PDF  
+    addImage: Add another image file
+    add: Add a number
+    edit: Edit a number
+    disable: Disable a number
+    disabled_list: Disabled numbers list
+    enable: Enable a number  
+    enabled_list: Enabled numbers list  
+    back: Back to the numbers list     
+    show: Detail  
+    file: Pdf file
+    result: Results
+    report: Repport
+    rapport: Repport       
+    last: Last numbers
+    phrases: Phrases extraction 
+    collocations: Collocations extraction 
+    keywords: Keywords extraction
+    description: Number summery 
+    add_resume: Add a summery
+    extraction: Text extraction detail        
+    flash:
+        created: A number has been created
+        updated: Number has been updated
+        enable: Number has been activated
+        disable: Number has been disabled
+    indexed: Indexed  
+    states: Status
+    have_published: This number has been analysed  
+    state:    
+        label: State
+        submitted: submitted
+        treatment: processed
+        published: analysed
+        controlled: CQT
+        rejected: rejected
+        submitted_help: this number wait text extraction
+        treatment_help: this number wait a rapport
+        published_help: this number has a rapport
+        controlled_help: the rapport has a quality control
+        rejected_help:  the number has a fatal error
+
+dt:
+  columns: 
+    revue: Journal
+    title: Number
+    dci: Dci(keyword)
+    categorie: Category    
+    receiptDate: Receipt date
+    updateDate: Updated date
+    actions: Actions            

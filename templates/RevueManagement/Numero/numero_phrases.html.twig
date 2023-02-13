@@ -1,0 +1,72 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ numero.title }}{% endblock %}
+
+{% block body %}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ 'numeros'|trans }}: {{ numero.revue.title }}, {{ numero.title }}, {{ numero.receiptDate|date('d-M-Y')}} 
+                        </h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title -->   
+            <div class="row">
+                <div class="col-12">    
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">{{ 'numero.phrases'|trans }}</div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-striped" id="tablefiltre">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>{{ 'phrase'|trans }}</th>
+                                                <th>{{ 'weight'|trans }}</th>
+                                            </tr>
+                                        </thead>
+                                        <thead id="filtreForm">
+                                            <tr>  
+                                                <th>{{ 'phrase'|trans }}</th>
+                                                <th>{{ 'weight'|trans }}</th>                                
+                                            </tr>
+                                        </thead>        
+                                        <tbody>  
+                                            {% for phrase, weight in phrases %}
+                                                <tr>
+                                                    <td>
+                                                       {{ phrase }}
+                                                    </td> 
+                                                    <td>
+                                                       {{ weight|number_format(2) }}     
+                                                    </td> 
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}                   
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>                
+                    </div>  
+    			</div>		
+    		</div>
+
+    	</div>
+
+    </div>    			
+</div>
+
+{% endblock %}
+
+{% block javascripts %} 
+    {{ parent() }}  
+    {{ encore_entry_script_tags('js/datatables') }}  
+{% endblock %}

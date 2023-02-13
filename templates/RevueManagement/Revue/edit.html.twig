@@ -1,0 +1,65 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'revue.edit'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content -->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'revue.edit'|trans }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                {# if revue.isValid %}
+                    <div class="btn-group mb-2">
+                        <button type="button" class="btn btn-primary">{{ revue.title }}</button>
+                        <a href="{{ path('admin_revue_clients', {'id': revue.id}) }}" class="btn btn-light">{{ 'revue.clients'|trans }} <i class="fas fa-pencil-alt"></i> </a>
+                    </div>
+                {% endif #}
+
+                <div class="row">
+                    <div class="col-12">
+                        {{ include('RevueManagement/Revue/_form.html.twig') }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/validator') }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.fr.min.js"
+        integrity="sha512-fx3aztaUjb4NyoD+Tso5g7R1l29bU3jnnTfNRKBiY9fdQOHzVhKJ10wEAgQ1zM/WXCzB9bnVryHD1M40775Tsw=="
+        crossorigin="anonymous"></script>
+    <script>
+        {% if app.request.get('_locale') == 'fr' %}
+            $(function() { 
+                $('.pop-date').datepicker({
+                    language: 'fr', format: "dd/mm/yyyy",
+                });
+            });    
+        {% else %}
+            $(function() { 
+                $('.pop-date').datepicker({
+                    language: 'en', format: "yyyy-mm-dd",
+                });
+            });        
+        {% endif %}
+    </script>
+{% endblock %}

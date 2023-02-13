@@ -1,0 +1,48 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'client.edit'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            
+            <!-- Start Content -->
+            <div class="container-fluid">
+                
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'client.edit'|trans }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                {% if client.isValid %}
+                    <div class="btn-group mb-2">
+                        <button type="button" class="btn btn-primary">{{ client.name }}</button>
+                        <a href="{{ path('admin_client_revues', {'id': client.id}) }}" class="btn btn-light"><i class="fas fa-cog"></i>&nbsp;{{ 'client.revues'|trans }}</a>
+                        <a href="{{ path('admin_client_dcis', {'id': client.id}) }}" class="btn btn-light"><i class="fas fa-cog"></i>&nbsp;{{ 'client.dcis'|trans }}</a>
+                    </div>
+                {% endif %}
+
+                <div class="row">
+                    <div class="col-12">
+                        {{ include('UserManagement/Client/_form.html.twig') }}
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/client') }}
+{% endblock %}

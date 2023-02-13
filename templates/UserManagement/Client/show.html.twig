@@ -1,0 +1,142 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {% if action == 'delete' %}{{ 'classe.delete'|trans }}
+    {% elseif action == 'disable' %}{{ 'classe.disable'|trans }}
+    {% elseif action == 'enable' %}{{ 'classe.enable'|trans }}
+    {% else %}
+        {{ 'action.show'|trans }}
+    {% endif %}    
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content -->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {% if action == 'delete' %}{{ 'client.delete' | trans }}
+                                {% elseif action == 'disable' %}{{ 'client.disable' | trans }}
+                                {% elseif action == 'enable' %}{{ 'client.enable' | trans }}
+                                {% else %}
+                                    {% if client.isDeleted %}
+                                        {{ 'client.deleted'|trans }}                 
+                                    {% else %}
+                                        {{ 'client.detail'|trans }}
+                                    {% endif %}
+                                {% endif %}
+                                &nbsp;
+                                <a href="{{ path('admin_audit_show_entity_history', {'entity': 'App-Entity-UserManagement-Client', id: client.id}) }}" class="icon text-secondary" data-toggle="tooltip" data-original-title="{{ 'action.audit' | trans }}" target="_blank"><i class="fas fa-code-branch"></i></a>
+                                &nbsp;&nbsp;
+                                <a href="/docs/fr/site/clients/detail/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+                                    <i class="fas fa-lg fa-question-circle text-purple"></i>
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+                {% if action is null and client.isValid %}
+                    <div class="btn-group mb-2">
+                        <button type="button" class="btn btn-primary">{{ 'client.detail'|trans }}</button>
+                        <a href="{{ path('admin_client_revues', {'id': client.id}) }}" class="btn btn-light"><i class="fas fa-cog"></i>&nbsp;{{ 'client.revues'|trans }}</a>
+                        <a href="{{ path('admin_client_dcis', {'id': client.id}) }}" class="btn btn-light"><i class="fas fa-cog"></i>&nbsp;{{ 'client.dcis'|trans }}</a>
+                    </div>
+                {% endif %}
+
+                <!-- end page title -->
+                <div class="row">
+                    <div class="col-12">
+                        {{ include('UserManagement/Client/_detail.html.twig') }}
+                        <div class="form-group">
+                            {% if action == 'delete' %}
+                                <form method="post" action="{{ path('admin_client_delete', {'id': client.id}) }}">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card-box">
+                                                {#{{ form_row(form.reason) }}  #} 
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    {{ form_widget(form._token) }}
+                                    <button type="submit"  class="btn waves-effect waves-light btn-danger mt-2">{{ 'action.delete'|trans }}</button>  
+                                    <a href="{{ path('admin_client_index') }}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">{{ 'client.back'|trans }}
+                                    </a>                                              
+                                </form>
+                            {% elseif action == 'disable' or action == 'enable' %}
+                                <form method="post" action="{{ path('admin_client_disable', {'id': client.id}) }}" >
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card-box">
+                                                {#{{ form_row(form.reason) }}  #} 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit"  class="btn waves-effect waves-light btn-danger mt-2">
+                                        {% if action == 'disable' %}{{ 'action.disable' | trans }}
+                                        {% elseif action == 'enable' %}{{ 'action.enable' | trans }}
+                                        {% endif %}
+                                    </button>  
+                                    <a href="{{ path('admin_client_index') }}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">{{ 'client.back'|trans }}
+                                    </a>                               
+                                    {{ form_widget(form._token) }}
+                                </form>
+                            {% else %}                          
+                                {% if not client.isDeleted %} 
+                                    <a href="{{ path('admin_client_edit', {'id': client.id}) }}" class="btn waves-effect waves-light btn-primary mt-2">{{ 'action.edit'|trans }}</a> 
+                                {% endif %}    
+                                <a href="{{ path('admin_client_index') }}" class="btn waves-effect waves-light btn-secondary mt-2 float-right">{{ 'client.back'|trans }}</a>                            
+                            {% endif %} 
+
+                        </div>                        
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card">
+                            <div class="card-header">{{ 'legend'|trans }}</div>
+                            <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <button type="button" class="btn btn-light">{{ 'client.detail'|trans }}</button>: {{ 'client.detail'|trans }}
+                                        </li>
+                                        <li class="mt-2">   
+                                            <button class="btn btn-light"><i class="fas fa-cog"></i>&nbsp;{{ 'client.revues'|trans }}</button>: {{ 'client.revues_alt'|trans }}
+                                        <li class="mt-2">
+                                            <button class="btn btn-light"><i class="fas fa-cog"></i>&nbsp;{{ 'client.dcis'|trans }}</button>: {{ 'client.dcis_alt'|trans }} 
+                                        </li>
+                                        <li class="mt-2">
+                                            <button class="btn btn-primary">{{ 'action.edit'|trans }}</button>: {{ 'client.edit'|trans }}
+                                        </li>
+                                        <li class="mt-2">
+                                            <button class="btn btn-danger">{{ 'action.delete'|trans }}</button>: {{ 'client.delete'|trans }}  
+                                        </li>
+                                        <li class="mt-2">
+                                        <button class="btn btn-danger">{{ 'action.disable' | trans }}</button>: {{ 'client.disable'|trans }}  
+                                        </li>
+                                        <li class="mt-2">
+                                            <button class="btn btn-danger">{{ 'action.enable' | trans }}</button>: {{ 'client.enable'|trans }}  
+                                        </li>
+                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+       
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/validator') }}
+    {{ encore_entry_script_tags('js/datatables') }}
+{% endblock %}

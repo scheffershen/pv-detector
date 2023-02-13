@@ -1,0 +1,116 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ 'client.dcis'|trans }}{% endblock %}
+
+{% block body %}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ 'client.dcis'|trans }}
+                        &nbsp;&nbsp;
+                        <a href="/docs/fr/site/clients/portefeuille/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank"><i class="fas fa-lg fa-question-circle text-purple"></i></a>
+                        </h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title -->  
+
+            <div class="btn-group mb-2">
+                <a href="{{ path('admin_client_show', {'id': client.id}) }}" class="btn btn-light"><i class="fas fa-cog"></i>&nbsp;{{ 'client.detail'|trans }}</a>
+                <a href="{{ path('admin_client_revues', {'id': client.id}) }}" class="btn btn-light"><i class="fas fa-cog"></i>&nbsp;{{ 'client.revues'|trans }}</a>
+                <a href="#" class="btn btn-primary">{{ 'client.dcis'|trans }}</a>
+            </div>
+
+            {{ form_start(form) }} 
+
+            {% if oldDcis|length > 0 %} 
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th><input type="checkbox" id="selected_dci" checked /></th>
+                                    <th>{{ 'client.dcis_alt'|trans }}</th>                           
+                                </tr>
+                            </thead>        
+                                <tbody>  
+                                {% for dci in oldDcis %}
+                                    {% if dci.isValid %}
+                                        <tr>
+                                            <td><input type="checkbox" checked id="client_dci_dcis_{{ dci.id }}" name="client_dci[dcis][]" class="selected_dci" value="{{ dci.id }}" /></td> 
+                                            <td>
+                                                {{ dci.title }}     
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}                   
+                                </tbody>
+                        </table>                 
+                    </div>
+                </div>  
+            {% endif %}
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box border-bottom">
+                        <h4 class="page-title">{{ 'client.dcis_alt_dispo'|trans }}</h4>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <table class="table table-bordered table-striped" id="tablefiltre">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th><input type="checkbox" id="selecting_dci" ></th>
+                                <th>{{ 'dcis'|trans }}</th>                           
+                            </tr>
+                        </thead>
+                        <thead id="filtreForm">                            
+                            <tr>
+                                <th></th>
+                                <th>{{ 'dcis'|trans }}</th>                           
+                            </tr>                            
+                        </thead>
+                        <tbody> <!-- Corps du tableau -->
+                            {% for dci in dcis %}
+                                {% if dci.isValid %}
+                                    {% set oldDci = false %}
+                                    {% for old in client.dcis %}{% if old.id == dci.id %}{% set oldDci = true %}{% endif %}{% endfor %} 
+                                    {% if oldDci == false %}
+                                        <tr>
+                                            <td><input type="checkbox" id="client_dci_dcis_{{ dci.id }}" name="client_dci[dcis][]" class="selecting_dci" value="{{ dci.id }}" /></td>
+                                            <td>{{ dci.title }}</td>                              
+                                        </tr>
+                                    {% endif %}  
+                                {% endif %}  
+                            {% endfor %}
+                        </tbody>
+                    </table>                         
+                </div>
+            </div>
+            
+            <div class="col text-center mt-3 mb-3">
+                <button type="submit" class="btn waves-effect waves-light btn-primary">{{ button_label|default('Sauvegarder') }}</button>
+            </div>
+
+            <div class="d-none" id="clientDciFormBloc">
+                {{ form_row(form.dcis) }}
+            </div>
+            {{ form_end(form) }}
+
+        </div> 
+    </div>
+</div>
+  
+{% endblock %}
+
+{% block javascripts %} 
+    {{ parent() }}  
+    {{ encore_entry_script_tags('js/client-dci') }}
+{% endblock %}

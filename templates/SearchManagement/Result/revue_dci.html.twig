@@ -1,0 +1,80 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'dci.results'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'dci.results'|trans }}: "{{ dci }}"
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="card-body">
+                            {{ form_start(form) }}
+                            <div class="row">
+                                <div class="col-10">
+                                    {{ form_widget(form.dci) }}
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit"
+                                        class="btn btn waves-effect waves-light btn-dark">
+                                        {{ 'search'|trans }}
+                                    </button>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 images">
+                        {% if (array_search|length) > 0 %}
+                            {% for numero, pages in array_search %}
+                                <h4 class="page-title">
+                                    {{ numero }}
+                                </h4>
+                                {% for page, results in pages %}
+                                    <h6 class="page-title">
+                                        Page {{ page }}
+                                    </h6>
+                                    {% for result in results %}
+                                        <div class="col-12"
+                                            style="border: 1px solid">
+                                            {{ result|raw|nl2br }}
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                                <hr />
+                            {% endfor %}
+                        {% else %}
+                            {{ 'not_found'|trans }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="dci" id="dci" value="{{ dci }}" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/highlighter') }}
+    {{ encore_entry_script_tags('js/validator') }}
+{% endblock %}

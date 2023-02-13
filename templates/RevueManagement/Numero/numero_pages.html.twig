@@ -1,0 +1,182 @@
+{% extends 'admin_base.html.twig' %}
+
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+{% block title %}{{ numero.title }}{% endblock %}
+
+{#
+{% block topbar %}{% endblock %}
+
+{% block left_sidebar %}{% endblock %}
+#}
+
+{% block body %}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ 'numeros'|trans }}: {{ numero.revue.title }}, {{ numero.title }}, {{ numero.receiptDate|date('d-M-Y')}} 
+                            {{ utils.numero_state(numero) }}
+                            &nbsp;
+                            {% if no_position == false %}
+                                <a class="icon text-secondary" href="{{ path('admin_numero_pages', {'id': numero.id}) }}?no_position=1" data-toggle="tooltip" data-placement="bottom" title="{{ 'search.no_position_alt'|trans }}" target="_blank"><span class="badge badge-info">{{ 'search.no_position'|trans }}</span></a>
+                            {% endif %}
+                            &nbsp;
+                            {% if no_position == true %}
+                                <a class="icon text-secondary" href="{{ path('admin_numero_pages', {'id': numero.id}) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'search.avec_position_alt'|trans }}" target="_blank"><span class="badge badge-info">{{ 'search.avec_position'|trans }}</span></a>
+                            {% endif %}
+                            &nbsp;
+                            {% if origin == false %}
+                                <a class="icon text-secondary" href="{{ path('admin_numero_pages', {'id': numero.id}) }}?origin=1" data-toggle="tooltip" data-placement="bottom" title="{{ 'search.origin_pdfORImages_alt'|trans }}" target="_blank"><span class="badge badge-info">{{ 'search.origin_pdfORImages'|trans }}</span></a>
+                            {% endif %}                                                                                                                 
+                        </h4>
+                    </div>
+                </div>
+            </div>     
+
+            {#<div style="position: fixed;right: 0; top: 50%; width: 8em;margin-top: -2.5em;z-index:999;"> 
+                <div class="btn-group-vertical mb-2">
+                    {% set numeroPage = 0 %}
+                    {% for image in numero.images %}
+                        {% if image.isDeleted == false %}
+                            {% set numeroPage =  numeroPage + 1 %}
+                            <a href="#page-{{ numeroPage }}" class="btn btn-light">Page {{ numeroPage }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>                    
+            </div>#}
+
+            <!-- end page title -->   
+            <div class="row">
+                <div class="col-12"> 
+                    <div class="row"> 
+                        {% if origin == false %} 
+                            {% set numeroPage = 0 %}
+                            {% for image in numero.images %}
+                                {% if image.isDeleted == false %}
+                                    {% set numeroPage =  numeroPage + 1 %}
+                                    {% if no_position == false %} 
+                                        <div class="col-12 images mt-3" id="image{{ image.id }}" style="position:relative;width:{{ image.width }}px; height:{{ image.height }}px;border:1px solid #ced4da;"><a id="page-{{numeroPage}}"></a>
+                                            <img style="position:absolute;left:0px;top:0px;opacity:0.2;" src="{{ asset('images/loading.gif') }}" data-src="{{ path('admin_private_upload', {'dir': image.fileDir, 'upload': image.fileName, 'format': 'revues'}) }}"/>
+                                    {% else %}   
+                                        <div class="col-12 mt-3">
+                                            <div class="card">
+                                                <div class="card-header">Page {{ numeroPage }}<a id="page-{{numeroPage}}"></a></div>     
+                                    {% endif %}    
+                                            <div class="card-body page images"> 
+                                                {% set page_existed = false %}
+                                                {% for page in image.pages %}
+                                                    {% if page.isDeleted == false and  page_existed == false %}
+                                                         {% set page_existed = true %}
+                                                         {% for _block in page.blocks %}
+                                                            {% if no_position == false %}
+                                                                
+                                                                <div style="position:absolute;border:1px solid #ced4da;left:{{ _block.left}}px;top:{{ _block.top}}px;width:{{ _block.width}}px;height:{{ _block.height}}px;{{ scroll }}">
+                                                                    {{ dcisHightlight(_block.text)|raw }}
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="row col-12">
+                                                                    {{ dcisHightlight(_block.text)|raw }}
+                                                                </div>
+                                                            {% endif %}                                                    
+                                                         {% endfor %}
+                                                    {% endif %}     
+                                                {% endfor %}
+                                            </div> 
+                                        {% if no_position == true %}
+                                            </div>
+                                        {% endif %}   
+                                        </div>
+                                {% endif %}    
+                            {% endfor %}  
+                        {% else %}
+                            {% if numero.isPdf and numero.fileUri|isPdf == true %}
+                                <div class="col-12 form-group pdf-file">
+                                    <embed src="{{ path('admin_private_upload', {'upload': numero.fileUri, 'format': 'revues'}) }}" width="100%" height="1000px" type='application/pdf'/>
+                                </div>
+                            {% else%}
+                                {#<div class="page-title-box">
+                                    <h4 class="page-title">
+                                        <select id="imageFilter" class="chosen form-control">
+                                            {% for image in numero.images %}
+                                                <option value="{{ image.id }}">Page {{ loop.index }}</option>
+                                            {% endfor %} 
+                                        </select>
+                                    </h4>
+                                </div>#}
+                                {% for image in numero.images %}
+                                    <div class="col-12 images" id="image{{ image.id }}" style="{# if loop.index > 1 %}display:none;{% endif #}">
+                                        <img class="img-fluid" src="{{ asset('images/loading.gif') }}" data-src="{{ path('admin_private_upload', {'dir': image.fileDir, 'upload': image.fileName, 'format': 'revues'}) }}">        
+                                    </div>
+                                    <hr/>
+                                {% endfor %}    
+                            {% endif %}
+                        {% endif %}
+                    </div>  
+    			</div>		
+    		</div>
+
+            <div class="row mt-3">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-header">{{ 'legend'|trans }}</div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.submitted_help'|trans }}">{{ 'numero.state.submitted'|trans }}</span>: {{ 'numero.state.submitted_help'|trans }}
+                                </li>
+                                <li class="mt-2">
+                                    <span class="badge badge-primary" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.treatment_help'|trans }}">{{ 'numero.state.treatment'|trans }}</span>: {{ 'numero.state.treatment_help'|trans }}
+                                </li>
+                                <li class="mt-2">
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.published_help'|trans }}">{{ 'numero.state.published'|trans }}</span>: {{ 'numero.state.published_help'|trans }}
+                                </li>
+                                <li class="mt-2">
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.controlled_help'|trans }}">{{ 'numero.state.controlled'|trans }}</span>: {{ 'numero.state.controlled_help'|trans }}
+                                </li>
+                                <li class="mt-2">    
+                                    <span class="badge badge-danger" data-toggle="tooltip" data-placement="top" title="{{ 'numero.state.rejected_help'|trans }}">{{ 'numero.state.rejected'|trans }}</span>: {{ 'numero.state.rejected_help'|trans }}                
+                                </li>
+                                <li class="mt-2">
+                                    <span class="badge badge-info">{{ 'search.no_position'|trans }}</span>: {{ 'search.no_position_alt'|trans }}
+                                </li>
+                                <li class="mt-2">
+                                    <span class="badge badge-info">{{ 'search.avec_position'|trans }}</span>: {{ 'search.avec_position_alt'|trans }} 
+                                </li>
+                                <li class="mt-2">
+                                    <span class="badge badge-info">{{ 'search.origin_pdfORImages'|trans }}</span>: {{ 'search.origin_pdfORImages_alt'|trans }}
+                                </li>
+                                <li class="mt-2">
+                                    <button class="btn btn-sm btn-dark"><i class="fas fa-angle-up"></i></button>: {{ 'action.up' | trans }} &nbsp;&nbsp; 
+                                    <button class="btn btn-sm btn-dark"><i class="fas fa-angle-down"></i></button>: {{ 'action.down' | trans }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    	</div>
+    </div>    			
+</div>
+
+<button class="btn waves-effect waves-light btn-dark floatUp" data-toggle="tooltip" data-original-title="{{ 'action.up' | trans }}" >
+    <i class="fas fa-angle-up"></i>
+</button> 
+<button class="btn waves-effect waves-light btn-dark floatDown" data-toggle="tooltip" data-placement="right" data-original-title="{{ 'action.down' | trans }}" >
+    <i class="fas fa-angle-down"></i>
+</button> 
+{% endblock %}
+
+{% block footer %}{% endblock %}  
+
+{% block javascripts %} 
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/unveil') }}
+{% endblock %}

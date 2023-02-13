@@ -1,0 +1,46 @@
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>{{ 'revue.title'|trans }}</th>
+            <td>{{ revue.title }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'revue.editeur'|trans }}</th>
+            <td>{{ revue.editeur }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'revue.endDate'|trans }}</th>
+            <td>{{ utils.format_date(revue.endDate) }}</td>
+        </tr>
+        <tr>            
+            <th>{{ 'lov.access'|trans }}</th>
+            <td>{{ revue.access|default('-') }}</td>
+        </tr>      
+		<tr>
+            <th>{{ 'revue.site'|trans }}</th>
+            <td>{{ revue.site|default('-') }}</td>
+        </tr>
+        <tr>            
+            <th>{{ 'revue.isCFC'|trans }}</th>
+            <td>{{ utils.revue_isCFC(revue) }}</td>
+        </tr>
+        <tr>            
+            <th>{{ 'revue.contact'|trans }}</th>
+            <td>{{ revue.contact|default('-') }}</td>
+        </tr>
+        {% if revue.clients|length > 0 %}
+            <tr>
+                <th>
+                    {{ 'revue.clients'|trans }}
+                </th>
+                <td><select class="form-control">
+                        {% for client in revue.clients %}
+                            <option>{{ client.name }}</option>
+                        {% endfor %}  
+                    </select>             
+                </td>
+            </tr>
+        {% endif %}  
+</table> 

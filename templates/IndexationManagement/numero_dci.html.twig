@@ -1,0 +1,121 @@
+{% extends 'admin_base.html.twig' %}
+
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+{% block title %}
+    {{ 'indexation.results'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'numeros'|trans }}: {{ numero.revue.title }}, {{
+                                    numero.title
+                                }}, {{ numero.receiptDate|date('d-M-Y') }}
+                                &nbsp;&nbsp;
+                                {{ utils.numero_images(numero) }}
+                                &nbsp;&nbsp;
+                                <a href="/docs/fr/site/numeros/mot-cle/index.html" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+                                    <i class="fas fa-lg fa-question-circle text-purple"></i>
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">{{ 'dcis'|trans }}</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                {{ dci.title }}
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                {% set numeroPage = 0 %}
+
+                <div class="row mt-3" id="inputText">
+                    {% for image in numero.images %}
+                        {% if image.isDeleted == false %}
+                            {% set numeroPage = numeroPage + 1 %}
+                            {% set existed = false %}
+
+                            {% for indexation in indexations %}
+                                {% if
+                                    indexation.image.id == image.id
+                                        and existed == false %}
+                                    {% set existed = true %}
+                                    <div class="col-12 mb-2">
+                                        <div class="card">
+                                            <div class="card-header">Page {{ numeroPage }}
+                                                <a href="{{ path('admin_numero_pages', {'id': numero.id}) }}#{{ 'page-'~numeroPage }}" class="icon text-secondary float-right" data-toggle="tooltip" data-original-title="{{ 'action.show' | trans }}"  target="_blank"><i class="fas fa-eye"></i></a>
+                                            </div>
+                                            <div class="card-body page images"> 
+                                                {% set page_existed = false %}
+                                                {% for page in image.pages %}
+                                                    {% if page.isDeleted == false
+                                                            and page_existed == false %}
+                                                        {% set page_existed = true %}
+                                                        {% for _block in page.blocks %}
+                                                            <div class="row col-12 mb-2">
+                                                                 {# _block.text|nl2br #}
+                                                                 {{ keyHightlight(_block.text, dci.title)|raw }}
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">{{ 'legend'|trans }}</div>
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    <li><span class="badge badge-info">57 {{ 'numero.pdf2image'|trans }}</span>: {{ 'numero.pdf2image_alt'|trans }}</li>
+                                    <li class="mt-2"><span class="badge badge-info">57 {{ 'numero.image2text'|trans }} </span>: {{ 'numero.image2text_alt'|trans }}</li>
+                                    <li class="mt-2"><span class="icon text-secondary"><i class="fas fa-question-circle text-purple"></i></span>: {{ 'label.user_help'|trans }}</li>
+                                    <li class="mt-2"><span class="icon text-secondary"><i class="fas fa-eye"></i></span>: {{ 'numero.show'|trans }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="dci" id="dci" value="{{ dci.title }}" />
+
+<button class="btn waves-effect waves-light btn-dark floatUp" data-toggle="tooltip" data-original-title="{{ 'action.up' | trans }}">
+    <i class="fas fa-angle-up"></i>
+</button> 
+<button class="btn waves-effect waves-light btn-dark floatDown" data-toggle="tooltip" data-placement="right" data-original-title="{{ 'action.down' | trans }}">
+    <i class="fas fa-angle-down"></i>
+</button>         
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {# encore_entry_script_tags('js/highlighter') #}
+{% endblock %}

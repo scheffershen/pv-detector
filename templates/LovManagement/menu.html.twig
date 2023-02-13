@@ -1,0 +1,13 @@
+<h6 class="page-title">{{ 'lovs'|trans}}</h6>
+
+<a href="{{ path('admin_lov_list', {'entity': 'Access' }) }}" 
+class="btn btn-sm {% if entity == "Access" %}btn-dark{% else %}btn-outline-dark{% endif %}  btn-block waves-effect waves-light mt-2">{{ 'lov.access'|trans }} </a>
+
+<a href="{{ path('admin_lov_list', {'entity': 'Categorie' }) }}" 
+class="btn btn-sm {% if entity == "Categorie" %}btn-dark{% else %}btn-outline-dark{% endif %}  btn-block waves-effect waves-light mt-2">{{ 'lov.categorie'|trans }} </a>
+
+<a href="{{ path('admin_lov_list', {'entity': 'Jour' }) }}" 
+class="btn btn-sm {% if entity == "Jour" %}btn-dark{% else %}btn-outline-dark{% endif %}  btn-block waves-effect waves-light mt-2">{{ 'lov.jour'|trans }} </a>
+
+<a href="{{ path('admin_lov_list', {'entity': 'TypeLien' }) }}" 
+class="btn btn-sm {% if entity == "TypeLien" %}btn-dark{% else %}btn-outline-dark{% endif %}  btn-block waves-effect waves-light mt-2">{{ 'lov.typeLien'|trans }} </a>

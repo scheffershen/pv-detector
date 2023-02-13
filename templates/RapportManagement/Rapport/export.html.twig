@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    </head>
+    <body>
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+<table>
+    <tbody>
+        <tr>
+            <th colspan="2">{{ 'revue.label'|trans }}</th>
+        </tr>      
+        <tr>
+            <th>{{ 'revue.title'|trans }}</th>
+            <td>{{ rapport.numero.revue.title }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'revue.editeur'|trans }}</th>
+            <td>{{ rapport.numero.revue.editeur }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'revue.access'|trans }}</th>
+            <td>{{ rapport.numero.revue.access }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'revue.sites'|trans }}</th>
+            <td>{{ rapport.numero.revue.site }}</td>
+        </tr>        
+        <tr>            
+            <th>{{ 'lov.access'|trans }}</th>
+            <td>{{ rapport.numero.revue.access|default('-') }}</td>
+        </tr>      
+        <tr>
+            <th>{{ 'revue.site'|trans }}</th>
+            <td>{{ rapport.numero.revue.site|default('-') }}</td>
+        </tr>
+        <tr>            
+            <th>{{ 'revue.isCFC'|trans }}</th>
+            <td>{{ utils.revue_isCFC(rapport.numero.revue) }}</td>
+        </tr>
+
+        <tr>
+            <th colspan="2">{{ 'numero.label'|trans }}</th>
+        </tr>  
+        <tr>
+            <td colspan="2"><hr/></td>
+        </tr>              
+        <tr>
+            <th>{{ 'numero.reference'|trans }}</th>
+            <td>{{ rapport.numero.title }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'numero.numero'|trans }}</th>
+            <td>{{ rapport.numero.numero }}</td>
+        </tr> 
+        <tr>
+            <th>{{ 'numero.receiptDate'|trans }}</th>
+            <td>{{ utils.format_date(rapport.numero.receiptDate) }}</td>
+        </tr>
+        <tr>
+            <th colspan="2">{{ 'rapport.label'|trans }}</th>
+        </tr>       
+    </tbody>
+</table>
+<hr/>
+{{ rapport.commentaire|raw }}
+<hr/>
+<table>
+    <tbody>
+        <tr>
+            <th>{{ 'rapport.last_author'|trans }}</th>
+            <td>{{ rapport.updateUser.firstname }} {{ rapport.updateUser.lastname }}</td>
+        </tr>  
+        <tr>
+            <th>{{ 'rapport.updated_date'|trans }}</th>
+            <td>{{ utils.format_date(rapport.updateDate) }}</td>
+        </tr>  
+        <tr>
+            <th>{{ 'rapport.cqt'|trans }}</th>
+            <td>{{ utils.rapport_CQT(rapport) }}</td>
+        </tr> 
+        {% if rapport.controleQualite %}
+            <tr>
+                <th colspan="2">{{ 'controle_qualite.label'|trans }}</th>
+            </tr>
+        {%  endif %}
+    </tbody>
+</table>
+
+{% if rapport.controleQualite %}
+<hr/>
+    {{ rapport.controleQualite.commentaire|raw }}
+<hr/>
+<table>
+    <tbody>
+        <tr>
+            <th>{{ 'rapport.last_author'|trans }}</th>
+            <td>{{ rapport.controleQualite.updateUser.firstname }} {{ rapport.updateUser.lastname }}</td>
+        </tr>  
+        <tr>
+            <th>{{ 'rapport.updated_date'|trans }}</th>
+            <td>{{ utils.format_date(rapport.controleQualite.updateDate) }}</td>
+        </tr>                     
+    </tbody>
+</table>
+{%  endif %}
+
+    </body>
+</html>

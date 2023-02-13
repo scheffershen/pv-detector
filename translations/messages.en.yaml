@@ -1,0 +1,215 @@
+psmf: PSMF
+bonjour: Hello
+profile: Profile
+no_items_found: No items found.
+view_details: View Details
+users: Users
+no_position: Without background image
+image2text: (image to text)Pages
+pdf2image: (pdf to image)Pages
+configurations: Configurations
+admins: Admins
+chefProjets: Chef de projet 
+managers: Managers 
+helps: Help
+help:
+  guide: User guide
+legend: Legend
+
+ROLE_ADMIN: Administrator
+ROLE_CLIENT: Customer
+ROLE_GESTIONNAIRE: Manager   
+ROLE_LECTEUR: Reader
+
+dashboards: Dashboard
+dashboard:
+  label: Dashboard
+  numeros_sans_rapport: Last 10 numbers without report
+  mes_rapports_clients: My customer reports
+  numeros_avec_rapport: Numbers with report
+  mes_clients: My customers
+
+menu:
+  account: Account
+  admin: Admin
+  back: Back
+  edit_profile: Edit profile
+  homepage: Homepage
+  faq: FAQ
+  login: Login
+  logout: Logout
+  lov: 
+    title: LOVs
+  audit: 
+    title: Audits  
+
+message:
+  created: Created successfully
+  updated: Updated successfully
+  deleted: Deleted successfully
+  uploaded: Uploaded successfully
+  token_expired: Sorry, your token has expired. Please try again.
+  was_sent: Your message was sent successfully. Thanks.
+  password_has_been_reset: Password has been changed successfully. Now you can log in with new password.
+  emailed_reset_link: We have e-mailed your password reset link!
+  denied: Access denied
+  user_not_found: Username or email could not be found.
+  user_is_disenabled: Your account is disabled. 
+  max_attempts_reached: Max attempts reached.
+  password_request_non_expired: You must wait 4 hours between each request
+  connexion_perdue: Connection lost
+  logged_out_due_to_inactivity: You have been logged out due to inactivity
+
+action:
+  search: Search
+  save: Save changes
+  add: Add
+  edit: Edit
+  delete: Delete
+  audit: Audit trail
+  sign_in: Sign in
+  sign_out: Sign out
+  forgot_password: Forgot Your Password?
+  send_reset_link: Send Password Reset Link
+  submit: Submit
+  continue: Continue
+  enable: Enable
+  disable: Disable
+  download: Download
+  show: Detail
+  preview: Preview
+  backToSearch: Go Back To Search
+  back: Go back 
+
+state:
+  enable: Enabled
+  disable: Disabled
+  delete: Deleted
+
+table: 
+  no_records_found: no records found
+  username: Username
+  email: Email
+  group: Group
+  action: Action
+
+confirmation:
+  delete_user: Are you sure you want to delete this user?
+  delete_item: Are you sure you want to delete this item?
+  delete_service: Are you sure you want to delete this service?
+  delete_organisation: Are you sure you want to delete this organisation?
+  delete_photo: Are you sure you want to delete this photo?
+  delete_dppsi: Are you sure you want to delete this dppsi?
+  delete_dppsi_fichier: Are you sure you want to delete this dppsi file?
+  
+title:
+  login: Secure Sign in
+  reset_password: Reset Password
+  set_new_pass: Set a new password
+  settings: Settings
+
+label:
+  submit: Submit  
+  remember_me: Keep me logged in
+  roles: 
+    admin: Admin
+    manager: Manager
+    chefDeProjet: Chef de projet
+    user: user
+  fullname: Full name
+  firstname: First name
+  lastname: Last name
+  username: Username
+  email: Email
+  adresse: Adresse
+  city: City
+  zipCode: ZipCode
+  sexe: Sexe
+  isValid: Is valid
+  password: Password
+  new_password: New password
+  confirm_password: Confirm new password
+  name: Name
+  logo: Logo 
+  title: Title 
+  sort: Order
+  create_user: Create user
+  save_and_create_new: Save and create new
+  sort_by: Sort by
+  revision: Revision
+  createDate: Creation date
+  updateDate: Updated date
+  specimen: Specimen
+  en_cours: On going
+  termine: Finished
+  userHelp: User help
+  obligatoire: Required field
+  obligation: Obligation
+  code: Code
+  oui: "Yes"
+  non: "No"
+  systeme: Système
+  globale: Globale
+  locale: Locale
+  user_help: user help
+  indexed: Indexed
+
+## languages
+languages: Languages
+language: 
+  label: Language
+  code: Code
+  french: French
+  english: English
+
+placeholder:
+  enter_identifiant: Enter your username
+  enter_password: Enter your password
+
+processing: Please wait...
+
+tracking:  
+  label: Tracking
+  login: Login
+  login_failed: Login failed
+  mail: E-mail
+  path: Url
+  ip: IP
+  user: User
+  session: Session
+
+email:
+  new_message: New Message From Your Website
+  new_log: Log from user import
+  produit_missing: Product missing 
+  new_user: Your account has been created
+  new_user_message: >+
+        Hello %firstname% %lastname%,
+
+        Your account has been created on %app_name%.
+
+        Username : %email%
+        Password : %password%
+
+        We recommend that you change your password the first time you login. 
+
+        Regards
+
+        Veille Bibliographique team.
+
+resetting:
+  email:
+    subject: Reset Password
+    message: >+
+        Hello %username%!
+
+        To reset your password - please visit <a href='%confirmationUrl%' target='_blank'>%confirmationUrl%</a>
+
+        Regards, the Team.
+  submit: Send mail
+  title: Reset your password
+  password: Reset your password
+  password_1: New password
+  password_1_label: Enter your new password
+  password_2: Repeat password
+  help: The password must contain at least one number, one lowercase character and one uppercase character, and at least 8 characters

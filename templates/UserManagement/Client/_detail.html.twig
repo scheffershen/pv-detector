@@ -1,0 +1,137 @@
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>
+                {{ 'client.label'|trans }}
+            </th>
+            <td>
+                {{ client.name }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                {{ 'client.code'|trans }}
+            </th>
+            <td>
+                {{ client.code }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                {{ 'lov.jour'|trans }}
+            </th>
+            <td>
+                {{ client.jourBilanHebdomadaire }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                {{ 'client.respondableClient'|trans }}
+            </th>
+            <td>
+                {{ client.respondableClient }}
+            </td>
+        </tr>        
+        <tr>
+            <th>
+                {{ 'client.backupResponsableClient'|trans }}
+            </th>
+            <td>
+                {{ client.backupResponsableClient|default('-') }}
+            </td>
+        </tr>
+        {% if client.liens|length > 0 %}
+            <tr>
+                <th>
+                    {{ 'client.liens'|trans }}
+                </th> 
+                <td>
+                    <table class="table">
+                    {% for lien in client.liens %}
+                        <tr>
+                            <td>
+                                <a href="{{ lien.url }}" target="_blank">{{ lien.url }} ({{ lien.typeLien }})</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                </td>
+            </tr>         
+        {% endif %}
+        {# maybe late, when she wake up
+        <tr>
+            <th>{{ 'label.adresse'|trans }}</th>
+            <td>{{ client.adress }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'label.logo'|trans }}</th>
+            <td>
+                {% if client.logoUri|isImage == true %}
+                    <img src="{{ path('admin_private_upload', {'upload': client.logoUri, 'format': 'large'}) }}" class="img-fluid"  >
+                {% endif %}
+            </td>
+        </tr>#}
+        {% if client.revues|length > 0 %}
+            <tr>
+                <th colspan="2">
+                    {{ 'client.revues'|trans }}
+                </th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table class="table table-bordered table-striped">        
+                            <tbody>  
+                            {% for revue in client.revues %}
+                                <tr>
+                                    <td>
+                                        <span data-toggle="tooltip" data-placement="top" title="{{ revue.title }}">
+                                            {% if revue.isValid == false %}<del>{% endif %}
+                                                {{ revue.title|u.truncate(80, '...') }}
+                                            {% if revue.isValid == false %}</del>{% endif %}
+                                        </span>
+                                    </td>
+                                    <td>{{ utils.format_date(revue.endDate) }}</td>
+                                </tr>
+                            {% endfor %}                  
+                            </tbody>
+                    </table>             
+                </td>
+            </tr>
+        {% endif %}
+        {% if client.dcis|length > 0 %}
+            <tr>
+                <th colspan="2">
+                    {{ 'client.dcis'|trans }}
+                </th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table class="table table-bordered table-striped" id="tablefiltre">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>{{ 'dci.title'|trans }}</th>
+                                <th>{{ 'indexation.nb_dci'|trans }}</th>
+                            </tr>
+                        </thead>        
+                        <tbody>  
+                        {% for dci in client.dcis %}
+                            <tr>
+                                <td>
+                                    <span data-toggle="tooltip" data-placement="top" title="{{ dci.title }}">{% if dci.isValid == false %}<del>{% endif %}{{ dci.title|u.truncate(80, '...') }}{% if dci.isValid == false %}</del>{% endif %}</span>
+                                    {% if dci.isIndexed == false %}<span class="badge badge-warning">non indexé</span>{% endif %}
+                                </td> 
+                                <td>
+                                    {% if dci.isIndexed and dci.id|nbDciIndexation > 0 %}<a class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'indexation.indexed'|trans }}" href="{{ path('admin_indexation_dci', {'dci': dci.id}) }}" target="_blank">{{ dci.id|nbDciIndexation }}</a>
+                                    {% else %}0{% endif %}     
+                                </td>
+                            </tr>
+                        {% endfor %}                   
+                        </tbody>
+                    </table>            
+                </td>
+            </tr>        
+        {% endif %}
+    </tbody>
+</table>

@@ -1,0 +1,57 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'revue.add'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'revue.add'|trans }}
+                                
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+                <div class="row">
+                    <div class="col-12">
+                        {{ include('RevueManagement/Revue/_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<input type="hidden" id="_locale" value="{{ app.request.get('_locale') }}"> 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/validator') }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.fr.min.js"
+        integrity="sha512-fx3aztaUjb4NyoD+Tso5g7R1l29bU3jnnTfNRKBiY9fdQOHzVhKJ10wEAgQ1zM/WXCzB9bnVryHD1M40775Tsw=="
+        crossorigin="anonymous"></script>
+    <script>
+        {% if app.request.get('_locale') == 'fr' %}
+            $(function() { 
+                $('.pop-date').datepicker({
+                    language: 'fr', format: "dd/mm/yyyy",
+                });
+            });    
+        {% else %}
+            $(function() { 
+                $('.pop-date').datepicker({
+                    language: 'en', format: "yyyy-mm-dd",
+                });
+            });        
+        {% endif %}
+    </script>
+{% endblock %}

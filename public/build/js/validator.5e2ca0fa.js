@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkveille_pv_xxx_com=self.webpackChunkveille_pv_xxx_com||[]).push([[726],{5562:()=>{$((function(){$("form").validate({submitHandler:function(e){$(".spinner").show(),e.submit()},error:function(){$(".spinner").hide()},ignore:":hidden:not(.summer-note),.note-editable.panel-body"})}))}},e=>{var n;n=5562,e(e.s=n)}]);

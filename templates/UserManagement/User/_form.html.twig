@@ -1,0 +1,22 @@
+{{ include('partials/_flash_messages.html.twig') }}
+
+{{ form_start(form) }}
+{{ form_errors(form) }}
+    {{ form_row(form.firstname) }}
+    {{ form_row(form.lastname) }}  
+    {{ form_row(form.username) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.isEnable) }}
+    {{ form_row(form.roles) }}
+    {#<div class="{% if 'ROLE_CLIENT' in user.roles %}clients{% else %}clients d-none{% endif %}">#}
+    <div class="clients">
+        {{ form_row(form.clients) }}
+    </div>    
+
+    <div class="col text-center">
+        <button type="submit" class="btn waves-effect waves-light btn-dark">{{ button_label|default('Sauvegarder') }}</button>
+    </div>
+
+{{ form_end(form) }}
+
+<p><span class="text-danger">*</span>: {{ 'label.obligatoire'|trans }}</p>

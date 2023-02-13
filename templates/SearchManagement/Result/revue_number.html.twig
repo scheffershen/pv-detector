@@ -1,0 +1,160 @@
+{% extends 'admin_base.html.twig' %}
+
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+{% block title %}
+    {{ 'dci.results'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'dci.results'|trans }}: {{
+                                    number.revue.title
+                                }} - {{ number.title }} - {{
+                                    number.receiptDate|date('d-M-Y')
+                                }} ({{ clients|length }} {{ 'clients'|trans }})
+                                &nbsp; &nbsp;{% if
+                                    mysqlFullTextSearch == false %}
+                                    <a class="icon text-secondary"
+                                        href="{{
+                                        path(
+                                            'admin_search3_numero3',
+                                            {
+                                                id: number.id
+                                            }
+                                        )
+                                        }}"
+                                        alt="{{ 'pages'|trans }}"
+                                        title="{{ 'pages'|trans }}"
+                                        target="_blank">
+                                        <span class="badge badge-info">
+                                            {{
+                                                'dci.mysqlFullTextSearch'|trans
+                                            }}
+                                        </span>
+                                    </a>
+                                {% endif %}
+                            </h4>
+                            {{ utils.numero_images(numero) }}
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="card-body">
+                            {{ form_start(form) }}
+                            <div class="row">
+                                <div class="col-10">
+                                    {{ form_widget(form.dci) }}
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit"
+                                        class="btn btn waves-effect waves-light btn-dark">
+                                        {{ 'search'|trans }}
+                                    </button>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {#
+                <div class="col-12">
+					{{ dump(array_search) }}
+				</div>
+				#}
+                    <div class="col-12">
+                        {% for client, dcis in array_search %}
+                            <div class="card">
+                                <div class="card-header">
+                                    {{ client }}
+                                </div>
+                                {% for dci, page in dcis %}
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            {% if page is empty %}
+                                                <a href="{{
+                                                    path(
+                                                        'admin_search3_numero_dci',
+                                                        {
+                                                            numero: number.id,
+                                                            dci: dci
+                                                        }
+                                                    )
+                                                    }}"
+                                                    target="_blank">
+                                                    {{ dci }}
+                                                </a>
+                                            {% else %}
+                                                <a href="{{
+                                                    path(
+                                                        'admin_search3_numero_dci',
+                                                        {
+                                                            numero: number.id,
+                                                            dci: dci
+                                                        }
+                                                    )
+                                                    }}"
+                                                    target="_blank">
+                                                    {{ dci }}
+                                                </a>
+                                            {% endif %}
+                                        </h5>
+                                        {% if page is empty %}
+                                            <p class="card-text">
+                                                N/A
+                                            </p>
+                                        {% else %}
+                                            {# if number.isPdf %}
+										{% for i in page %}
+											{#<p class="card-text"><a href="{{ path('admin_private_upload', {'upload': number.fileUri, 'format': 'revues'}) }}#search={{dci}}&page={{ i }}" target="_blank">Page {{ i }}</a></p>
+											<p class="card-text"><a href="{{ path('admin_search3_pdf_dci', {'numero': number.id, 'dci': dci, 'page': i }) }}" target="_blank">Page {{ i }}</a></p>
+										{% endfor %}
+									{% else #}
+                                            {% for result in page %}
+                                                <p class="card-text">
+                                                    <a href="{{
+                                                        path(
+                                                            'admin_search3_image_dci',
+                                                            {
+                                                                numero: number.id,
+                                                                dci: dci,
+                                                                input: result
+                                                            }
+                                                        )
+                                                        }}"
+                                                        target="_blank">
+                                                        Page {{ result|imagePageNumber }}
+                                                    </a>
+                                                </p>
+                                            {% endfor %}
+                                            {# endif #}
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <br />
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/datatables') }}
+{% endblock %}

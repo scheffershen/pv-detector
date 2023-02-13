@@ -1,0 +1,59 @@
+dcis: mots-clés
+dci:
+  menu: Gestion des mots-clés
+  label: Mot-clé
+  title: Mot (Elément de recherche)
+  categorie: Catégorie
+  clients: Clients  
+  description: Détail
+  show: Détail
+  back: Retourner la liste des mot-clés  
+  enabled_list: Liste des mots-clés désactivés
+  disabled_list: Liste des mots-clés activés 
+  results: Résultats
+  mysqlFullTextSearch: Mysql full text search
+  add: Ajouter un mot-clé
+  edit: Editer un mot-clé
+  disable: Désactiver un mot-clé
+  enable: Activer un mot-clé
+  delete: Supprimer un mot-clé
+  audit: "Historique des modifications d'un mot-clé"
+  not_indexed: "Ce mot-clé n'est pas pris en compte"
+  download: Télécharger tous les mots-clés dans un fichier csv
+  flash:
+    created: "Une mot-clé a été créée."
+    updated: "La mot-clé a été mise à jour."
+    enable: "La mot-clé a été activée."
+    disable: "La mot-clé a été désactivée."
+    indexed: "Mot-clé indexation"
+
+search:
+  no_position: "Sans l'image de fond"
+  avec_position: "Avec l'image de fond"
+  origin_pdfORImages: Pdf original ou Images originales
+  no_position_alt: S'afficher les textes du numéro sans l'image fond
+  avec_position_alt: S'afficher les textes du numéro avec l'image fond
+  origin_pdfORImages_alt: S'afficher le pdf original ou les images originales du numéro
+  no_stop_word: Supprimer les mots vides 
+  all_pages: Toutes les pages 
+  all_documents: All documents
+  original_pdf:  Original pdf
+
+indexation:
+  label: Mots-clés du client
+  results: "Détail des mots-clés trouvés"
+  results_dci: "Détail d'un mot-clé trouvé"
+  nb_page: Nombre de pages 
+  no_page: Numéro page
+  nb_dci: Nombre de mots-clés trouves 
+  page: Page
+  dci_occurrence: Occurrence
+  indexed: Nombre de mots-clés trouvés
+  cloud: Nuage de mots-clés du client
+  numero_cloud: Numero cloud
+  clients_de_la_revue: Clients de la revue
+  touts_les_indexations: Touts les indexations
+  clients_de_la_revue_alt: Afficher que les clients s'abonnent ce revue
+  touts_les_indexations_alt: Afficher tous les mots-clés trouvés 
+  download_alt: Télécharger tous les mots-clés trouvés dans un fichier excel
+  soulignement_alt: soulignement de mot-clé

@@ -1,0 +1,78 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+    {{ 'dci.results'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content -->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">
+                                {{ 'dci.results'|trans }}: "{{ dci }}"
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-10">
+                                {{ form_widget(form.dci) }}
+                            </div>
+                            <div class="col-2">
+                                <button type="submit"
+                                    class="btn btn waves-effect waves-light btn-dark">
+                                    {{ 'search'|trans }}
+                                </button>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        {% if (results|length) > 0 %}
+                            {% for result in results %}
+                                <div class="card mb-3">
+                                    <div class="card-header">
+                                        {#<a href="{{ path('admin_numero_image', {id: result.transformed.image.id})}}"
+                                            target="_blank">
+                                            {{ result.transformed.image.numero.title
+                                            }}, Page {{ result.transformed.image.numeroPage }}
+                                        </a>#}
+                                        <a href="{{ path('admin_numero_pages', {'id': result.transformed.image.numero.id}) }}#{{ 'page-'~result.transformed.image.numeroPage }}" target="_blank">{{ result.transformed.image.numero.title }}, Page {{ result.transformed.image.numeroPage }}</a>
+                                    </div>
+                                    <div class="card-body images">
+                                        {{
+                                            result.transformed.blocksText|nl2br
+                                        }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {{ 'table.no_records_found'|trans }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="dci" id="dci" value="{{ dci }}" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/highlighter') }}
+    {{ encore_entry_script_tags('js/validator') }}
+{% endblock %}

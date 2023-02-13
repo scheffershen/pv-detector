@@ -1,0 +1,34 @@
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>{{ 'numero.revue'|trans }}</th>
+            <td>{{ controle_qualite.rapport.numero.revue }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'numero.reference'|trans }}</th>
+            <td>{{ controle_qualite.rapport.numero.title }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'numero.numero'|trans }}</th>
+            <td>{{ controle_qualite.rapport.numero.numero }}</td>
+        </tr> 
+        <tr>
+            <th>{{ 'numero.receiptDate'|trans }}</th>
+            <td>{{ utils.format_date(controle_qualite.rapport.numero.receiptDate) }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'numero.statut_activation'|trans }}</th>
+            <td>{{ utils.numero_statut_activation(controle_qualite.rapport.numero) }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'numero.statut_traiement'|trans }}</th>
+            <td>{{ utils.numero_state(controle_qualite.rapport.numero) }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'numero.report'|trans }}</th>
+            <td>{{ utils.numero_rapport(controle_qualite.rapport.numero) }}</td>
+        </tr>                                                                     
+    </tbody>
+</table>

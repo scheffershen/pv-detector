@@ -1,0 +1,149 @@
+{
+  "entrypoints": {
+    "js/app": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/225.17e395dd.js",
+        "/build/755.890173cd.js",
+        "/build/779.c98d6624.js",
+        "/build/734.fb1077f8.js",
+        "/build/891.5b8f259b.js",
+        "/build/589.973d01c6.js",
+        "/build/js/app.3de6fa7b.js"
+      ]
+    },
+    "js/admin": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/225.17e395dd.js",
+        "/build/755.890173cd.js",
+        "/build/587.81cd93e5.js",
+        "/build/706.e8bcf981.js",
+        "/build/js/admin.f596a363.js"
+      ]
+    },
+    "js/validator": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/js/validator.5e2ca0fa.js"
+      ]
+    },
+    "js/password-change": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/225.17e395dd.js",
+        "/build/js/password-change.120dfde0.js"
+      ]
+    },
+    "js/password-reset": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/225.17e395dd.js",
+        "/build/js/password-reset.08aa810d.js"
+      ]
+    },
+    "js/numero": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/225.17e395dd.js",
+        "/build/779.c98d6624.js",
+        "/build/js/numero.6a5d28c3.js"
+      ]
+    },
+    "js/preloader": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/js/preloader.1fdf90fa.js"
+      ]
+    },
+    "js/omines": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/225.17e395dd.js",
+        "/build/779.c98d6624.js",
+        "/build/891.5b8f259b.js",
+        "/build/331.4ebaed03.js",
+        "/build/js/omines.4bc08161.js"
+      ]
+    },
+    "js/unveil": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/js/unveil.1fab3caf.js"
+      ]
+    },
+    "js/highlighter": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/755.890173cd.js",
+        "/build/js/highlighter.7a70590f.js"
+      ]
+    },
+    "js/indexation-numero": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/js/indexation-numero.944eb6c2.js"
+      ]
+    },
+    "js/client": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/225.17e395dd.js",
+        "/build/js/client.3e781746.js"
+      ]
+    },
+    "js/client-dci": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/225.17e395dd.js",
+        "/build/js/client-dci.5066cfbf.js"
+      ]
+    },
+    "js/client-revue": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/225.17e395dd.js",
+        "/build/js/client-revue.849eadb0.js"
+      ]
+    },
+    "js/datatables": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/225.17e395dd.js",
+        "/build/js/datatables.ae33d3ca.js"
+      ]
+    },
+    "js/user": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/js/user.fbd404f9.js"
+      ]
+    },
+    "js/login": {
+      "js": [
+        "/build/runtime.39d8c77b.js",
+        "/build/755.890173cd.js",
+        "/build/734.fb1077f8.js",
+        "/build/587.81cd93e5.js",
+        "/build/js/login.c6abd41c.js"
+      ]
+    },
+    "css/app": {
+      "js": [
+        "/build/runtime.39d8c77b.js"
+      ],
+      "css": [
+        "/build/781.fd172e09.css",
+        "/build/css/app.ebe9191d.css"
+      ]
+    },
+    "css/login": {
+      "js": [
+        "/build/runtime.39d8c77b.js"
+      ],
+      "css": [
+        "/build/css/login.6a01e4b2.css"
+      ]
+    }
+  }
+}

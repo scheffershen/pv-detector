@@ -1,0 +1,21 @@
+{{ include('partials/_flash_messages.html.twig') }}
+
+{{ form_start(form) }}
+{{ form_errors(form) }}
+    
+    {{ form_row(form.title) }}
+    {{ form_row(form.editeur) }}  
+    {{ form_row(form.endDate) }}
+    {{ form_row(form.access) }}
+    {{ form_row(form.site) }}
+    {{ form_row(form.periodicity) }}
+    {{ form_row(form.isCFC) }}
+    {{ form_row(form.clients) }}
+    {{ form_row(form.contact) }}
+
+<div class="col text-center">
+    <button type="submit" class="btn waves-effect waves-light btn-dark">{{ button_label|default('Sauvegarder') }}</button>
+</div>
+{{ form_end(form) }}
+
+<p><span class="text-danger">*</span>: {{ 'label.obligatoire'|trans }}</p>

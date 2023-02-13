@@ -1,0 +1,97 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ 'numeros'|trans }}{% endblock %}
+
+{% import "RevueManagement/widget/utils.html.twig" as utils %}
+
+{% block body %}
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fas fa-spinner fa-spin"></i></div>
+</div>
+
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ 'numeros'|trans }}
+                            &nbsp;&nbsp;
+                            <a href="{{ site_help }}#/fr-fr/numeros" class="icon text-secondary" data-toggle="tooltip" data-placement="top" title="{{ 'label.user_help'|trans }}" target="_blank">
+                                <i class="fas fa-question-circle"></i>
+                            </a>
+                        </h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title -->      
+
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-bordered table-striped" id="tablefiltre">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>{{ 'numero.revue'|trans }}</th>
+                                <th>{{ 'numero.numero'|trans }}</th>
+                                {#<th>{{ 'numero.reference'|trans }}</th>#}
+                                <th>{{ 'numero.receiptDate'|trans }}</th>
+                                {#<th>{{ 'label.updateDate'|trans }}</th>#}
+                                <th>{{ 'numero.state.label'|trans }}</th>
+                                <th>{{ 'label.indexed'|trans }}</th>
+                                <th>{{ 'table.action'|trans }}</th>
+                            </tr>
+                        </thead>
+                        <thead id="filtreForm">
+                            <tr>  
+                                <th>{{ 'numero.revue'|trans }}</th>
+                                <th>{{ 'numero.numero'|trans }}</th>
+                                {#<th>{{ 'numero.reference'|trans }}</th>#}
+                                <th>{{ 'numero.receiptDate'|trans }}</th>
+                                {#<th>{{ 'label.updateDate'|trans }}</th>#}
+                                <th>{{ 'numero.state.label'|trans }}</th>
+                                <th>{{ 'label.indexed'|trans }}</th>
+                                <th>{{ 'table.action'|trans }}</th>                             
+                            </tr>
+                        </thead>        
+                        <tbody>  
+                        {% for numero in numeros %}
+                            <tr>
+                                <td>
+									<span data-toggle="tooltip" data-placement="top" title="{{ numero.revue.title }}">{{ numero.revue.title|u.truncate(80, '...') }}</span>
+                                </td>
+                                <td>
+									<span data-toggle="tooltip" data-placement="top" title="{{ numero.title }}">{% if numero.isValid == false %}<del>{% endif %}{{ numero.title|u.truncate(80, '...') }}{% if numero.isValid == false %}</del>{% endif %}</span>
+                                    
+                                    {{ utils.numero_images(numero) }}
+								</td>
+                                <td>{{ utils.format_date(numero.receiptDate) }}</td>	
+                                <td>{{ utils.numero_state(numero) }}</td>
+                                <td>{{ utils.numero_rapport(numero) }}</td> 
+                                <td>{{ utils.numero_action(numero) }}</td>
+                            </tr>
+                        {% endfor %}                   
+                        </tbody>
+                    </table>
+                </div>    
+            </div>
+
+        </div> 
+    </div>
+</div>
+
+{#<a href="{{ path('admin_numero_new') }}" class="btn waves-effect waves-light btn-primary float">
+    <i class="fas fa-plus float-icon"></i>
+</a> #}   
+
+{% endblock %}
+
+{% block javascripts %} 
+    {{ parent() }} 
+    {{ encore_entry_script_tags('js/preloader') }} 
+    {{ encore_entry_script_tags('js/datatables') }}
+{% endblock %}

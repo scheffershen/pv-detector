@@ -1,0 +1,65 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ image.numero.title }}{% endblock %}
+
+{% block body %}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">{{ 'numeros'|trans }}: {{ image.numero.revue.title }}, {{ image.numero.title }}, {{ image.numero.receiptDate|date('d-M-Y')}}, Page {{ image.numeroPage }}
+                            &nbsp;&nbsp;
+                            {% if no_position == false %}
+                                <a class="icon text-secondary" href="{{ path('admin_numero_image', {'id': image.id}) }}?no_position=1" alt="{{ 'search.no_position'|trans }}" title="{{ 'search.no_position'|trans }}" target="_blank">
+                                    <span class="badge badge-info">{{ 'search.no_position'|trans }}</span>
+                                </a>
+                            {% endif %}
+                        </h4>
+                    </div>
+                </div>
+            </div>     
+            <!-- end page title -->   
+            <div class="row">   
+                    {% if no_position == false %}
+                        <div class="col-12 images" id="image{{ image.id }}" style="position:relative;width:{{ image.width }}px; height:{{ image.height }}px;border:1px solid #ced4da;">
+                            <img style="position:absolute;left:0px;top:0px;opacity:0.2;" src="{{ path('admin_private_upload', {'dir': image.fileDir, 'upload': image.fileName, 'format': 'revues'}) }}">
+                    {% else %}   
+                        <div class="col-12">
+                            <h4 class="card-title">Page {{ image.numeroPage }}</h4>     
+                    {% endif %}    
+
+                    {% set page_existed = false %}
+                    {% for page in image.pages %}
+                        {% if page.isDeleted == false and  page_existed == false %}
+                             {% set page_existed = true %}
+                             {% for _block in page.blocks %}
+                                {% if no_position == false %}
+                                    <div style="position:absolute;border:1px solid #ced4da;left:{{ _block.left}}px;top:{{ _block.top}}px;width:{{ _block.width}}px;height:{{ _block.height}}px;{{ scroll }}">
+                                            {{ _block.text|nl2br}}
+                                    </div>
+                                {% else %}
+                                    <div class="card col-12">
+                                     {{ _block.text|nl2br}}
+                                    </div>
+                                {% endif %}                                                    
+                             {% endfor %}
+                        {% endif %}     
+                    {% endfor %}
+                    </div>                    	
+    		</div>
+    	</div>
+
+    </div>    			
+</div>
+
+{% endblock %}
+
+{% block javascripts %} 
+{{ parent() }}
+{% endblock %}
