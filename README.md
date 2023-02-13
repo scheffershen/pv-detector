@@ -182,7 +182,7 @@ https://websiteforstudents.com/how-to-migrate-to-php-8-0-on-ubuntu/
     $ netstat -ntlp
     $ curl -X GET 'http://localhost:9200'    
 
-## certbot ubuntu-20-0
+## certbot ubuntu-20-0cd ..
 
 https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-20-04-fr
 
